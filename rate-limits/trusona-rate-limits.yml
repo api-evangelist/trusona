@@ -1,0 +1,31 @@
+generated: '2026-09-01'
+method: searched
+source: openapi/trusona-verification-api-openapi.yml,
+  https://authcloud.trusona.net/docs/index.html,
+  https://github.com/trusona/atop-agent-skill
+limit_count: 0
+note: 'Trusona documents NO numeric rate limit. The contract does prove a quota exists —
+  POST /api/v1/verifications/{verificationId}/messages declares a 429 "Quota limit has
+  been reached" — but neither spec, nor the HTML reference, nor Trusona''s own agent
+  skill states the ceiling, the window, the scope, or a Retry-After. No RateLimit-* or
+  X-RateLimit-* response headers are declared on any operation. An agent that hits the
+  429 therefore has no machine-readable signal for when to retry and must back off
+  blindly or contact support@trusona.com. Recorded as an honest zero with the exhaustion
+  behaviour captured.'
+limits: []
+exhaustion:
+  status_code: 429
+  message: Quota limit has been reached
+  operation: createMessage
+  spec: openapi/trusona-verification-api-openapi.yml
+  scope: 'Described as a quota, which implies per-tenant/per-account rather than
+    per-endpoint, but the docs do not say so explicitly — not asserted here.'
+response_headers:
+  retry_after: false
+  ratelimit_standard: false
+  x_ratelimit: false
+  note: None declared in either OpenAPI document.
+observed:
+  probed: false
+  note: 'Not observed live — every operation on both APIs requires a Bearer JWT, so no
+    unauthenticated response was available to read headers from.'

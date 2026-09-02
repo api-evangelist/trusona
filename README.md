@@ -64,5 +64,29 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Trusona is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+Trusona is a Scottsdale, Arizona identity impersonation detection company founded in 2015 by fraud-prevention expert Ori Eisen. Its ATO Protect suite verifies that the person behind a help-desk call, account-recovery request, MFA reset, HR onboarding or wire approval is really who they claim to be — checking a government-issued ID against authoritative sources such as State DMVs over the AAMVA network and layering SIM-swap/port-out detection, patented man-in-the-middle detection and anti-replay technology, deliberately without a liveness selfie.
+
+## API surface
+
+| API | Contract | Base URL |
+| --- | --- | --- |
+| ATO Protect Verification API (v2.2.0) | [OpenAPI 3.1](openapi/trusona-verification-api-openapi.yml) | `https://authcloud.trusona.net` |
+| Driver License Verification API (v1.0.0) | [OpenAPI 3.1](openapi/trusona-driver-license-verification-api-openapi.yml) | `https://authcloud.trusona.net` |
+| ID Proofing API (v2, AAMVA) | documented on the website, no OpenAPI | provisioned per tenant |
+
+- Website — https://www.trusona.com/
+- Integrations / developer entry point — https://www.trusona.com/integrations
+- API reference — https://authcloud.trusona.net/docs/index.html
+- Status — https://status.trusona.com/
+- Trust center — https://trust.trusona.com/
+- GitHub — https://github.com/trusona
+
+Trusona publishes its own [`llms.txt`](llms/trusona-llms.txt) and an Apache-2.0
+[Agent Skill](skills/_index.yml) for the ATO Protect APIs
+([github.com/trusona/atop-agent-skill](https://github.com/trusona/atop-agent-skill)), both
+mirrored here verbatim. It publishes no MCP server and no A2A agent card.
+
+> **Note on a previous version of this profile.** This repository was seeded from a harvest
+> backlog whose `Website` pointer was a secondary-market listing venue
+> (`nasdaqprivatemarket.com`) rather than Trusona's own site. That was a harvest artifact, not
+> a fact about the company, and it has been corrected.

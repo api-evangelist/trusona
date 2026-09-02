@@ -1,23 +1,157 @@
 aid: trusona
 name: Trusona
-description: 'Trusona is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: Trusona is a Scottsdale, Arizona identity impersonation detection company founded in 2015
+  by fraud-prevention expert Ori Eisen, funded by Kleiner Perkins and advised by Frank Abagnale. Its ATO
+  Protect suite verifies that the person behind a help-desk call, account-recovery request, MFA reset,
+  HR onboarding or wire approval is really who they claim to be — checking a government-issued ID against
+  authoritative sources such as State DMVs over the AAMVA network and layering SIM-swap/port-out detection,
+  patented man-in-the-middle detection (US Patent 10,601,859) and anti-replay technology, deliberately
+  without a liveness selfie. Trusona publishes two OpenAPI 3.1 contracts at authcloud.trusona.net — the
+  Verification API (v2.2.0) and the Driver License Verification API (v1.0.0) — a legacy AAMVA ID Proofing
+  v2 REST surface, an Apache-2.0 Claude Agent Skill, an llms.txt, and server/mobile SDKs for Java, Ruby,
+  JavaScript, .NET, C, iOS and Android.
+image: https://www.trusona.com/wp-content/uploads/2020/12/Trusona_logomark.png
 url: https://raw.githubusercontent.com/api-evangelist/trusona/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-09-01'
 modified: '2026-09-01'
 tags:
 - Company
-apis: []
+- Authentication
+- Identity
+- Identity Verification
+- Fraud Detection
+- Account Takeover
+- Security
+- Deepfake Detection
+- Cybersecurity
+- Agent Skills
+apis:
+- name: Trusona ATO Protect Verification API
+  description: 'REST API to create and read identity verifications: send a hosted scan link by SMS or
+    email, read overall risk, per-verifier checks, risk scores, scanned documents and the devices seen
+    during the verification. Also offers an encrypted variant where responses are returned under a caller-supplied
+    JWK. Bearer JWT auth.'
+  humanURL: https://authcloud.trusona.net/docs/index.html
+  baseURL: https://authcloud.trusona.net
+  tags:
+  - Identity Verification
+  - Account Takeover
+  - Risk Scoring
+  properties:
+  - type: OpenAPI
+    url: openapi/trusona-verification-api-openapi.yml
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/index.html
+  - type: Overlay
+    url: overlays/trusona-verification-api-overlay.yaml
+- name: Trusona Driver License Verification API (IDV API)
+  description: REST API that submits supplied identity data for asynchronous driver-license verification
+    against State DMV records over AAMVA and against mobile network operator (MNO) records, returning
+    per-field match results to a callback URL or on poll. Bearer JWT auth.
+  humanURL: https://authcloud.trusona.net/docs/id-verifications/index.html
+  baseURL: https://authcloud.trusona.net
+  tags:
+  - Identity Verification
+  - Driver License
+  - AAMVA
+  properties:
+  - type: OpenAPI
+    url: openapi/trusona-driver-license-verification-api-openapi.yml
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/id-verifications/index.html
+  - type: Overlay
+    url: overlays/trusona-driver-license-verification-api-overlay.yaml
+- name: Trusona ID Proofing API (v2)
+  description: 'Legacy AAMVA identity-document proofing REST surface documented on the Trusona site rather
+    than as an OpenAPI: barcode verifications, verifications, a verification lookup by transaction locator
+    id, a supported-states list and a status endpoint. API-key auth. The production host is provisioned
+    per tenant under an evaluation agreement; the only host Trusona publishes is the sandbox.'
+  humanURL: https://www.trusona.com/integrations/trusona-id-proofing-integration-guide
+  baseURL: https://idproof-cert.trusona.net
+  x-base-url-note: baseURL is the SANDBOX host Trusona publishes verbatim in its ID Proofing sandbox guide
+    (https://idproof-cert.trusona.net/api/v2/verifications). The integration guide states production access
+    is supplied by Trusona when an evaluation agreement is signed and never names a production host, so
+    none is recorded here rather than guessed.
+  tags:
+  - Identity Verification
+  - AAMVA
+  - Document Verification
+  properties:
+  - type: Documentation
+    url: https://www.trusona.com/integrations/trusona-id-proofing-integration-guide
+  - type: Sandbox
+    url: https://www.trusona.com/integrations/trusona-id-proofing-sandbox-environment-guide
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/trusona-agentic-access.yml
+- type: TrustCenter
+  url: security/trusona-trust-center.yml
+- type: DomainSecurity
+  url: security/trusona-domain-security.yml
+- type: Authentication
+  url: authentication/trusona-authentication.yml
 - type: Website
-  url: https://www.nasdaqprivatemarket.com/
+  url: https://www.trusona.com/
+- type: DeveloperPortal
+  url: https://www.trusona.com/integrations
+- type: Documentation
+  url: https://www.trusona.com/docs-and-guides
+- type: APIReference
+  url: https://authcloud.trusona.net/docs/index.html
+- type: GettingStarted
+  url: https://www.trusona.com/integrations/trusona-id-proofing-integration-guide
+- type: Support
+  url: https://help.trusona.com/support/home
+- type: Blog
+  url: https://www.trusona.com/category/blog
+- type: BlogRSS
+  url: https://www.trusona.com/feed
+- type: GitHubOrganization
+  url: https://github.com/trusona
+- type: Login
+  url: https://dashboard.trusona.com/
+- type: PrivacyPolicy
+  url: https://www.trusona.com/privacy-policy
+- type: StatusPage
+  url: https://status.trusona.com/
+- type: LLMsTxt
+  url: llms/trusona-llms.txt
+- type: Packages
+  url: packages/trusona-packages.yml
+- type: SDKs
+  url: packages/trusona-packages.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Conventions
+  url: conventions/trusona-conventions.yml
+- type: ErrorCatalog
+  url: errors/trusona-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/trusona-lifecycle.yml
+- type: Conformance
+  url: conformance/trusona-conformance.yml
+- type: Compliance
+  url: https://trust.trusona.com/
+- type: DataModel
+  url: data-model/trusona-data-model.yml
+- type: Webhooks
+  url: asyncapi/trusona-webhooks.yml
+- type: Sandbox
+  url: sandbox/trusona-sandbox.yml
+- type: Plans
+  url: plans/trusona-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/trusona-rate-limits.yml
+x-enrichment:
+  date: '2026-09-01'
+  status: enriched
+  artifacts_added: 23
+  pass: local-v1

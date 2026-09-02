@@ -1,0 +1,48 @@
+generated: '2026-09-01'
+method: searched
+source: https://www.trusona.com/integrations/trusona-id-proofing-sandbox-environment-guide
+note: 'Trusona publishes a sandbox for the ID Proofing v2 AAMVA surface only. No sandbox,
+  test-key prefix or test mode is documented for the current ATO Protect Verification API
+  or Driver License Verification API at authcloud.trusona.net — those are single-mode
+  with a Bearer JWT provisioned per tenant (ATOP_BASE_URL is described as overridable
+  "for non-prod", but no non-prod host is published). Every value below is quoted from
+  Trusona''s own guide; none is invented.'
+environments:
+- name: sandbox
+  api: Trusona ID Proofing API (v2)
+  base_url: https://idproof-cert.trusona.net
+  example_endpoint: https://idproof-cert.trusona.net/api/v2/verifications
+  credentials: 'API credentials are required and are NOT self-service — the guide directs
+    integrators to contact support@trusona.com if credentials have not been received.
+    Trusona supplies Production and Sandbox access when an evaluation agreement is signed.'
+  key_separation: 'Environment separation is by HOST, not by a test-vs-live key prefix.'
+- name: production
+  api: Trusona ID Proofing API (v2)
+  base_url: null
+  note: 'The integration guide never names a production host; it is provisioned per
+    tenant. Recorded as unknown rather than guessed from the sandbox hostname.'
+limitations:
+- 'Quoted from the guide: "No requests are actually sent to the state for verification."
+  The sandbox exercises field-match outcomes only; it performs no real DMV/AAMVA lookup.'
+test_data:
+  kind: canned test driver licenses
+  count: 24
+  identifiers: 'Identification IDs DL000001 through DL000024, one per scripted outcome.
+    Each case manipulates specific fields so the response returns a different per-field
+    match result.'
+  shared_fixture_values:
+    name: John Quincy Doe
+    address: 1515 Oak Street, Phoenix, AZ 85000
+    date_of_birth: '19700401'
+  note: 'The 24 cases and the exact field each one mismatches are enumerated in the guide
+    itself; they are not reproduced here because the guide is the authoritative and
+    maintained list.'
+test_clocks:
+  supported: false
+fixture_tooling:
+  supported: false
+  note: 'No trigger/fixture CLI. The closest first-party tooling is the ATO Protect Agent
+    Skill''s runnable scripts plus its example request bodies
+    (examples/verification-request.json, examples/verification-request-us-dl.json,
+    examples/id-verification-request.json) at
+    https://github.com/trusona/atop-agent-skill — those hit the LIVE API, not a sandbox.'

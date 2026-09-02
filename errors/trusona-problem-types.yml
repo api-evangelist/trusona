@@ -1,0 +1,149 @@
+generated: '2026-09-01'
+method: derived
+source: openapi/trusona-verification-api-openapi.yml, openapi/trusona-driver-license-verification-api-openapi.yml
+format: none
+envelope: 'NOT RFC 9457. Neither spec declares application/problem+json, and no error
+  response in either document carries a content type or a schema at all — every 4xx/5xx
+  is a bare status code plus a prose description. Success bodies are declared under the
+  wildcard media type */*. An agent therefore cannot parse a structured error from the
+  contract; it can only branch on the status code and the documented meaning below. This
+  is the single largest machine-readability gap in Trusona''s published contracts.'
+problems:
+- status: 400
+  title: Bad request
+  meaning: Invalid `since` parameter on the verification list.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getVerifications
+  remediation: '`GET /api/v1/verifications` REQUIRES a `since` query parameter in ISO-8601
+    form (e.g. 2024-01-01T00:00:00Z). Trusona''s own agent skill calls this out as a
+    common failure.'
+- status: 401
+  title: Unauthorized
+  meaning: Bearer JWT missing, expired or wrong.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getVerifications
+  remediation: 'Send the header `Authorization` with value `Bearer <ATOP_TOKEN>`; the
+    JWT is provisioned out-of-band from the Trusona dashboard, not by any token endpoint
+    in the spec.'
+- status: 500
+  title: Internal server error
+  source_operation: openapi/trusona-verification-api-openapi.yml#getVerifications
+- status: 400
+  title: Bad request
+  meaning: Malformed verification create payload.
+  source_operation: openapi/trusona-verification-api-openapi.yml#createVerification
+- status: 404
+  title: Messages not found
+  source_operation: openapi/trusona-verification-api-openapi.yml#getMessages
+- status: 400
+  title: Bad request
+  source_operation: openapi/trusona-verification-api-openapi.yml#createMessage
+- status: 404
+  title: Not found
+  source_operation: openapi/trusona-verification-api-openapi.yml#createMessage
+- status: 410
+  title: Verification closed to new messages
+  meaning: Messages can no longer be added to this verification.
+  source_operation: openapi/trusona-verification-api-openapi.yml#createMessage
+  remediation: The verification has expired. Create a new verification rather than retrying.
+- status: 422
+  title: SIM swap detected on a TRUSTED_SMS
+  meaning: 'A SIM swap was detected for a TRUSTED_SMS message — this is a SECURITY FINDING,
+    not a client bug.'
+  source_operation: openapi/trusona-verification-api-openapi.yml#createMessage
+  remediation: Do not retry over SMS. Treat the number as compromised and escalate per
+    your account-takeover playbook.
+- status: 429
+  title: Quota limit reached
+  meaning: The tenant's message quota has been exhausted.
+  source_operation: openapi/trusona-verification-api-openapi.yml#createMessage
+  remediation: 'The spec documents no Retry-After header and no RateLimit-* headers, so
+    a backoff interval cannot be read from the response; contact support@trusona.com for
+    quota. See rate-limits/trusona-rate-limits.yml.'
+- status: 400
+  title: Unsupported encryption key
+  meaning: 'Must be one of RSA, EC or OKP (crv=X25519) type in JWK format.'
+  source_operation: openapi/trusona-verification-api-openapi.yml#createEncryptedVerification
+- status: 401
+  title: Unauthorized
+  source_operation: openapi/trusona-verification-api-openapi.yml#createEncryptedVerification
+- status: 422
+  title: Unprocessable entity
+  meaning: Validation failed on the encrypted verification payload.
+  source_operation: openapi/trusona-verification-api-openapi.yml#createEncryptedVerification
+- status: 404
+  title: Verification not found
+  source_operation: openapi/trusona-verification-api-openapi.yml#getVerification
+- status: 404
+  title: Verification not found
+  source_operation: openapi/trusona-verification-api-openapi.yml#getRiskScores
+- status: 404
+  title: Verification or message not found
+  source_operation: openapi/trusona-verification-api-openapi.yml#getMessage
+- status: 404
+  title: Document not available
+  meaning: Verification was not found, or the document is not yet available.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getDocument
+  remediation: The document appears only after the subject scans. Poll the verification
+    until status is SCANNED.
+- status: 410
+  title: Document removed
+  meaning: The document was removed because the parent verification expired.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getDocument
+  remediation: 'Terminal — documents are not recoverable after expiry. See
+    conventions/trusona-conventions.yml `reversibility`.'
+- status: 404
+  title: Scanned image not available
+  source_operation: openapi/trusona-verification-api-openapi.yml#getScannedImages
+- status: 410
+  title: Scanned image removed
+  meaning: The scanned image was removed because the parent verification expired.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getScannedImages
+- status: 404
+  title: Verification not found
+  source_operation: openapi/trusona-verification-api-openapi.yml#getDevices
+- status: 401
+  title: Unauthorized
+  source_operation: openapi/trusona-verification-api-openapi.yml#getEncryptedVerification
+- status: 404
+  title: Verification not found
+  source_operation: openapi/trusona-verification-api-openapi.yml#getEncryptedVerification
+- status: 401
+  title: Unauthorized
+  source_operation: openapi/trusona-verification-api-openapi.yml#getEncryptedDocument
+- status: 404
+  title: Verification not found or document not yet available
+  source_operation: openapi/trusona-verification-api-openapi.yml#getEncryptedDocument
+- status: 410
+  title: Document removed
+  source_operation: openapi/trusona-verification-api-openapi.yml#getEncryptedDocument
+- status: 400
+  title: Bad request
+  source_operation: openapi/trusona-driver-license-verification-api-openapi.yml#createIdVerification
+- status: 401
+  title: Unauthorized
+  source_operation: openapi/trusona-driver-license-verification-api-openapi.yml#createIdVerification
+- status: 422
+  title: transactionId is not unique
+  meaning: Each ID verification request requires a UUID `transactionId` unique to the tenant.
+  source_operation: openapi/trusona-driver-license-verification-api-openapi.yml#createIdVerification
+  remediation: 'Generate a fresh UUID per request. Because the API rejects a repeated
+    transactionId rather than replaying the original result, this is a UNIQUENESS guard,
+    NOT an idempotency key — see conventions/trusona-conventions.yml.'
+- status: 500
+  title: Internal server error
+  source_operation: openapi/trusona-driver-license-verification-api-openapi.yml#createIdVerification
+- status: 404
+  title: Verification not found
+  source_operation: openapi/trusona-driver-license-verification-api-openapi.yml#getIdVerification
+- status: 401
+  title: Unauthorized
+  source_operation: openapi/trusona-driver-license-verification-api-openapi.yml#getIdVerification
+- status: 500
+  title: Internal server error
+  source_operation: openapi/trusona-driver-license-verification-api-openapi.yml#getIdVerification
+- status: 403
+  title: API key missing or invalid
+  meaning: 'Either the API key was not provided or it was invalid.'
+  source_operation: 'ID Proofing API v2 (documented at
+    https://www.trusona.com/integrations/trusona-id-proofing-integration-guide — no OpenAPI)'
+  remediation: The legacy ID Proofing surface uses API-key auth and answers 403, not 401,
+    where the authcloud APIs answer 401. Do not assume one auth failure code across Trusona.

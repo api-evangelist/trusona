@@ -1,0 +1,167 @@
+generated: '2026-09-01'
+method: derived
+source: openapi/trusona-verification-api-openapi.yml,
+  openapi/trusona-driver-license-verification-api-openapi.yml
+note: 'Derived from schema $ref links and id-reference path parameters across both
+  contracts. The graph has a single root aggregate — Verification — that every other
+  entity hangs off, plus a separate, unlinked ID Verification aggregate in the driver
+  license API. The two do not reference each other in the specs.'
+entities:
+- name: Verification
+  schema: VerificationResponse
+  root: true
+  id_field: id
+  path: /api/v1/verifications/{verificationId}
+  description: 'The root aggregate — one identity check. Lifecycle status is
+    WAITING | SCANNED | EXPIRED only; the OUTCOME lives in overallRisk, verifierChecks[]
+    and riskScores[], never in status.'
+  operations: [createVerification, getVerification, getVerifications]
+- name: VerificationSubject
+  schema: VerificationSubject
+  description: 'The person being verified. dateOfBirth is MM/DD/YYYY here (the ID
+    Verification API uses YYYY-MM-DD — a real cross-API inconsistency).'
+- name: VerificationSummary
+  schema: VerificationSummary
+  description: 'One verifier''s check result (the verifierChecks[] element). Carries an
+    undocumented-but-live `aiResponse` field on the SCAN verifier that is absent from the
+    published spec.'
+  operations: []
+- name: Matches
+  schema: Matches
+  description: Per-field match outcomes inside a verifier summary.
+- name: VerificationMessage
+  schema: VerificationMessage
+  id_field: verificationMessageId
+  path: /api/v1/verifications/{verificationId}/messages/{verificationMessageId}
+  description: An SMS, trusted-SMS, email or copy message sent to the subject.
+  operations: [createMessage, getMessages, getMessage]
+- name: VerificationDevice
+  schema: VerificationDevice
+  path: /api/v1/verifications/{verificationId}/devices
+  operations: [getDevices]
+- name: RiskScore
+  schema: RiskScore
+  path: /api/v1/verifications/{verificationId}/risk_scores
+  operations: [getRiskScores]
+- name: VerificationHistory
+  schema: VerificationHistory
+  description: State transitions of the verification.
+- name: Document
+  schema: ScanResponse
+  path: /api/v1/verifications/{verificationId}/document
+  description: 'The scanned identity document, returned with BOTH masked and unmasked PII
+    variants in one response. Removed (410 Gone) when the parent verification expires.'
+  operations: [getDocument]
+- name: IdentityImage
+  schema: IdentityImage
+  path: /api/v1/verifications/{verificationId}/document/scanned_images
+  operations: [getScannedImages]
+- name: VerificationAttachment
+  schema: VerificationAttachment
+  description: 'Caller-supplied workflow context. Polymorphic over TicketNumberAttachment,
+    ServiceNowAttachment and WorkspaceCallbackAttachment.'
+- name: EncryptedVerification
+  schema: EncryptedVerificationResponse
+  path: /api/v1/encrypted/verifications/{verificationId}
+  description: 'Parallel projection of Verification whose payload is encrypted to a
+    caller-supplied JWK. Same aggregate, different confidentiality contract.'
+  operations: [createEncryptedVerification, getEncryptedVerification]
+- name: EncryptedDocument
+  schema: EncryptedDocumentResponse
+  path: /api/v1/encrypted/verifications/{verificationId}/document
+  operations: [getEncryptedDocument]
+- name: IdVerification
+  schema: IdVerificationResponse
+  root: true
+  api: openapi/trusona-driver-license-verification-api-openapi.yml
+  id_field: verificationId
+  path: /api/v1/id_verifications/{verificationId}
+  description: 'Separate root aggregate in the Driver License Verification API. Requires
+    a caller-generated unique UUID transactionId. Per-source status is
+    PENDING | SUCCESS | FAILURE | FATAL — a DIFFERENT status model from Verification.'
+  operations: [createIdVerification, getIdVerification]
+- name: IdVerifiers
+  schema: IdVerifiers
+  api: openapi/trusona-driver-license-verification-api-openapi.yml
+  description: Container for the per-source verifier results.
+- name: DmvIdVerifier
+  schema: DmvIdVerifier
+  api: openapi/trusona-driver-license-verification-api-openapi.yml
+  description: State DMV match result over the AAMVA network.
+- name: MnoIdVerifier
+  schema: MnoIdVerifier
+  api: openapi/trusona-driver-license-verification-api-openapi.yml
+  description: Mobile network operator match result.
+relationships:
+- from: Verification
+  to: VerificationSubject
+  kind: has_one
+  via: subject
+- from: Verification
+  to: VerificationSummary
+  kind: has_many
+  via: verifierChecks
+- from: Verification
+  to: VerificationMessage
+  kind: has_many
+  via: messages
+- from: Verification
+  to: VerificationDevice
+  kind: has_many
+  via: devices
+- from: Verification
+  to: RiskScore
+  kind: has_many
+  via: riskScores
+- from: Verification
+  to: VerificationHistory
+  kind: has_many
+  via: history
+- from: VerificationSummary
+  to: Matches
+  kind: has_one
+  via: matches
+- from: VerificationMessage
+  to: Verification
+  kind: belongs_to
+  via: verificationId
+- from: Document
+  to: Verification
+  kind: belongs_to
+  via: verificationId
+- from: IdentityImage
+  to: Document
+  kind: belongs_to
+  via: verificationId
+- from: RiskScore
+  to: Verification
+  kind: belongs_to
+  via: verificationId
+- from: VerificationDevice
+  to: Verification
+  kind: belongs_to
+  via: verificationId
+- from: EncryptedVerification
+  to: Verification
+  kind: projection_of
+  via: verificationId
+- from: EncryptedDocument
+  to: EncryptedVerification
+  kind: belongs_to
+  via: verificationId
+- from: IdVerification
+  to: IdVerifiers
+  kind: has_one
+  via: verifiers
+- from: IdVerifiers
+  to: DmvIdVerifier
+  kind: has_one
+  via: dmv
+- from: IdVerifiers
+  to: MnoIdVerifier
+  kind: has_one
+  via: mno
+id_conventions:
+  format: 'Opaque ids in path parameters; no documented type prefixes. The ID Verification
+    API additionally requires a caller-generated UUID `transactionId` distinct from the
+    server-assigned `verificationId`.'

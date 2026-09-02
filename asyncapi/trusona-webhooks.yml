@@ -1,0 +1,46 @@
+generated: '2026-09-01'
+method: searched
+source: https://github.com/trusona/atop-agent-skill/blob/HEAD/reference/webhooks.md,
+  openapi/trusona-verification-api-openapi.yml,
+  openapi/trusona-driver-license-verification-api-openapi.yml
+spec_type: none
+asyncapi_published: false
+note: 'Trusona publishes NO AsyncAPI document (searched the docs, the GitHub org and
+  /asyncapi.yaml on every host). It DOES document a real callback/webhook surface, so
+  this artifact captures that surface and a Webhooks pointer is wired instead of an
+  AsyncAPI one. The surface is deliberately thin: callbacks are completion signals, not
+  payloads to act on.'
+surface:
+  style: per-request callback URL
+  registration: 'Per request, not per account. The caller sets `callbackUrl` on the
+    create call; there is no webhook-endpoint registration API, no subscription
+    management, and no event-type selection.'
+  transport: HTTPS POST to the caller-supplied URL
+events:
+- name: verification.completed
+  trigger: 'The verification reaches a terminal state after the subject scans.'
+  registered_by: 'callbackUrl on POST /api/v1/verifications (createVerification) and on
+    POST /api/v1/encrypted/verifications (createEncryptedVerification)'
+  payload_schema: null
+  note: 'The specs describe result delivery to the callback URL but do not define the
+    callback body schema.'
+- name: id_verification.completed
+  trigger: The asynchronous DMV/MNO driver-license match resolves.
+  registered_by: 'callbackUrl on POST /api/v1/id_verifications (createIdVerification)'
+  payload_schema: null
+  example_callback_url: https://example.com/webhooks/id-verification
+security:
+  signing: none
+  shared_secret: none
+  note: 'Trusona states plainly that the specs "do not define a webhook signing header
+    or shared-secret verification scheme". Its published guidance is therefore: treat the
+    inbound callback as a completion signal, then RE-FETCH the result over the
+    authenticated API before deciding, and never trust callback body fields as a final
+    outcome. Recommended mitigation from the same doc is a high-entropy path segment
+    unique to each request, so a leaked URL cannot be replayed across workflows.'
+  guidance_url: https://github.com/trusona/atop-agent-skill/blob/HEAD/reference/webhooks.md
+alternative:
+  polling: 'Both APIs are pollable instead of callback-driven — poll-verification.sh and
+    poll-id-verification.sh in the agent skill. Verification lifecycle status is
+    WAITING | SCANNED | EXPIRED; ID verification uses per-source PENDING | SUCCESS |
+    FAILURE | FATAL on `dmv` and `mno`.'

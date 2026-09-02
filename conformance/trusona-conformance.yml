@@ -1,0 +1,142 @@
+generated: '2026-09-01'
+method: searched
+source: openapi/ specs, https://trust.trusona.com/, https://www.trusona.com/llms.txt,
+  https://www.trusona.com/premium-idv, https://www.trusona.com/idv-api
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: 'Both published contracts declare openapi: 3.1.0 and parse cleanly.'
+- id: oauth2
+  conforms: false
+  evidence: 'No oauth2 securityScheme in either spec. Auth is a bearer JWT provisioned
+    out-of-band, with no authorization or token endpoint — so there is no OAuth flow and
+    no scope surface (scopes/ is intentionally not emitted).'
+- id: oidc
+  conforms: false
+  evidence: '/.well-known/openid-configuration returns 404 on authcloud.trusona.net and
+    idproof-cert.trusona.net.'
+- id: jwt-rfc7519
+  conforms: true
+  evidence: 'securitySchemes.bearerAuth declares scheme: bearer with bearerFormat: JWT on
+    both APIs.'
+- id: jwk-rfc7517
+  conforms: true
+  evidence: 'POST /api/v1/encrypted/verifications accepts a caller-supplied public key in
+    JWK format and 400s on anything other than RSA, EC or OKP (crv=X25519) — i.e. JWE-style
+    response encryption keyed by a JWK.'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: 'No application/problem+json anywhere. Every 4xx/5xx is a bare status code
+    with no media type and no schema.'
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header support documented; no deprecated operations.
+- id: idempotency
+  conforms: false
+  evidence: 'No Idempotency-Key header or parameter in either spec; the ID Verification
+    API''s unique transactionId rejects replays rather than replaying them.'
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: '/.well-known/security.txt returns 404 on authcloud.trusona.net and
+    idproof-cert.trusona.net; www.trusona.com answers 403 on the whole /.well-known/
+    prefix including a negative control.'
+- id: json-api
+  conforms: false
+  evidence: 'Bare JSON arrays and objects with no envelope, no `data` wrapper, no
+    relationship objects.'
+- id: pagination
+  conforms: partial
+  evidence: 'A required `since` time/id cursor on GET /api/v1/verifications, but no
+    next-cursor, page size, or total in the response — forward-walking only.'
+- id: soc2
+  conforms: true
+  evidence: 'SOC 2 Type 1 listed on the Trusona trust center at https://trust.trusona.com/
+    (SafeBase by Drata), with a SOC 2 report, pentest report, application security
+    assessment and OSINT/network security assessment among the documents offered under
+    NDA. Trusona''s llms.txt also states "SOC 2 certified".'
+- id: iso-27001
+  conforms: false
+  evidence: 'Not listed on the trust center. Only SOC 2 Type 1 is named.'
+- id: pci-dss
+  conforms: false
+  evidence: Not claimed; Trusona is not a payments provider.
+- id: hipaa
+  conforms: false
+  evidence: Not claimed on the trust center or the site.
+- id: fedramp
+  conforms: false
+  evidence: Not claimed.
+domain_standards:
+- id: aamva-dl-id-card-design-standard
+  name: AAMVA (American Association of Motor Vehicle Administrators) driver license /
+    identification verification
+  conforms: true
+  market: identity verification / document proofing
+  evidence: 'This is Trusona''s domain standard and it is declared IN THE CONTRACT, not
+    only in marketing. The Driver License Verification API''s components.schemas contains
+    `DmvIdVerifier` and `MnoIdVerifier` under an `IdVerifiers` object, and
+    createIdVerification is documented as verification "against DMV and MNO databases",
+    returning per-source PENDING | SUCCESS | FAILURE | FATAL results on `dmv` and `mno`.
+    The ID Proofing v2 surface goes further: POST /api/v2/barcode_verifications takes an
+    `aamva` object carrying `barcode_data` — the PDF417 barcode payload defined by the
+    AAMVA DL/ID Card Design Standard — and GET /api/v2/supported_states enumerates the
+    states participating in the AAMVA verification program. A relying party that already
+    parses AAMVA barcodes integrates with no bespoke mapping.'
+  spec_locations:
+  - openapi/trusona-driver-license-verification-api-openapi.yml#/components/schemas/DmvIdVerifier
+  - openapi/trusona-driver-license-verification-api-openapi.yml#/components/schemas/MnoIdVerifier
+  - openapi/trusona-driver-license-verification-api-openapi.yml#/components/schemas/IdVerifiers
+  - 'ID Proofing v2: POST /api/v2/barcode_verifications (aamva.barcode_data),
+    GET /api/v2/supported_states'
+  docs: https://www.trusona.com/premium-idv
+- id: mno-sim-swap-detection
+  name: Mobile network operator SIM-swap / port-out signal
+  conforms: true
+  market: identity verification / telecom risk signals
+  evidence: 'The Verification API surfaces the MNO signal as a first-class contract
+    element rather than a prose claim: `RequestedMnoVerifier` and `RequestedTrustedSmsMessage`
+    are declared schemas, and createMessage declares a dedicated 422 response whose
+    description is "Sim swap was detected for a TRUSTED_SMS" — a machine-readable
+    telecom-risk outcome an integrator can branch on.'
+  spec_locations:
+  - openapi/trusona-verification-api-openapi.yml#/components/schemas/RequestedMnoVerifier
+  - openapi/trusona-verification-api-openapi.yml#/components/schemas/RequestedTrustedSmsMessage
+  - 'openapi/trusona-verification-api-openapi.yml POST /api/v1/verifications/{verificationId}/messages
+    -> 422'
+- id: nist-800-63-identity-proofing
+  conforms: unverified
+  market: identity assurance
+  evidence: 'Trusona publishes NIST identity-proofing-evidence marketing collateral
+    (an SVG asset named 24-trusona-nist-identity-proofing-evidence.svg is served on the
+    ID Proofing integration guide), but no IAL/AAL conformance level is asserted in any
+    contract or on the trust center, so no conformance is claimed here.'
+- id: servicenow-store-certified
+  conforms: true
+  market: ITSM integration
+  evidence: 'ATO Protect ships as a ServiceNow Store application
+    (https://www.trusona.com/ato-protect-servicenow), and `ServiceNowAttachment` is a
+    declared schema on VerificationAttachment in the Verification API — the ITSM
+    integration is modelled in the contract, not bolted on.'
+  spec_locations:
+  - openapi/trusona-verification-api-openapi.yml#/components/schemas/ServiceNowAttachment
+compliance_program:
+  published: true
+  url: https://trust.trusona.com/
+  platform: SafeBase (Drata)
+  certifications:
+  - SOC 2 Type 1
+  documents_offered:
+  - SOC 2 Report
+  - Pentest Report
+  - Application Security Assessment
+  - OSINT + Network Security Assessment
+  - ATOP Security Summary
+  - Certificates of Destruction
+  - Data Asset Classification
+  risk_profile:
+    data_access_level: Restricted
+    impact_level: Moderate
+    hosting: Major Cloud Provider
+  note: 'The trust center sits behind a Cloudflare interstitial for automated clients
+    (HTTP 403 to a plain crawler, "Just a moment..." challenge page) but is demonstrably
+    live and reachable in a browser, so it is recorded as live, not dead.'

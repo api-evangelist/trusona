@@ -1,0 +1,61 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Trusona ATO Protect Verification API
+  version: 1.0.0
+extends: openapi/trusona-verification-api-openapi.yml
+x-generated: '2026-09-01'
+x-method: generated
+x-source: 'Enhancements derived from Trusona-published material only: the ATO Protect
+  Agent Skill (github.com/trusona/atop-agent-skill, Apache-2.0) and the API reference at
+  authcloud.trusona.net/docs/index.html. The harvested spec is never mutated.'
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/provider/trusona/
+    x-agent-skill: https://github.com/trusona/atop-agent-skill
+    x-status-page: https://status.trusona.com/
+    x-trust-center: https://trust.trusona.com/
+- target: $
+  update:
+    tags:
+    - name: Verifications
+      description: Create and read identity verifications and their overall risk outcome.
+    - name: Messages
+      description: SMS, trusted-SMS, email and copy messages that deliver the scan link.
+    - name: Risk Scores
+      description: Per-verification risk scoring.
+    - name: Documents
+      description: Scanned identity documents and images, removed when the verification expires.
+    - name: Devices
+      description: Devices observed during a verification.
+    - name: Encrypted Verifications
+      description: Verifications whose payloads are encrypted to a caller-supplied JWK.
+  x-note: 'The original document tags every operation but declares no root-level tags[]
+    array, so tag descriptions are supplied here.'
+- target: $.paths['/api/v1/verifications'].get
+  update:
+    x-agent-note: '`since` is REQUIRED. Omitting it returns 400. Walk forward by passing
+      the last result''s timestamp or id as the next `since`; there is no cursor.'
+- target: $.paths['/api/v1/verifications'].post
+  update:
+    x-agent-note: 'Do not send `requestedVerifiers` — Trusona documents it as being
+      deprecated and decided server-side. Verifier outcomes still return via
+      verifierChecks[]. `subject.dateOfBirth` is MM/DD/YYYY on this API.'
+    x-reversibility:
+      reversal: none
+      note: No cancel or void operation exists; the verification ends only by expiry.
+- target: $.paths['/api/v1/verifications/{verificationId}'].get
+  update:
+    x-agent-note: 'status is WAITING | SCANNED | EXPIRED ONLY — there is no SUCCESS or
+      FAILURE. Read the outcome from overallRisk, verifierChecks[] and riskScores[].'
+- target: $.paths['/api/v1/verifications/{verificationId}/messages'].post
+  update:
+    x-agent-note: '422 means a SIM swap was detected on a TRUSTED_SMS — a security
+      finding, not a client bug; do not retry over SMS. 410 means the verification is
+      closed to new messages. 429 is a tenant quota with no Retry-After header.'
+- target: $.paths['/api/v1/verifications/{verificationId}/document'].get
+  update:
+    x-agent-note: 'Returns BOTH masked and unmasked PII in one response. Default to the
+      masked variant. 410 Gone is terminal — the document is removed when the parent
+      verification expires and the retention window is not published.'
+    x-pii: high

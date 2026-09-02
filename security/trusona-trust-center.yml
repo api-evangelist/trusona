@@ -1,0 +1,12 @@
+generated: '2026-09-01'
+method: searched
+probe: true
+source: https://trust.trusona.com/
+url: https://trust.trusona.com/
+certifications:
+- SOC 2
+evidence:
+- source: https://trust.trusona.com/
+  keywords:
+  - soc 2
+  - trust center

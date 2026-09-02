@@ -1,0 +1,37 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Trusona Driver License Verification API
+  version: 1.0.0
+extends: openapi/trusona-driver-license-verification-api-openapi.yml
+x-generated: '2026-09-01'
+x-method: generated
+x-source: 'Enhancements derived from Trusona-published material only: the ATO Protect
+  Agent Skill (github.com/trusona/atop-agent-skill, Apache-2.0) and the API reference at
+  authcloud.trusona.net/docs/id-verifications/index.html.'
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/provider/trusona/
+    x-agent-skill: https://github.com/trusona/atop-agent-skill
+    x-domain-standard: AAMVA driver license / identification verification
+- target: $
+  update:
+    tags:
+    - name: ID Verifications
+      description: Asynchronous driver-license matching against State DMV records over
+        AAMVA and against mobile network operator records.
+  x-note: The original document tags both operations but declares no root-level tags[] array.
+- target: $.paths['/api/v1/id_verifications'].post
+  update:
+    x-agent-note: '`transactionId` must be a UUID unique per request — a repeat returns
+      422. This is a uniqueness guard, NOT an idempotency key: a retry after a timeout
+      cannot recover the first result. `dateOfBirth` is YYYY-MM-DD on this API (the
+      Verification API uses MM/DD/YYYY).'
+    x-reversibility:
+      reversal: none
+      note: No cancellation path once the DMV/MNO query is submitted.
+- target: $.paths['/api/v1/id_verifications/{verificationId}'].get
+  update:
+    x-agent-note: 'Per-source status is PENDING | SUCCESS | FAILURE | FATAL on `dmv` and
+      `mno` — a different status model from the Verification API. Poll until neither is
+      PENDING, or supply a callbackUrl on create and re-fetch on receipt.'

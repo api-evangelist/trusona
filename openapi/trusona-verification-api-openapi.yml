@@ -1,0 +1,2088 @@
+openapi: 3.1.0
+info:
+  title: Verification API
+  description: "API to manage verifications, messages, checkers, devices, and risk\
+    \ scores."
+  contact:
+    name: API Support
+    url: https://trusona.com
+    email: support@trusona.com
+  version: 2.2.0
+  summary: "Base URL: https://authcloud.trusona.net"
+servers:
+- url: https://authcloud.trusona.net
+security:
+- bearerAuth: []
+paths:
+  /api/v1/verifications:
+    get:
+      tags:
+      - Verifications
+      summary: Get verifications since a specific time or verification ID
+      description: |-
+        Retrieve a collection of verifications that have been created or updated since the specified time or verification ID.
+
+        The `since` parameter can be either:
+        - A UUID of a verification (returns verifications created after that verification)
+        - An ISO 8601 date-time string (e.g., "2022-01-01T00:00:00Z")
+        - A date string in YYYY-MM-DD format
+      operationId: getVerifications
+      parameters:
+      - name: since
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 1
+      - name: until
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: count
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1000
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      responses:
+        "200":
+          description: List of verifications retrieved successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VerificationResponse"
+              example:
+              - id: bd30618f-06d3-45c5-ae52-c36751fc20b2
+                agentEmailAddress: agent@example.com
+                documentType: US_CA_DL
+                linkUrl: https://verify.example.com/identity/verifications/BD30618F-06D3-45C5-AE52-C36751FC20B2
+                linkUrlExpiresAt: 2026-05-05T18:15:00Z
+                reviewAccessExpiresAt: 2026-05-05T18:30:00Z
+                createdAt: 2026-05-05T18:00:00Z
+                updatedAt: 2026-05-05T18:01:05Z
+                status: SCANNED
+                closed: true
+                expiredReviewAccess: true
+                expiredLinkUrlAccess: true
+                overallRisk: LOW
+                workspaceLink: https://portal.example.com/tenant-id/verifications/bd30618f-06d3-45c5-ae52-c36751fc20b2
+                supportedVerifiers: []
+                attachments:
+                - attachmentType: WORKSPACE_CALLBACKS
+                  urls: []
+                verifierChecks:
+                - id: 7c19e69d-e4b9-4931-87a4-3a277af6fe72
+                  lastName: SMITH
+                  phoneNumber: "+12025551234"
+                  documentType: US_CA_DL
+                  documentNumberSuffix: "5678"
+                  createdAt: 2026-05-05T18:01:06Z
+                  verifier: MNO_V
+                  verifierResult: SUCCESS
+                  phoneNumberSuffix: "1234"
+                  phoneNumberCountryCode: "1"
+                  matches:
+                    address1: true
+                    address2: null
+                    city: true
+                    country: true
+                    dateOfBirth: true
+                    firstName: true
+                    lastName: true
+                    phoneNumber: true
+                    phoneSim: null
+                    state: true
+                    zipCode: true
+                  externalId: A1.bCDE
+                - id: 960b7d8a-1c10-4f9d-a2e0-67c68fe688e7
+                  lastName: SMITH
+                  documentType: US_CA_DL
+                  documentNumberSuffix: "5678"
+                  createdAt: 2026-05-05T18:01:09Z
+                  verifier: DMV
+                  verifierResult: SUCCESS
+                  matches:
+                    address1: true
+                    address2: null
+                    city: true
+                    dateOfBirth: true
+                    documentNumber: true
+                    documentType: true
+                    expiryDate: true
+                    eyeColor: true
+                    firstName: true
+                    height: true
+                    issueDate: true
+                    lastName: true
+                    middleInitial: true
+                    middleName: true
+                    sex: true
+                    state: true
+                    weight: true
+                    zip4: null
+                    zipCode: true
+                messages:
+                - id: f2aafebd-8d41-4366-9ead-59e04931c3a8
+                  status: DELIVERED
+                  createdAt: 2026-05-05T18:00:00Z
+                  channel: SMS
+                  recipient: "+12025551234"
+                  simSwapped: false
+                devices:
+                - id: fb125038-2656-4b51-85ad-6a495876f107
+                  platform: iPhone
+                  language: en-US
+                  browserTimeZone: America/Los_Angeles
+                  origin: null
+                  browserDateTime: Tue May 05 2026 11:00:00 GMT-0700 (Pacific Daylight
+                    Time)
+                  userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS\
+                    \ X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148\
+                    \ Safari/604.1"
+                  operatingSystem: iOS 18.5
+                  browser: Mobile Safari 18.5
+                  displayWidth: 390
+                  displayHeight: 844
+                  browserHeight: 844
+                  browserWidth: 390
+                  ipAddress: 192.0.2.1
+                  ipAddressTimeZone: America/Los_Angeles
+                  country: United States
+                  region: California
+                  city: San Francisco
+                  isp: "Example ISP, Inc."
+                  createdAt: 2026-05-05T18:00:30Z
+                  latitude: 37.7749
+                  longitude: -122.4194
+                  gpsLatitude: null
+                  gpsLongitude: null
+                  via: []
+                  offsetMinutes: 420
+                  epochMilliseconds: 1778000000000
+                  asn: null
+                  dateTime: 5/5/2026 09:53
+                  browserTimeZoneWithOffset: America/Los Angeles (-7)
+                  scanCode: "123"
+                  linkCode: "1920"
+                  scannedDocument: true
+                  blacklistedNetwork: false
+                  whitelistedNetwork: false
+                  truPassUsed: false
+                  fingerprint: abc123def456ghi789jkl012mno345pqr678stu9
+                  turnstileRobot: null
+                  turnstileError: null
+                riskScores:
+                - ruleType: DEVICE
+                  id: 0d98bd5f-7e8d-4430-a048-14775c6e57f9
+                  score: "NO"
+                  rule: DEV4D
+                  reason: VPN/Proxy - using iCloud Private Relay
+                  type: DEVICE
+                  riskyFields:
+                  - ipAddress
+                  riskyDevices:
+                  - fb125038-2656-4b51-85ad-6a495876f107
+                  robotRule: true
+                  createdAt: 2026-05-05T18:00:31Z
+                - ruleType: VERIFIER
+                  id: ad37692c-0e7b-4eeb-a191-f5ce9cd2bb45
+                  score: LOW
+                  rule: VER5A
+                  reason: Between 1% and 20% of DMV data is incorrect
+                  type: VERIFIER
+                  riskyFields:
+                  - issueDate
+                  - expiryDate
+                  verifier: DMV
+                  riskyDevices: []
+                  robotRule: false
+                  createdAt: 2026-05-05T18:01:09Z
+                billable: true
+                billableAt: 2026-05-05T18:00:31Z
+        "400":
+          description: Bad request - invalid since parameter
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+    post:
+      tags:
+      - Verifications
+      summary: Create a new verification
+      operationId: createVerification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateVerificationDto"
+        required: true
+      responses:
+        "201":
+          description: Verification created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/VerificationResponse"
+              example:
+                id: bd30618f-06d3-45c5-ae52-c36751fc20b2
+                agentEmailAddress: agent@example.com
+                documentType: US_CA_DL
+                linkUrl: https://verify.example.com/identity/verifications/BD30618F-06D3-45C5-AE52-C36751FC20B2
+                linkUrlExpiresAt: 2026-05-05T18:15:00Z
+                reviewAccessExpiresAt: 2026-05-05T18:30:00Z
+                createdAt: 2026-05-05T18:00:00Z
+                updatedAt: 2026-05-05T18:01:05Z
+                status: SCANNED
+                closed: true
+                expiredReviewAccess: true
+                expiredLinkUrlAccess: true
+                overallRisk: LOW
+                workspaceLink: https://portal.example.com/tenant-id/verifications/bd30618f-06d3-45c5-ae52-c36751fc20b2
+                supportedVerifiers: []
+                attachments:
+                - attachmentType: WORKSPACE_CALLBACKS
+                  urls: []
+                verifierChecks:
+                - id: 7c19e69d-e4b9-4931-87a4-3a277af6fe72
+                  lastName: SMITH
+                  phoneNumber: "+12025551234"
+                  documentType: US_CA_DL
+                  documentNumberSuffix: "5678"
+                  createdAt: 2026-05-05T18:01:06Z
+                  verifier: MNO_V
+                  verifierResult: SUCCESS
+                  phoneNumberSuffix: "1234"
+                  phoneNumberCountryCode: "1"
+                  matches:
+                    address1: true
+                    address2: null
+                    city: true
+                    country: true
+                    dateOfBirth: true
+                    firstName: true
+                    lastName: true
+                    phoneNumber: true
+                    phoneSim: null
+                    state: true
+                    zipCode: true
+                  externalId: A1.bCDE
+                - id: 960b7d8a-1c10-4f9d-a2e0-67c68fe688e7
+                  lastName: SMITH
+                  documentType: US_CA_DL
+                  documentNumberSuffix: "5678"
+                  createdAt: 2026-05-05T18:01:09Z
+                  verifier: DMV
+                  verifierResult: SUCCESS
+                  matches:
+                    address1: true
+                    address2: null
+                    city: true
+                    dateOfBirth: true
+                    documentNumber: true
+                    documentType: true
+                    expiryDate: true
+                    eyeColor: true
+                    firstName: true
+                    height: true
+                    issueDate: true
+                    lastName: true
+                    middleInitial: true
+                    middleName: true
+                    sex: true
+                    state: true
+                    weight: true
+                    zip4: null
+                    zipCode: true
+                messages:
+                - id: f2aafebd-8d41-4366-9ead-59e04931c3a8
+                  status: DELIVERED
+                  createdAt: 2026-05-05T18:00:00Z
+                  channel: SMS
+                  recipient: "+12025551234"
+                  simSwapped: false
+                devices:
+                - id: fb125038-2656-4b51-85ad-6a495876f107
+                  platform: iPhone
+                  language: en-US
+                  browserTimeZone: America/Los_Angeles
+                  origin: null
+                  browserDateTime: Tue May 05 2026 11:00:00 GMT-0700 (Pacific Daylight
+                    Time)
+                  userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS\
+                    \ X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148\
+                    \ Safari/604.1"
+                  operatingSystem: iOS 18.5
+                  browser: Mobile Safari 18.5
+                  displayWidth: 390
+                  displayHeight: 844
+                  browserHeight: 844
+                  browserWidth: 390
+                  ipAddress: 192.0.2.1
+                  ipAddressTimeZone: America/Los_Angeles
+                  country: United States
+                  region: California
+                  city: San Francisco
+                  isp: "Example ISP, Inc."
+                  createdAt: 2026-05-05T18:00:30Z
+                  latitude: 37.7749
+                  longitude: -122.4194
+                  gpsLatitude: null
+                  gpsLongitude: null
+                  via: []
+                  offsetMinutes: 420
+                  epochMilliseconds: 1778000000000
+                  asn: null
+                  dateTime: 5/5/2026 09:53
+                  browserTimeZoneWithOffset: America/Los Angeles (-7)
+                  scanCode: "123"
+                  linkCode: "1920"
+                  scannedDocument: true
+                  blacklistedNetwork: false
+                  whitelistedNetwork: false
+                  truPassUsed: false
+                  fingerprint: abc123def456ghi789jkl012mno345pqr678stu9
+                  turnstileRobot: null
+                  turnstileError: null
+                riskScores:
+                - ruleType: DEVICE
+                  id: 0d98bd5f-7e8d-4430-a048-14775c6e57f9
+                  score: "NO"
+                  rule: DEV4D
+                  reason: VPN/Proxy - using iCloud Private Relay
+                  type: DEVICE
+                  riskyFields:
+                  - ipAddress
+                  riskyDevices:
+                  - fb125038-2656-4b51-85ad-6a495876f107
+                  robotRule: true
+                  createdAt: 2026-05-05T18:00:31Z
+                - ruleType: VERIFIER
+                  id: ad37692c-0e7b-4eeb-a191-f5ce9cd2bb45
+                  score: LOW
+                  rule: VER5A
+                  reason: Between 1% and 20% of DMV data is incorrect
+                  type: VERIFIER
+                  riskyFields:
+                  - issueDate
+                  - expiryDate
+                  verifier: DMV
+                  riskyDevices: []
+                  robotRule: false
+                  createdAt: 2026-05-05T18:01:09Z
+                billable: true
+                billableAt: 2026-05-05T18:00:31Z
+        "400":
+          description: Bad request
+  /api/v1/verifications/{verificationId}/messages:
+    get:
+      tags:
+      - Messages
+      summary: Get all messages for a verification
+      operationId: getMessages
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: List of messages
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VerificationMessage"
+              example:
+              - id: f2aafebd-8d41-4366-9ead-59e04931c3a8
+                status: DELIVERED
+                createdAt: 2026-05-05T18:00:00Z
+                channel: SMS
+                recipient: "+12025551234"
+                simSwapped: false
+        "404":
+          description: Messages not found
+    post:
+      tags:
+      - Messages
+      summary: Add a message to a verification
+      operationId: createMessage
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: "#/components/schemas/RequestedMessage"
+              - $ref: "#/components/schemas/RequestedCopyMessage"
+              - $ref: "#/components/schemas/RequestedEmailMessage"
+              - $ref: "#/components/schemas/RequestedSmsMessage"
+              - $ref: "#/components/schemas/RequestedTrustedSmsMessage"
+        required: true
+      responses:
+        "201":
+          description: Message added successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/VerificationMessage"
+              example:
+                id: f2aafebd-8d41-4366-9ead-59e04931c3a8
+                status: DELIVERED
+                createdAt: 2026-05-05T18:00:00Z
+                channel: SMS
+                recipient: "+12025551234"
+                simSwapped: false
+        "400":
+          description: Bad request
+        "404":
+          description: Not found
+        "410":
+          description: Messages can no longer be added to this verification
+        "422":
+          description: Sim swap was detected for a TRUSTED_SMS
+        "429":
+          description: Quota limit has been reached
+  /api/v1/encrypted/verifications:
+    post:
+      tags:
+      - Encrypted Verifications
+      summary: Create a new verification with encrypted response
+      description: Create a new verification and return the verification data encrypted
+        with the provided encryption key.
+      operationId: createEncryptedVerification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEncryptedVerificationDto"
+        required: true
+      responses:
+        "201":
+          description: Verification created successfully with encryption token
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EncryptedVerificationResponse"
+        "400":
+          description: "Bad request - Must be one of RSA, EC or OKP (crv=X25519) type\
+            \ in JWK format"
+        "401":
+          description: Unauthorized
+        "422":
+          description: Unprocessable entity - validation failed
+  /api/v1/verifications/{verificationId}:
+    get:
+      tags:
+      - Verifications
+      summary: Get verification by ID
+      operationId: getVerification
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Verification details
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/VerificationResponse"
+              example:
+                id: bd30618f-06d3-45c5-ae52-c36751fc20b2
+                agentEmailAddress: agent@example.com
+                documentType: US_CA_DL
+                linkUrl: https://verify.example.com/identity/verifications/BD30618F-06D3-45C5-AE52-C36751FC20B2
+                linkUrlExpiresAt: 2026-05-05T18:15:00Z
+                reviewAccessExpiresAt: 2026-05-05T18:30:00Z
+                createdAt: 2026-05-05T18:00:00Z
+                updatedAt: 2026-05-05T18:01:05Z
+                status: SCANNED
+                closed: true
+                expiredReviewAccess: true
+                expiredLinkUrlAccess: true
+                overallRisk: LOW
+                workspaceLink: https://portal.example.com/tenant-id/verifications/bd30618f-06d3-45c5-ae52-c36751fc20b2
+                supportedVerifiers: []
+                attachments:
+                - attachmentType: WORKSPACE_CALLBACKS
+                  urls: []
+                verifierChecks:
+                - id: 7c19e69d-e4b9-4931-87a4-3a277af6fe72
+                  lastName: SMITH
+                  phoneNumber: "+12025551234"
+                  documentType: US_CA_DL
+                  documentNumberSuffix: "5678"
+                  createdAt: 2026-05-05T18:01:06Z
+                  verifier: MNO_V
+                  verifierResult: SUCCESS
+                  phoneNumberSuffix: "1234"
+                  phoneNumberCountryCode: "1"
+                  matches:
+                    address1: true
+                    address2: null
+                    city: true
+                    country: true
+                    dateOfBirth: true
+                    firstName: true
+                    lastName: true
+                    phoneNumber: true
+                    phoneSim: null
+                    state: true
+                    zipCode: true
+                  externalId: A1.bCDE
+                - id: 960b7d8a-1c10-4f9d-a2e0-67c68fe688e7
+                  lastName: SMITH
+                  documentType: US_CA_DL
+                  documentNumberSuffix: "5678"
+                  createdAt: 2026-05-05T18:01:09Z
+                  verifier: DMV
+                  verifierResult: SUCCESS
+                  matches:
+                    address1: true
+                    address2: null
+                    city: true
+                    dateOfBirth: true
+                    documentNumber: true
+                    documentType: true
+                    expiryDate: true
+                    eyeColor: true
+                    firstName: true
+                    height: true
+                    issueDate: true
+                    lastName: true
+                    middleInitial: true
+                    middleName: true
+                    sex: true
+                    state: true
+                    weight: true
+                    zip4: null
+                    zipCode: true
+                messages:
+                - id: f2aafebd-8d41-4366-9ead-59e04931c3a8
+                  status: DELIVERED
+                  createdAt: 2026-05-05T18:00:00Z
+                  channel: SMS
+                  recipient: "+12025551234"
+                  simSwapped: false
+                devices:
+                - id: fb125038-2656-4b51-85ad-6a495876f107
+                  platform: iPhone
+                  language: en-US
+                  browserTimeZone: America/Los_Angeles
+                  origin: null
+                  browserDateTime: Tue May 05 2026 11:00:00 GMT-0700 (Pacific Daylight
+                    Time)
+                  userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS\
+                    \ X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148\
+                    \ Safari/604.1"
+                  operatingSystem: iOS 18.5
+                  browser: Mobile Safari 18.5
+                  displayWidth: 390
+                  displayHeight: 844
+                  browserHeight: 844
+                  browserWidth: 390
+                  ipAddress: 192.0.2.1
+                  ipAddressTimeZone: America/Los_Angeles
+                  country: United States
+                  region: California
+                  city: San Francisco
+                  isp: "Example ISP, Inc."
+                  createdAt: 2026-05-05T18:00:30Z
+                  latitude: 37.7749
+                  longitude: -122.4194
+                  gpsLatitude: null
+                  gpsLongitude: null
+                  via: []
+                  offsetMinutes: 420
+                  epochMilliseconds: 1778000000000
+                  asn: null
+                  dateTime: 5/5/2026 09:53
+                  browserTimeZoneWithOffset: America/Los Angeles (-7)
+                  scanCode: "123"
+                  linkCode: "1920"
+                  scannedDocument: true
+                  blacklistedNetwork: false
+                  whitelistedNetwork: false
+                  truPassUsed: false
+                  fingerprint: abc123def456ghi789jkl012mno345pqr678stu9
+                  turnstileRobot: null
+                  turnstileError: null
+                riskScores:
+                - ruleType: DEVICE
+                  id: 0d98bd5f-7e8d-4430-a048-14775c6e57f9
+                  score: "NO"
+                  rule: DEV4D
+                  reason: VPN/Proxy - using iCloud Private Relay
+                  type: DEVICE
+                  riskyFields:
+                  - ipAddress
+                  riskyDevices:
+                  - fb125038-2656-4b51-85ad-6a495876f107
+                  robotRule: true
+                  createdAt: 2026-05-05T18:00:31Z
+                - ruleType: VERIFIER
+                  id: ad37692c-0e7b-4eeb-a191-f5ce9cd2bb45
+                  score: LOW
+                  rule: VER5A
+                  reason: Between 1% and 20% of DMV data is incorrect
+                  type: VERIFIER
+                  riskyFields:
+                  - issueDate
+                  - expiryDate
+                  verifier: DMV
+                  riskyDevices: []
+                  robotRule: false
+                  createdAt: 2026-05-05T18:01:09Z
+                billable: true
+                billableAt: 2026-05-05T18:00:31Z
+        "404":
+          description: Verification not found
+  /api/v1/verifications/{verificationId}/risk_scores:
+    get:
+      tags:
+      - Risk Scores
+      summary: Get all scores for a verification
+      operationId: getRiskScores
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: List of risk scores
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RiskScore"
+              example:
+              - ruleType: DEVICE
+                id: 0d98bd5f-7e8d-4430-a048-14775c6e57f9
+                score: "NO"
+                rule: DEV4D
+                reason: VPN/Proxy - using iCloud Private Relay
+                type: DEVICE
+                riskyFields:
+                - ipAddress
+                riskyDevices:
+                - fb125038-2656-4b51-85ad-6a495876f107
+                robotRule: true
+                createdAt: 2026-05-05T18:00:31Z
+              - ruleType: VERIFIER
+                id: ad37692c-0e7b-4eeb-a191-f5ce9cd2bb45
+                score: LOW
+                rule: VER5A
+                reason: Between 1% and 20% of DMV data is incorrect
+                type: VERIFIER
+                riskyFields:
+                - issueDate
+                - expiryDate
+                verifier: DMV
+                riskyDevices: []
+                robotRule: false
+                createdAt: 2026-05-05T18:01:09Z
+        "404":
+          description: Verification not found
+  /api/v1/verifications/{verificationId}/messages/{verificationMessageId}:
+    get:
+      tags:
+      - Messages
+      summary: Get a verification's message by ID
+      operationId: getMessage
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: verificationMessageId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Message details
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/VerificationMessage"
+        "404":
+          description: Verification or message were not found
+  /api/v1/verifications/{verificationId}/document:
+    get:
+      tags:
+      - Documents
+      summary: Get the verification's document
+      description: "Returns the scanned document data in two forms: 'unmasked' with\
+        \ full PII and 'masked' with sensitive fields partially redacted."
+      operationId: getDocument
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: The verification's document with masked and unmasked variants.
+            The unmasked variant contains full PII; the masked variant has sensitive
+            fields partially redacted.
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: "#/components/schemas/ScanResponse"
+              example:
+                UNMASKED:
+                  documentNumber: D12345678
+                  dateOfBirth: 03/15/1990
+                  firstName: JANE
+                  age: "36"
+                  lastName: SMITH
+                  middleName: MARIE
+                  middleInitial: M
+                  issueDate: 06/01/2020
+                  expiryDate: 03/15/2028
+                  documentType: Driver License
+                  sex: Female
+                  eyeColor: Brown
+                  height: "64"
+                  weight: "130"
+                  address1: 123 MAIN ST
+                  address2: null
+                  city: LOS ANGELES
+                  state: CA
+                  zipCode: "90001"
+                  zip4: null
+                  nationality: UNITED STATES OF AMERICA
+                  iso3CountryCode: USA
+                  iso2CountryCode: US
+                  isoCountryName: United States of America
+                  issuingAuthority: null
+                  placeOfBirth: null
+                  verifiedMrz: null
+                  fullAddress: "123 MAIN ST, LOS ANGELES, CA, 90001"
+                  suffix: null
+                  documentCategory: null
+                  documentJurisdiction: null
+                  phoneNumber: null
+                  version: V1
+                MASKED:
+                  documentNumber: D12*******
+                  dateOfBirth: 03/*******
+                  firstName: JANE
+                  age: '**********'
+                  lastName: SMITH
+                  middleName: MARIE
+                  middleInitial: M
+                  issueDate: 06/*******
+                  expiryDate: 03/*******
+                  documentType: Driver License
+                  sex: '**********'
+                  eyeColor: '**********'
+                  height: '**********'
+                  weight: '**********'
+                  address1: 123*******
+                  address2: null
+                  city: LOS*******
+                  state: C*********
+                  zipCode: 900*******
+                  zip4: null
+                  nationality: UNI*******
+                  iso3CountryCode: U*********
+                  iso2CountryCode: U*********
+                  isoCountryName: United States of America
+                  issuingAuthority: null
+                  placeOfBirth: null
+                  verifiedMrz: null
+                  fullAddress: 123*******
+                  suffix: null
+                  documentCategory: null
+                  documentJurisdiction: null
+                  phoneNumber: null
+                  version: V1
+        "404":
+          description: Verification was not found or document is not yet available
+        "410":
+          description: Document has been removed (occurs when parent verification
+            expires)
+  /api/v1/verifications/{verificationId}/document/scanned_images:
+    get:
+      tags:
+      - Documents
+      summary: Get the scanned image of the document
+      operationId: getScannedImages
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: The scanned document image
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/IdentityImage"
+        "404":
+          description: Verification was not found or document does not have an available
+            scanned image
+        "410":
+          description: Scanned image has been removed (occurs when parent verification
+            expires)
+  /api/v1/verifications/{verificationId}/devices:
+    get:
+      tags:
+      - Devices
+      summary: Get all devices for a verification
+      operationId: getDevices
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: List of devices
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VerificationDevice"
+              example:
+              - id: fb125038-2656-4b51-85ad-6a495876f107
+                platform: iPhone
+                language: en-US
+                browserTimeZone: America/Los_Angeles
+                origin: null
+                browserDateTime: Tue May 05 2026 11:00:00 GMT-0700 (Pacific Daylight
+                  Time)
+                userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X)\
+                  \ AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148\
+                  \ Safari/604.1"
+                operatingSystem: iOS 18.5
+                browser: Mobile Safari 18.5
+                displayWidth: 390
+                displayHeight: 844
+                browserHeight: 844
+                browserWidth: 390
+                ipAddress: 192.0.2.1
+                ipAddressTimeZone: America/Los_Angeles
+                country: United States
+                region: California
+                city: San Francisco
+                isp: "Example ISP, Inc."
+                createdAt: 2026-05-05T18:00:30Z
+                latitude: 37.7749
+                longitude: -122.4194
+                gpsLatitude: null
+                gpsLongitude: null
+                via: []
+                offsetMinutes: 420
+                epochMilliseconds: 1778000000000
+                asn: null
+                dateTime: 5/5/2026 09:53
+                browserTimeZoneWithOffset: America/Los Angeles (-7)
+                scanCode: "123"
+                linkCode: "1920"
+                scannedDocument: true
+                blacklistedNetwork: false
+                whitelistedNetwork: false
+                truPassUsed: false
+                fingerprint: abc123def456ghi789jkl012mno345pqr678stu9
+                turnstileRobot: null
+                turnstileError: null
+        "404":
+          description: Verification not found
+  /api/v1/encrypted/verifications/{verificationId}:
+    get:
+      tags:
+      - Encrypted Verifications
+      summary: Get an encrypted verification by ID
+      operationId: getEncryptedVerification
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Verification retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EncryptedVerificationResponse"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Verification not found
+  /api/v1/encrypted/verifications/{verificationId}/document:
+    get:
+      tags:
+      - Encrypted Verifications
+      summary: Get an encrypted document by verification ID
+      description: Get the verification's document and return it encrypted with the
+        same public key provided when the verification was created.
+      operationId: getEncryptedDocument
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Encrypted document retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EncryptedDocumentResponse"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Verification not found or document is not yet available
+        "410":
+          description: Document has been removed (occurs when parent verification
+            expires)
+components:
+  schemas:
+    CreateVerificationDto:
+      type: object
+      properties:
+        documentType:
+          type: string
+          enum:
+          - US_CA_DL
+          - UK_DL
+          - PASSPORT
+          - INDIA_DL
+          - INDIA_ID
+          - INDIA_PAN
+          - PHILIPPINES_DL
+          - PHILIPPINES_ID
+          - PHILIPPINES_MULTI_ID
+          - US_MILITARY_ID
+          - US_VETERAN_ID
+          - SINGAPORE_DL
+          - SINGAPORE_ID
+          - SINGAPORE_WORK_PERMIT
+          - SINGAPORE_EMPLOYMENT_PASS
+          - PAKISTAN_ID
+          - AUSTRALIA_DL
+          - MEXICO_DL
+          - NETHERLANDS_DL
+          - US_PERMANENT_RESIDENT_CARD
+          - GERMANY_ID
+          - GERMANY_DL
+          - GERMANY_RESIDENCE_PERMIT
+          - AUSTRIA_ID
+          - AUSTRIA_DL
+          - AUSTRIA_RESIDENCE_PERMIT
+          example: US_CA_DL
+        callbackUrl:
+          type:
+          - string
+          - "null"
+          format: uri
+          example: https://example.com/callback/unique/to/this/request/8b62142a99ba759d8c9153b68765513c62180891
+        requestedVerifiers:
+          type: array
+          description: Set of verifiers to run against this verification. Each entry
+            uses the 'verifier' discriminator field.
+          example:
+          - verifier: DMV
+          - verifier: MNO_V
+            phoneNumber: "+12025551234"
+          items:
+            oneOf:
+            - $ref: "#/components/schemas/RequestedVerifier"
+            - $ref: "#/components/schemas/RequestedDmvVerifier"
+            - $ref: "#/components/schemas/RequestedLexisNexisVerifier"
+            - $ref: "#/components/schemas/RequestedMnoVerifier"
+          uniqueItems: true
+        subject:
+          type: "null"
+          $ref: "#/components/schemas/VerificationSubject"
+          description: "Optional identity information about the subject of this verification,\
+            \ used by the ExpectedSubjectVerifier to compare against the scanned document."
+        requestedMessages:
+          type: array
+          description: Set of messages to send for this verification. Each entry uses
+            the 'channel' discriminator field. Maximum 2.
+          example:
+          - channel: SMS
+            phoneNumber: "+12025551234"
+          - channel: EMAIL
+            emailAddress: user@example.com
+          items:
+            oneOf:
+            - $ref: "#/components/schemas/RequestedMessage"
+            - $ref: "#/components/schemas/RequestedCopyMessage"
+            - $ref: "#/components/schemas/RequestedEmailMessage"
+            - $ref: "#/components/schemas/RequestedSmsMessage"
+            - $ref: "#/components/schemas/RequestedTrustedSmsMessage"
+          maxItems: 2
+          minItems: 0
+          uniqueItems: true
+        status:
+          type:
+          - string
+          - "null"
+          enum:
+          - CREATED
+      required:
+      - documentType
+    RequestedCopyMessage:
+      allOf:
+      - $ref: "#/components/schemas/RequestedMessage"
+      required:
+      - channel
+    RequestedDmvVerifier:
+      allOf:
+      - $ref: "#/components/schemas/RequestedVerifier"
+      description: Request a DMV (AAMVA) verification.
+      required:
+      - verifier
+    RequestedEmailMessage:
+      allOf:
+      - $ref: "#/components/schemas/RequestedMessage"
+      - type: object
+        properties:
+          emailAddress:
+            type: string
+            format: email
+            description: Email address to send the message to.
+            example: user@example.com
+            minLength: 1
+      description: Send an email message to the provided email address.
+      required:
+      - channel
+      - emailAddress
+    RequestedLexisNexisVerifier:
+      allOf:
+      - $ref: "#/components/schemas/RequestedVerifier"
+      description: Request a LexisNexis verification.
+      required:
+      - verifier
+    RequestedMessage:
+      type: object
+      discriminator:
+        propertyName: channel
+      properties:
+        channel:
+          type: string
+          enum:
+          - COPY
+          - SMS
+          - EMAIL
+          - TRUSTED_SMS
+      required:
+      - channel
+    RequestedMnoVerifier:
+      allOf:
+      - $ref: "#/components/schemas/RequestedVerifier"
+      - type: object
+        properties:
+          phoneNumber:
+            type: string
+            description: "Phone number for MNO verification. Must be in one of the\
+              \ countries the tenant has enabled for MNO, which default to the USA\
+              \ (+1), Canada (+1) and the UK (+44). Dashes, spaces, dots and parentheses\
+              \ are accepted; a missing country code is resolved against the default\
+              \ countries, so numbers from any other enabled country must be given\
+              \ in E.164 form."
+            example: "+12025551234"
+      description: Request an MNO (mobile network operator) verification.
+      required:
+      - verifier
+    RequestedSmsMessage:
+      allOf:
+      - $ref: "#/components/schemas/RequestedMessage"
+      - type: object
+        properties:
+          phoneNumber:
+            type: string
+            description: "Phone number to send the SMS to. Dashes, spaces, dots and\
+              \ parentheses are accepted, as is a missing leading +; the number is\
+              \ stored and returned in E.164 form. A number sent without a country\
+              \ code cannot be resolved and is rejected."
+            example: "+12025551234"
+      description: Send an SMS message to the provided phone number.
+      required:
+      - channel
+    RequestedTrustedSmsMessage:
+      allOf:
+      - $ref: "#/components/schemas/RequestedMessage"
+      - type: object
+        properties:
+          phoneNumber:
+            type: string
+            description: "Phone number to send the trusted SMS to. Dashes, spaces,\
+              \ dots and parentheses are accepted, as is a missing leading +; the\
+              \ number is stored and returned in E.164 form. A number sent without\
+              \ a country code cannot be resolved and is rejected."
+            example: "+12025551234"
+      description: Send a trusted SMS with SIM swap detection to the provided phone
+        number.
+      required:
+      - channel
+    RequestedVerifier:
+      type: object
+      discriminator:
+        propertyName: verifier
+      properties:
+        verifier:
+          type: string
+          enum:
+          - DMV
+          - MNO_V
+          - SCAN
+      required:
+      - verifier
+    VerificationSubject:
+      type: object
+      description: Subject identity information supplied by the API consumer for matching
+        against the scanned document.
+      properties:
+        firstName:
+          type: string
+          description: Expected first name.
+          example: Susan
+          maxLength: 128
+          minLength: 0
+        lastName:
+          type: string
+          description: Expected last name.
+          example: O'Brien
+          maxLength: 128
+          minLength: 0
+        dateOfBirth:
+          type: string
+          description: Expected date of birth in MM/DD/YYYY format.
+          example: 03/14/1990
+        city:
+          type: string
+          description: Expected city.
+          example: San Francisco
+          maxLength: 32
+          minLength: 0
+        state:
+          type: string
+          description: "Expected state, province or region."
+          example: CA
+          maxLength: 32
+          minLength: 0
+        country:
+          type: string
+          description: Expected country as ISO 3166-1 alpha-2.
+          example: US
+          pattern: "^[A-Za-z]{2}$"
+    Matches:
+      type: object
+      additionalProperties: true
+      description: "Verifier match results. The shape depends on the verifier type:\
+        \ DMV matches include fields like firstName, lastName, dateOfBirth, documentNumber,\
+        \ etc. MNO matches include fields like firstName, lastName, dateOfBirth, phoneNumber,\
+        \ address1, etc. Each field is a boolean indicating whether the value matched\
+        \ the verifier's records. A null value means the field was not available or\
+        \ was not evaluated."
+      example:
+        lastName: true
+        firstName: true
+        dateOfBirth: true
+        documentNumber: true
+        address1: true
+        address2: null
+    RiskScore:
+      type: object
+      properties:
+        ruleType:
+          type: string
+          enum:
+          - SCAN
+          - DEVICE
+          - VERIFIER
+        id:
+          type: string
+          format: uuid
+          example: d2392d83-8410-41a7-adcf-a792acde7fb9
+          readOnly: true
+        score:
+          type: string
+          enum:
+          - "NO"
+          - LOW
+          - HIGH
+          example: "NO"
+          readOnly: true
+        rule:
+          type: string
+          readOnly: true
+        reason:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - SCAN
+          - DEVICE
+          - VERIFIER
+        riskyFields:
+          type: array
+          items:
+            type: string
+        verifier:
+          type:
+          - string
+          - "null"
+          enum:
+          - DMV
+          - NONE
+          - MNO_V
+          - SCAN
+          - LEXIS
+          - PASSKEY
+          - ESV
+        riskyDevices:
+          type: array
+          items:
+            type: string
+            format: uuid
+        robotRule:
+          type: boolean
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-01-01T00:00:00Z
+          readOnly: true
+        defaultScore:
+          type: string
+          description: The original risk score before any rule overrides were applied
+          enum:
+          - NONE
+          - "NO"
+          - LOW
+          - MEDIUM
+          - HIGH
+          readOnly: true
+    ServiceNowAttachment:
+      allOf:
+      - $ref: "#/components/schemas/VerificationAttachment"
+      - type: object
+        properties:
+          ticketNumber:
+            type: string
+            description: ServiceNow ticket number.
+            example: INC0012345
+            minLength: 1
+      description: A ServiceNow ticket attachment.
+      required:
+      - attachmentType
+      - ticketNumber
+    TicketNumberAttachment:
+      allOf:
+      - $ref: "#/components/schemas/VerificationAttachment"
+      - type: object
+        properties:
+          ticketNumber:
+            type: string
+            description: Ticket number from an external ticketing system.
+            example: TKT-98765
+            minLength: 1
+      description: A generic ticket number attachment.
+      required:
+      - attachmentType
+      - ticketNumber
+    VerificationAttachment:
+      type: object
+      discriminator:
+        propertyName: attachmentType
+      properties:
+        attachmentType:
+          type: string
+          enum:
+          - SERVICENOW
+          - WORKSPACE_CALLBACKS
+          - GENERIC_TICKET
+      required:
+      - attachmentType
+    VerificationDevice:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: bd30618f-06d3-45c5-ae52-c36751fc20b2
+          readOnly: true
+        platform:
+          type: string
+          description: Required field
+          example: MacIntel
+          minLength: 1
+          readOnly: true
+        language:
+          type: string
+          minLength: 1
+        browserTimeZone:
+          type: string
+          description: "IANA timezone ID (e.g., America/New_York, Europe/London)"
+          example: America/Los_Angeles
+          minLength: 1
+          readOnly: true
+        origin:
+          type: string
+          minLength: 1
+        browserDateTime:
+          type: string
+          minLength: 1
+        userAgent:
+          type: string
+        operatingSystem:
+          type: string
+        browser:
+          type: string
+        displayWidth:
+          type: integer
+          format: int32
+        displayHeight:
+          type: integer
+          format: int32
+        browserHeight:
+          type: integer
+          format: int32
+        browserWidth:
+          type: integer
+          format: int32
+        ipAddress:
+          type: string
+          example: 192.168.1.1
+          readOnly: true
+        ipAddressTimeZone:
+          type: string
+        country:
+          type: string
+        region:
+          type: string
+        city:
+          type: string
+        isp:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-01-01T00:00:00Z
+          readOnly: true
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+        gpsLatitude:
+          type: number
+          format: float
+        gpsLongitude:
+          type: number
+          format: float
+        via:
+          type: array
+          items:
+            type: string
+        offsetMinutes:
+          type: integer
+          format: int32
+        epochMilliseconds:
+          type: integer
+          format: int64
+        asn:
+          type: string
+        dateTime:
+          type: string
+        browserTimeZoneWithOffset:
+          type: string
+        scanCode:
+          type: string
+        linkCode:
+          type: string
+        scannedDocument:
+          type: boolean
+        blacklistedNetwork:
+          type: boolean
+        whitelistedNetwork:
+          type: boolean
+        truPassUsed:
+          type: boolean
+        fingerprint:
+          type: string
+      required:
+      - browserDateTime
+      - browserTimeZone
+      - epochMilliseconds
+      - language
+      - offsetMinutes
+      - origin
+      - platform
+    VerificationHistory:
+      type: object
+      properties:
+        verificationId:
+          type: string
+          format: uuid
+        lastName:
+          type: string
+        channel:
+          type: string
+          enum:
+          - COPY
+          - SMS
+          - EMAIL
+          - TRUSTED_SMS
+        documentNumberSuffix:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        overallRisk:
+          type: string
+          enum:
+          - NONE
+          - "NO"
+          - LOW
+          - MEDIUM
+          - HIGH
+        maskedRecipient:
+          type: string
+        maskedLastName:
+          type: string
+        location:
+          type: string
+        recipient:
+          type: string
+    VerificationMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-01-01T00:00:00Z
+          readOnly: true
+        channel:
+          type: string
+          enum:
+          - COPY
+          - SMS
+          - EMAIL
+          - TRUSTED_SMS
+        recipient:
+          type: string
+        simSwapped:
+          type: boolean
+    VerificationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        agentEmailAddress:
+          type: string
+          format: email
+          description: Email address of the agent or service account that created
+            the verification. Server-derived from the authenticated principal; values
+            supplied by clients are ignored.
+          example: agent@example.com
+          readOnly: true
+        documentType:
+          type: string
+          enum:
+          - US_CA_DL
+          - UK_DL
+          - PASSPORT
+          - INDIA_DL
+          - INDIA_ID
+          - INDIA_PAN
+          - PHILIPPINES_DL
+          - PHILIPPINES_ID
+          - PHILIPPINES_MULTI_ID
+          - US_MILITARY_ID
+          - US_VETERAN_ID
+          - SINGAPORE_DL
+          - SINGAPORE_ID
+          - SINGAPORE_WORK_PERMIT
+          - SINGAPORE_EMPLOYMENT_PASS
+          - PAKISTAN_ID
+          - AUSTRALIA_DL
+          - MEXICO_DL
+          - NETHERLANDS_DL
+          - US_PERMANENT_RESIDENT_CARD
+          - GERMANY_ID
+          - GERMANY_DL
+          - GERMANY_RESIDENCE_PERMIT
+          - AUSTRIA_ID
+          - AUSTRIA_DL
+          - AUSTRIA_RESIDENCE_PERMIT
+          example: US_CA_DL
+        linkUrl:
+          type: string
+          format: uri
+        callbackUrl:
+          type:
+          - string
+          - "null"
+          format: uri
+          example: https://example.com/callback/unique/to/this/request/8b62142a99ba759d8c9153b68765513c62180891
+        linkUrlExpiresAt:
+          type: string
+          format: date-time
+        reviewAccessExpiresAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        requestedVerifiers:
+          type: array
+          description: Set of verifiers to run against this verification. Each entry
+            uses the 'verifier' discriminator field.
+          example:
+          - verifier: DMV
+          - verifier: MNO_V
+            phoneNumber: "+12025551234"
+          items:
+            oneOf:
+            - $ref: "#/components/schemas/RequestedVerifier"
+            - $ref: "#/components/schemas/RequestedDmvVerifier"
+            - $ref: "#/components/schemas/RequestedLexisNexisVerifier"
+            - $ref: "#/components/schemas/RequestedMnoVerifier"
+          readOnly: true
+          uniqueItems: true
+        requestedMessages:
+          type: array
+          description: Set of messages to send for this verification. Each entry uses
+            the 'channel' discriminator field. Maximum 2.
+          example:
+          - channel: SMS
+            phoneNumber: "+12025551234"
+          - channel: EMAIL
+            emailAddress: user@example.com
+          items:
+            oneOf:
+            - $ref: "#/components/schemas/RequestedMessage"
+            - $ref: "#/components/schemas/RequestedCopyMessage"
+            - $ref: "#/components/schemas/RequestedEmailMessage"
+            - $ref: "#/components/schemas/RequestedSmsMessage"
+            - $ref: "#/components/schemas/RequestedTrustedSmsMessage"
+          maxItems: 2
+          minItems: 0
+          uniqueItems: true
+        status:
+          type: string
+          enum:
+          - WAITING
+          - SCANNED
+          - EXPIRED
+        closed:
+          type: boolean
+        expiredReviewAccess:
+          type: boolean
+        expiredLinkUrlAccess:
+          type: boolean
+        overallRisk:
+          type: string
+          enum:
+          - "NO"
+          - LOW
+          - HIGH
+          readOnly: true
+        workspaceLink:
+          type: string
+          format: uri
+        supportedVerifiers:
+          type: array
+          enum:
+          - DMV
+          - MNO_V
+          - SCAN
+          items:
+            type: string
+            enum:
+            - DMV
+            - NONE
+            - MNO_V
+            - SCAN
+            - LEXIS
+            - PASSKEY
+            - ESV
+          readOnly: true
+          uniqueItems: true
+        attachments:
+          type: array
+          items:
+            oneOf:
+            - $ref: "#/components/schemas/VerificationAttachment"
+            - $ref: "#/components/schemas/ServiceNowAttachment"
+            - $ref: "#/components/schemas/TicketNumberAttachment"
+            - $ref: "#/components/schemas/WorkspaceCallbackAttachment"
+        verifierChecks:
+          type: array
+          items:
+            $ref: "#/components/schemas/VerificationSummary"
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/VerificationMessage"
+        devices:
+          type: array
+          items:
+            $ref: "#/components/schemas/VerificationDevice"
+        riskScores:
+          type: array
+          items:
+            $ref: "#/components/schemas/RiskScore"
+        billable:
+          type: boolean
+          readOnly: true
+        billableAt:
+          type: string
+          format: date-time
+          readOnly: true
+        subject:
+          $ref: "#/components/schemas/VerificationSubject"
+          description: "Optional identity information about the subject of this verification,\
+            \ used by the ExpectedSubjectVerifier to compare against the scanned document."
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/VerificationHistory"
+      required:
+      - documentType
+    VerificationSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: bd30618f-06d3-45c5-ae52-c36751fc20b2
+          readOnly: true
+        lastName:
+          type: string
+          minLength: 1
+          readOnly: true
+        phoneNumber:
+          type:
+          - string
+          - "null"
+        documentType:
+          type: string
+          enum:
+          - US_CA_DL
+          - UK_DL
+          - PASSPORT
+          - INDIA_DL
+          - INDIA_ID
+          - INDIA_PAN
+          - PHILIPPINES_DL
+          - PHILIPPINES_ID
+          - PHILIPPINES_MULTI_ID
+          - US_MILITARY_ID
+          - US_VETERAN_ID
+          - SINGAPORE_DL
+          - SINGAPORE_ID
+          - SINGAPORE_WORK_PERMIT
+          - SINGAPORE_EMPLOYMENT_PASS
+          - PAKISTAN_ID
+          - AUSTRALIA_DL
+          - MEXICO_DL
+          - NETHERLANDS_DL
+          - US_PERMANENT_RESIDENT_CARD
+          - GERMANY_ID
+          - GERMANY_DL
+          - GERMANY_RESIDENCE_PERMIT
+          - AUSTRIA_ID
+          - AUSTRIA_DL
+          - AUSTRIA_RESIDENCE_PERMIT
+        documentNumberSuffix:
+          type: string
+          minLength: 1
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-01-01T00:00:00Z
+          readOnly: true
+        verifier:
+          type: string
+          enum:
+          - DMV
+          - MNO_V
+          - SCAN
+        verifierResult:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+          - FATAL
+          readOnly: true
+        phoneNumberSuffix:
+          type: string
+        phoneNumberCountryCode:
+          type: string
+        matches:
+          type: "null"
+          $ref: "#/components/schemas/Matches"
+          readOnly: true
+        externalId:
+          type:
+          - string
+          - "null"
+      required:
+      - documentNumberSuffix
+      - documentType
+      - lastName
+    WorkspaceCallbackAttachment:
+      allOf:
+      - $ref: "#/components/schemas/VerificationAttachment"
+      - type: object
+        properties:
+          urls:
+            type: array
+            items:
+              type: string
+              format: uri
+            minItems: 1
+            uniqueItems: true
+      required:
+      - attachmentType
+      - urls
+    CreateEncryptedVerificationDto:
+      type: object
+      properties:
+        documentType:
+          type: string
+          enum:
+          - US_CA_DL
+          - UK_DL
+          - PASSPORT
+          - INDIA_DL
+          - INDIA_ID
+          - INDIA_PAN
+          - PHILIPPINES_DL
+          - PHILIPPINES_ID
+          - PHILIPPINES_MULTI_ID
+          - US_MILITARY_ID
+          - US_VETERAN_ID
+          - SINGAPORE_DL
+          - SINGAPORE_ID
+          - SINGAPORE_WORK_PERMIT
+          - SINGAPORE_EMPLOYMENT_PASS
+          - PAKISTAN_ID
+          - AUSTRALIA_DL
+          - MEXICO_DL
+          - NETHERLANDS_DL
+          - US_PERMANENT_RESIDENT_CARD
+          - GERMANY_ID
+          - GERMANY_DL
+          - GERMANY_RESIDENCE_PERMIT
+          - AUSTRIA_ID
+          - AUSTRIA_DL
+          - AUSTRIA_RESIDENCE_PERMIT
+          example: US_CA_DL
+        callbackUrl:
+          type:
+          - string
+          - "null"
+          format: uri
+          example: https://example.com/callback/unique/to/this/request/8b62142a99ba759d8c9153b68765513c62180891
+        requestedVerifiers:
+          type: array
+          description: Set of verifiers to run against this verification. Each entry
+            uses the 'verifier' discriminator field.
+          example:
+          - verifier: DMV
+          - verifier: MNO_V
+            phoneNumber: "+12025551234"
+          items:
+            oneOf:
+            - $ref: "#/components/schemas/RequestedVerifier"
+            - $ref: "#/components/schemas/RequestedDmvVerifier"
+            - $ref: "#/components/schemas/RequestedLexisNexisVerifier"
+            - $ref: "#/components/schemas/RequestedMnoVerifier"
+          uniqueItems: true
+        subject:
+          type: "null"
+          $ref: "#/components/schemas/VerificationSubject"
+          description: "Optional identity information about the subject of this verification,\
+            \ used by the ExpectedSubjectVerifier to compare against the scanned document."
+        requestedMessages:
+          type: array
+          description: Set of messages to send for this verification. Each entry uses
+            the 'channel' discriminator field. Maximum 2.
+          example:
+          - channel: SMS
+            phoneNumber: "+12025551234"
+          - channel: EMAIL
+            emailAddress: user@example.com
+          items:
+            oneOf:
+            - $ref: "#/components/schemas/RequestedMessage"
+            - $ref: "#/components/schemas/RequestedCopyMessage"
+            - $ref: "#/components/schemas/RequestedEmailMessage"
+            - $ref: "#/components/schemas/RequestedSmsMessage"
+            - $ref: "#/components/schemas/RequestedTrustedSmsMessage"
+          maxItems: 2
+          minItems: 0
+          uniqueItems: true
+        status:
+          type:
+          - string
+          - "null"
+          enum:
+          - CREATED
+        publicWebKey:
+          type: object
+          additionalProperties: {}
+          description: "Public key used for encrypting the verification response.\
+            \ Must be one of RSA, EC or OKP (crv=X25519) type in JWK format."
+      required:
+      - documentType
+    EncryptedVerificationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: bd30618f-06d3-45c5-ae52-c36751fc20b2
+          readOnly: true
+        overallRisk:
+          type: string
+          enum:
+          - "NO"
+          - LOW
+          - HIGH
+          readOnly: true
+        encryptedVerification:
+          type: string
+          description: JWE Verification object
+          example: eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0...
+          readOnly: true
+    ScanResponse:
+      type: object
+      description: Parsed data from a scanned identity document.
+      properties:
+        documentNumber:
+          type: string
+          description: Driver license or ID card number.
+          example: D12345678
+        dateOfBirth:
+          type: string
+          description: Date of birth in MM/DD/YYYY format.
+          example: 03/15/1990
+        firstName:
+          type: string
+          description: First name as it appears on the document.
+          example: JANE
+        age:
+          type: string
+          description: Calculated age at time of scan.
+          example: "36"
+        lastName:
+          type: string
+          description: Last name as it appears on the document.
+          example: SMITH
+        middleName:
+          type: string
+          description: Middle name as it appears on the document.
+          example: MARIE
+        middleInitial:
+          type: string
+          description: Middle initial derived from the document.
+          example: M
+        issueDate:
+          type: string
+          description: Document issue date in MM/DD/YYYY format.
+          example: 06/01/2020
+        expiryDate:
+          type: string
+          description: Document expiration date in MM/DD/YYYY format.
+          example: 03/15/2028
+        documentType:
+          type: string
+          description: Human-readable type of the scanned document.
+          example: Driver License
+        sex:
+          type: string
+          description: Sex as it appears on the document.
+          example: Female
+        eyeColor:
+          type: string
+          description: Eye color as it appears on the document.
+          example: Brown
+        height:
+          type: string
+          description: Height in inches.
+          example: "64"
+        weight:
+          type: string
+          description: Weight in pounds.
+          example: "130"
+        address1:
+          type: string
+          description: Street address line 1.
+          example: 123 MAIN ST
+        address2:
+          type: string
+          description: Street address line 2.
+          example: APT 4B
+        city:
+          type: string
+          description: City name.
+          example: LOS ANGELES
+        state:
+          type: string
+          description: Two-letter state code.
+          example: CA
+        zipCode:
+          type: string
+          description: 5-digit ZIP code.
+          example: "90001"
+        zip4:
+          type: string
+          description: ZIP+4 extension.
+          example: "1234"
+        nationality:
+          type: string
+          description: Nationality from the document.
+          example: UNITED STATES OF AMERICA
+        iso3CountryCode:
+          type: string
+          description: ISO 3166-1 alpha-3 country code.
+          example: USA
+        iso2CountryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+          example: US
+        isoCountryName:
+          type: string
+          description: Full country name.
+          example: United States of America
+        issuingAuthority:
+          type: string
+          description: Authority that issued the document.
+          example: DVLA
+        placeOfBirth:
+          type: string
+          description: Place of birth from the document.
+          example: ANGOLA
+        verifiedMrz:
+          type: boolean
+          description: Whether the machine-readable zone (MRZ) was verified.
+          example: false
+        fullAddress:
+          type: string
+          description: "Concatenated full address derived from address1, address2,\
+            \ city, state, and zipCode."
+          example: "123 MAIN ST, LOS ANGELES, CA, 90001"
+        suffix:
+          type: string
+          description: "Name suffix from the document (e.g. Jr, Sr)."
+          example: JR
+        documentCategory:
+          type: string
+          description: "Document category code (e.g. DL, PERMIT, ID)."
+          example: DL
+        documentJurisdiction:
+          type: string
+          description: Two-letter state code of the issuing jurisdiction.
+          example: CA
+        phoneNumber:
+          type: string
+          description: "Phone number from the document, if available."
+        version:
+          type: string
+          description: Document scan version.
+          enum:
+          - Unknown
+          - V0
+          - V1
+          - V2
+    IdentityImage:
+      type: object
+      properties:
+        data:
+          type: string
+          description: Base64-encoded image data of the scanned document.
+        orientation:
+          type: integer
+          format: int32
+          description: Rotation angle in degrees to display the image correctly.
+          example: 0
+    EncryptedDocumentResponse:
+      type: object
+      properties:
+        verificationId:
+          type: string
+          format: uuid
+          description: The verification ID associated with this document
+          example: 10c9207a-1c3d-45fd-874f-a2af9c2d33d4
+          readOnly: true
+        encryptedDocument:
+          type: string
+          description: JWE document object
+          example: eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0...
+          readOnly: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

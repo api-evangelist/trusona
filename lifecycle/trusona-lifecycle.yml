@@ -1,0 +1,74 @@
+generated: '2026-09-01'
+method: searched
+source: https://status.trusona.com/, https://status.trusona.com/api/v2/summary.json,
+  openapi/ specs, https://github.com/trusona/atop-agent-skill
+versioning:
+  scheme: uri-path
+  current: v1
+  api_versions:
+  - api: Trusona ATO Protect Verification API
+    spec_version: 2.2.0
+    path_version: v1
+  - api: Trusona Driver License Verification API
+    spec_version: 1.0.0
+    path_version: v1
+  - api: Trusona ID Proofing API
+    spec_version: v2
+    path_version: v2
+  note: 'No published versioning POLICY — the version numbers are observable in the
+    specs and paths, but Trusona documents no rule for how a breaking change is
+    introduced or how long an old version is supported.'
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: 'No deprecation policy page, no Sunset/Deprecation header support (RFC 8594),
+    and no operation in either spec is marked `deprecated: true`. One FIELD-level
+    deprecation is documented, but only in Trusona''s own agent skill rather than in the
+    contract: `requestedVerifiers` on createVerification "is being deprecated — which
+    verifiers run is decided server-side, not by the request", and the skill blocks any
+    request carrying it. The OpenAPI still documents the field with no deprecation
+    marker, so a spec-driven client cannot see this. No Deprecation pointer is emitted.'
+  field_deprecations:
+  - field: requestedVerifiers
+    operation: createVerification
+    spec_marked: false
+    source: https://github.com/trusona/atop-agent-skill/blob/HEAD/SKILL.md
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment found on the site or the status page.
+status_page:
+  url: https://status.trusona.com/
+  platform: Atlassian Statuspage
+  machine_readable: https://status.trusona.com/api/v2/summary.json
+  history: https://status.trusona.com/history
+  page_id: rkbnpk2pr849
+  components_observed:
+  - name: Account Take over (ATO) Protect
+    status: operational
+    start_date: '2024-03-01'
+  - name: Authentication Cloud Portal
+    status: operational
+    start_date: '2023-02-17'
+  note: 'Verified live 2026-09-01; the Statuspage JSON API answers anonymously, so an
+    agent can read component health without scraping.'
+changelog:
+  url: null
+  note: 'No dated changelog or release-notes page. Probed /changelog and /release-notes
+    on www.trusona.com and /docs/changelog on authcloud.trusona.net — all 404. The only
+    dated drift signal Trusona publishes is openapi/FETCHED.md in the agent-skill repo,
+    which pins the spec versions and the date they were fetched (2026-06-04) and tells
+    integrators to re-fetch and diff.'
+deprecated_operations: []
+lifecycle_notes:
+  product_shift: 'Trusona''s developer surface has MOVED. The former docs host
+    docs.trusona.com now 301s EVERY path to the marketing page www.trusona.com/integrations
+    — verified 2026-09-01 against /apis/trusona-authentication-service/, /llms.txt and
+    /sitemap.xml, all of which land on the same page. The legacy passwordless
+    authentication platform those docs described (Trusona Authentication Service,
+    AuthCloud WebAuthn, TruCode) is superseded by ATO Protect identity verification, and
+    the SDK repositories for the old platform are archived. Anything citing
+    docs.trusona.com or developers.trusona.com is stale.'
+  sdk_drift: 'Every published client library predates the current APIs — newest registry
+    release @trusona/webauthn 1.6.5 (2024-08-21) — while the Verification API is 2.2.0 and
+    the agent skill was published 2026. See packages/trusona-packages.yml.'

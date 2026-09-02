@@ -1,0 +1,375 @@
+openapi: 3.1.0
+info:
+  title: Driver License Verification API
+  description: API for driver license verification against DMV and MNO databases.
+  contact:
+    name: API Support
+    url: https://trusona.com
+    email: support@trusona.com
+  version: 1.0.0
+  summary: "Base URL: https://authcloud.trusona.net"
+servers:
+- url: https://authcloud.trusona.net
+security:
+- bearerAuth: []
+paths:
+  /api/v1/id_verifications:
+    post:
+      tags:
+      - ID Verifications
+      summary: Initiate driver license verification against DMV and MNO databases
+      description: Starts an asynchronous verification process. Results will be sent
+        to the provided callback URL when complete.
+      operationId: createIdVerification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdVerificationRequest"
+        required: true
+      responses:
+        "201":
+          description: Verification request created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Created"
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "422":
+          description: Unprocessable entity — transactionId is not unique
+        "500":
+          description: Internal server error
+  /api/v1/id_verifications/{verificationId}:
+    get:
+      tags:
+      - ID Verifications
+      summary: Get driver license verification results
+      description: Retrieve the results of a previously initiated verification request.
+      operationId: getIdVerification
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Verification results retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/IdVerificationResponse"
+        "404":
+          description: Verification not found
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    DmvIdVerifier:
+      type: object
+      properties:
+        documentCountry:
+          type: string
+          description: The country that issued the document. Currently only 'US' is
+            supported.
+          example: US
+          minLength: 1
+          pattern: ^US$
+        documentCategory:
+          type: string
+          description: A coded categorization of a state document issued by a jurisdiction.
+          example: DL
+          minLength: 1
+          pattern: ^(DL|PERMIT|ID)$
+        documentJurisdiction:
+          type: string
+          description: An identifier of the jurisdiction which issues a person's driving
+            privileges. Two letter state code.
+          example: CA
+          minLength: 1
+          pattern: "^[A-Z]{2}$"
+        documentNumber:
+          type: string
+          description: An identifier of the License or Card (aka Driver License Number).
+            Matching is not case sensitive.
+          example: D12345678
+          minLength: 1
+        expiryDate:
+          type:
+          - string
+          - "null"
+          description: A date a credential expires in the format of YYYY-MM-DD.
+          example: 2025-01-15
+        issueDate:
+          type:
+          - string
+          - "null"
+          description: A date a credential was issued in the format of YYYY-MM-DD.
+          example: 2020-01-15
+        eyeColor:
+          type:
+          - string
+          - "null"
+          description: A code identifying the eye color of a person. From the ANSI
+            D20 standard.
+          example: BRO
+          pattern: ^(BLK|BLU|BRO|DIC|GRY|GRN|HAZ|MAR|PNK)$
+        height:
+          type:
+          - string
+          - "null"
+          description: A measurement of a person's height in feet-inches. e.g. 5 foot
+            10 inches = '510'
+          example: "510"
+          pattern: "^\\d{3}$"
+        weight:
+          type:
+          - string
+          - "null"
+          description: A measurement of a person's weight in pounds. e.g. 195 pounds
+            = '195'
+          example: "180"
+          pattern: "^\\d{3}$"
+        sex:
+          type:
+          - string
+          - "null"
+          description: "A code identifying the sex of a person. M = Male, F = Female"
+          example: M
+          pattern: "^([MF])$"
+      required:
+      - documentCategory
+      - documentCountry
+      - documentJurisdiction
+      - documentNumber
+    IdVerificationRequest:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          format: uuid
+          description: A UUID to use for tracking this request. It must be unique
+            for each request.
+          example: bd30618f-06d3-45c5-ae52-c36751fc20b2
+        callbackUrl:
+          type:
+          - string
+          - "null"
+          format: uri
+          description: URL where verification results will be sent upon completion
+          example: https://example.com/webhooks/id-verification
+        verifiers:
+          $ref: "#/components/schemas/IdVerifiers"
+        firstName:
+          type:
+          - string
+          - "null"
+          description: A person's first name
+          example: JOHN
+        middleName:
+          type:
+          - string
+          - "null"
+          description: A person's middle name
+          example: MICHAEL
+        lastName:
+          type:
+          - string
+          - "null"
+          description: A person's last name
+          example: DOE
+        suffix:
+          type:
+          - string
+          - "null"
+          description: A term appended after the family name that qualifies the name.
+            (e.g. 'Jr')
+          example: JR
+        dateOfBirth:
+          type: string
+          description: A person's date of birth in the format of YYYY-MM-DD
+          example: 1985-03-22
+          minLength: 1
+        address1:
+          type:
+          - string
+          - "null"
+          description: A person's street address 1
+          example: 123 MAIN ST
+        address2:
+          type:
+          - string
+          - "null"
+          description: A person's street address 2
+          example: APT 4B
+        city:
+          type:
+          - string
+          - "null"
+          description: A name of a city or town.
+          example: LOS ANGELES
+        state:
+          type:
+          - string
+          - "null"
+          description: "A state, commonwealth, province, or other such geopolitical\
+            \ subdivision of a country."
+          example: CA
+          pattern: "^[A-Z]{2}$"
+        zipCode:
+          type:
+          - string
+          - "null"
+          description: An identifier of a post office-assigned zone for an address.
+          example: "90210"
+          pattern: "^\\d{5}$"
+        zip4:
+          type:
+          - string
+          - "null"
+          description: The ZIP+4 extension of the postal code.
+          example: "1234"
+          pattern: "^\\d{4}$"
+      required:
+      - dateOfBirth
+      - transactionId
+      - verifiers
+    IdVerifiers:
+      type: object
+      properties:
+        dmv:
+          $ref: "#/components/schemas/DmvIdVerifier"
+          writeOnly: true
+        mno:
+          $ref: "#/components/schemas/MnoIdVerifier"
+          writeOnly: true
+    MnoIdVerifier:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+          description: "A phone number for mobile network operator verification. Must\
+            \ be in one of the countries the tenant has enabled for MNO, which default\
+            \ to the USA (+1), Canada (+1) and the UK (+44). Dashes, spaces, dots\
+            \ and parentheses are accepted, as is a missing country code; the number\
+            \ is stored and returned in E.164 form."
+          example: "+12025551234"
+    Created:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+    IdVerificationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the verification request.
+          example: bd30618f-06d3-45c5-ae52-c36751fc20b2
+          readOnly: true
+        dmvMatches:
+          type:
+          - object
+          - "null"
+          additionalProperties:
+            type: boolean
+          description: "DMV verification match results from AAMVA. Each key is a field\
+            \ that was compared against DMV records, and the boolean value indicates\
+            \ whether that field matched. Possible keys: firstName, lastName, middleName,\
+            \ middleInitial, dateOfBirth, documentNumber, issueDate, expiryDate, eyeColor,\
+            \ sex, address1, address2, city, state, zipCode, zip4, height, weight,\
+            \ documentType. Only fields that were submitted and compared will appear."
+          example:
+            firstName: true
+            lastName: true
+            middleName: true
+            dateOfBirth: true
+            documentNumber: true
+            issueDate: true
+            expiryDate: false
+            eyeColor: true
+            sex: true
+            address1: true
+            city: true
+            state: true
+            zipCode: true
+          readOnly: true
+        dmvStatus:
+          type:
+          - string
+          - "null"
+          description: "Status of the DMV verification. Possible values: PENDING,\
+            \ SUCCESS, FAILURE, FATAL."
+          enum:
+          - PENDING
+          - SUCCESS
+          - FAILURE
+          - FATAL
+          example: SUCCESS
+          readOnly: true
+        mnoMatches:
+          type:
+          - object
+          - "null"
+          additionalProperties:
+            type: boolean
+          description: "MNO (mobile network operator) verification match results.\
+            \ Each key is a field that was compared against the mobile carrier's records,\
+            \ and the boolean value indicates whether that field matched. Possible\
+            \ keys: firstName, lastName, dateOfBirth, phoneNumber, address1, address2,\
+            \ city, state, zipCode, country, phoneSim. Only fields that were submitted\
+            \ and compared will appear."
+          example:
+            firstName: true
+            lastName: true
+            dateOfBirth: true
+            phoneNumber: true
+            address1: true
+            city: true
+            state: true
+            zipCode: true
+          readOnly: true
+        mnoStatus:
+          type:
+          - string
+          - "null"
+          description: "Status of the MNO verification. Possible values: PENDING,\
+            \ SUCCESS, FAILURE, FATAL."
+          enum:
+          - PENDING
+          - SUCCESS
+          - FAILURE
+          - FATAL
+          example: SUCCESS
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the verification request was created.
+          example: 2022-01-01T00:00:00Z
+          readOnly: true
+        completedAt:
+          type:
+          - string
+          - "null"
+          format: date-time
+          description: Timestamp when all requested verifications completed. Null
+            while verification is still in progress.
+          example: 2022-01-01T00:00:05Z
+          readOnly: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

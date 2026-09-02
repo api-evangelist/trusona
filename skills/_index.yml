@@ -1,0 +1,37 @@
+generated: '2026-09-01'
+method: searched
+source: https://github.com/trusona/atop-agent-skill
+note: 'PROVIDER-PUBLISHED, saved verbatim. Trusona ships its own Agent Skill for the ATO
+  Protect APIs under Apache-2.0 (Copyright 2026 Trusona, Inc.) and links it from
+  https://www.trusona.com/atop-agent. Nothing here was authored by API Evangelist. The
+  upstream repository also carries runnable bash scripts, per-API reference markdown,
+  example request bodies and pinned copies of both OpenAPI documents; only SKILL.md is
+  mirrored here.'
+skills:
+- file: trusona-atop-api.md
+  name: atop-api
+  description: 'Exercise the Trusona Account Takeover Protect (ATOP) identity-verification
+    APIs — create and poll verifications, run DMV/MNO driver-license ID matches, pull
+    scanned documents and risk scores.'
+  api: openapi/trusona-verification-api-openapi.yml
+  apis:
+  - openapi/trusona-verification-api-openapi.yml
+  - openapi/trusona-driver-license-verification-api-openapi.yml
+  operations:
+  - createVerification
+  - getVerification
+  - getVerifications
+  - createMessage
+  - getDocument
+  - getScannedImages
+  - getRiskScores
+  - createIdVerification
+  - getIdVerification
+  license: Apache-2.0
+  upstream: https://github.com/trusona/atop-agent-skill
+  published_by: Trusona, Inc.
+  landing_page: https://www.trusona.com/atop-agent
+  install: git clone https://github.com/trusona/atop-agent-skill.git ~/.claude/skills/atop-api
+  runtime: 'bash, curl, jq — portable across agent platforms; not an MCP server.'
+  auth: 'Bearer JWT via the ATOP_TOKEN environment variable; ATOP_BASE_URL defaults to
+    https://authcloud.trusona.net'

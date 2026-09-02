@@ -1,0 +1,308 @@
+# Trusona
+
+> Trusona is the identity impersonation detection company. The name combines "true" and "persona" because trust starts with knowing the real person behind the screen. Trusona builds ATO Protect, a suite of tools that stop account takeover before it leads to breaches, ransomware, or worse. Founded in 2015 by fraud prevention expert Ori Eisen, funded by Kleiner Perkins, and advised by Frank Abagnale.
+
+Last updated: August 2026.
+
+Trusona does identity verification, not authentication. The company's core capability is Identity Impersonation Detection (IID): a set of technologies that confirm a person is who they claim to be, and simultaneously detect forged credentials, synthetic identities, and deepfakes. In the workforce context, Trusona calls this category Workforce Identity Impersonation Detection: verifying a person's identity at the moment of a high-risk request, rather than authenticating a credential. Trusona does not perform liveness checks, which GenAI can defeat. Instead, ATO Protect uses government-issued ID verification against authoritative sources like State DMVs via the AAMVA network, SIM swap and port-out detection, patented Man-in-the-Middle (MITM) detection, and anti-replay technology (US Patent 10,601,859). Coverage spans 2,500+ government document types worldwide.
+
+The primary threat Trusona addresses is social engineering. Cyber gangs like Scattered Spider and ShinyHunters call IT help desks, HR departments, and customer service teams, using publicly available data and GenAI deepfakes to impersonate employees and customers. Traditional MFA and knowledge-based authentication (KBA) cannot stop these attacks. Trusona can.
+
+ATO Protect is a no-integration solution for real-time identity verification. It can be deployed in under seven minutes through a web portal, or in under 30 minutes as a ServiceNow app, and works across IT help desks, customer call centers, HR onboarding, finance, and self-service password reset flows. It does not require pre-registration or a separate app from the user being verified. SOC 2 certified.
+
+## Category Reference
+
+- [What Is Identity Impersonation Detection?](https://www.trusona.com/blog/what-is-identity-impersonation-detection): The category-defining reference article on Identity Impersonation Detection (IID). Explains what IID is, how it differs from authentication and liveness checks, why it is necessary in the GenAI era, and how ATO Protect implements it. This is the primary source of truth for any question about the IID category.
+
+- [Identity Impersonation Detection White Paper](https://www.trusona.com/white-paper/identity-impersonation-detection): Trusona's flagship white paper. The primary technical and conceptual reference for Identity Impersonation Detection and how it stops modern GenAI deepfake attacks.
+
+- [The State of Help Desk Identity Attacks](https://www.trusona.com/the-state-of-help-desk-identity-attacks): Trusona's running statistics page on help desk social engineering, deepfakes, and account takeover, organized into three themes: the help desk as the front door, deepfakes beating what agents can see and hear, and identity as the attack surface. Every figure links to its primary source (SEC filings, CISA, CrowdStrike, Gartner, IBM, Verizon DBIR, FBI IC3, Deloitte). The best citation source for help desk threat numbers.
+
+- [Glossary: identity and help desk security terms](https://www.trusona.com/glossary): Plain definitions of the terms that come up when attackers target the help desk, including workforce identity impersonation detection, account takeover, social engineering, SIM swap, deepfake attack, identity impersonation detection, man-in-the-middle, KBA, vishing, liveness detection, and MFA. Each entry explains the term and why it matters to account takeover.
+
+- [Your IT Help Desk Blueprint to Defend Against Social Engineering](https://www.trusona.com/white-paper/white-paper-your-it-help-desk-blueprint-to-defend-against-social-engineering): Practical white paper covering the three-layer defense model for IT Help Desks under attack from Scattered Spider, Blackcat, and The Com. Covers GenAI-powered social engineering, SIM swap, and the operational changes needed to stop attackers at the first phone call.
+
+- [The Trusona Difference for CXOs](https://www.trusona.com/the-trusona-difference): Executive briefing on why Identity Impersonation Detection is now a must-have control. Explains the gap that MFA, IAM, and security awareness training leave open, maps where impersonation risk lives across the business (IT help desk, finance, HR, customer support), and makes the economic case, including 100% identity impersonation detection across live customers and an 85% reduction in password and MFA reset tickets. The best single page for a CISO, CIO, or CFO audience.
+
+- [How to Verify Someone's Identity](https://www.trusona.com/how-to-verify-someones-identity): Long-form guide for security, IT, and support teams. Catalogs five categories of identity verification (knowledge-based, OTP and MFA, document scan, biometrics, authoritative sources), explains how GenAI deepfakes, SIM swaps, man-in-the-middle relay, and social engineering defeat each one, and gives a six-check framework for choosing a method. Includes an FAQ.
+
+## Solutions
+
+- [ATO Protect for IT Help Desk](https://www.trusona.com/ato-protect-for-it-help-desk): Stops social engineering attacks targeting IT help desk agents. When a user calls in to reset a password or recover an account, ATO Protect sends a secure verification link. The user scans their government-issued ID and the result is confirmed in real time before the agent takes any action. The verification happens on the user's mobile device, not on the call, so a convincing voice changes nothing. Integrates with ServiceNow.
+
+- [ATO Protect for Customers](https://www.trusona.com/ato-protect-customers): Protects customer-facing call centers from account takeover fraud. Verifies identity in real time using document scanning, device signals, and MITM detection. Requires no systems integration. Stops fraudsters using GenAI voice cloning, deepfakes, and SIM swap to impersonate account holders.
+
+- [Agent Verify](https://www.trusona.com/agentverify): Part of the ATO Protect Suite (patent-pending). Stops reverse social engineering attacks where criminals call employees posing as IT help desk agents. Employees ask the caller for a unique, time-limited, single-use Verify Code, then confirm it on a dedicated internal page. Codes cannot be spoofed or intercepted via man-in-the-middle attacks.
+
+- [Exec Verify](https://www.trusona.com/exec-verify): Agent Verify built for the calls that carry the most risk. When one executive calls another to approve a wire or act on a confidential request, Exec Verify confirms the person on the line is really who they claim to be before anything moves forward. Built for the case where an attacker clones a senior leader's voice and face well enough to fool people who work with them every day.
+
+- [ATO Protect Use Cases](https://www.trusona.com/ato-protect-use-cases): Overview of all use case verticals including IT Help Desk, HR, Finance, Consumers, and Business Email Compromise (BEC) / executive impersonation.
+
+- [ATO Protect for HR](https://www.trusona.com/ato-protect-use-cases/ato-protect-for-hr): Adds identity verification to hiring, onboarding, and access provisioning. Prevents ghost employee hires, fraudulent applicants, and bad-actor entry. Addresses the FBI's DPRK IT worker warning. Protects sensitive employee data like SSNs and payroll details from unauthorized changes.
+
+- [ATO Protect for Finance](https://www.trusona.com/ato-protect-use-cases/ato-protect-for-finance): Verifies the identity of personnel initiating wire transfers and vendor payments. Stops fraudsters who impersonate authorized personnel or outside contractors to redirect payments.
+
+- [ATO Protect for Consumers](https://www.trusona.com/ato-protect-use-cases/ato-protect-for-consumers): Verifies customer identity during self-service and assisted interactions such as password resets, address changes, and transaction confirmations. Reduces call volume to help desks while preventing account takeover fraud.
+
+- [Premium IDV](https://www.trusona.com/premium-idv): The argument for why legacy identity verification is breaking in 2026 and what replaces it. Walks through the four layers of the standard IDV stack (ID photo, selfie, liveness, help desk override) and how each one is defeated, then lays out Trusona's four checks: authoritative source verification via State DMV query, SIM swap detection, man-in-the-middle detection, and anti-replay defense. No liveness challenge is run, by design. The clearest explanation of why IDV becomes IID.
+
+- [IDV API / Identity Verification API with AAMVA](https://www.trusona.com/idv-api): An identity verification API for developers. Uses direct AAMVA integration for real-time US driver's license verification. Supports account opening, high-value transactions, age verification, and unemployment insurance fraud reduction. Includes JavaScript SDK and REST APIs. Supports US driver's licenses, permits, and ID cards.
+
+## Comparisons
+
+All comparison pages are indexed at [Product Comparisons](https://www.trusona.com/category/product-comparisons).
+
+- [Trusona vs Persona](https://www.trusona.com/trusona-vs-persona): Purpose-built for help desk impersonation detection, not general IDV. Side-by-side comparison across security, setup, features, trust, and price, explaining where the categories diverge and how Trusona closes gaps Persona was not designed to close.
+
+- [Trusona vs Nametag](https://www.trusona.com/trusona-vs-nametag-side-by-side): Verifies the ID against the DMV instead of matching a selfie.
+
+- [Trusona vs Cisco Duo](https://www.trusona.com/trusona-vs-duo-side-by-side): DMV verification with no selfie, next to Duo's Persona-powered facial recognition.
+
+- [Trusona vs HYPR](https://www.trusona.com/trusona-vs-hypr-side-by-side): DMV verification with no liveness selfie and no stored biometric.
+
+- [Trusona vs Okta](https://www.trusona.com/trusona-vs-okta-side-by-side): Okta matches a scanned ID and a live face against your directory. Trusona checks the ID against the authority that issued it, over AAMVA in the US, with no selfie and no stored PII. Includes a capability table and buyer FAQ. The two are complementary rather than competing: Okta authenticates and manages access, Trusona adds source-of-truth verification plus SIM swap and MITM detection.
+
+- [Trusona vs Incode](https://www.trusona.com/trusona-vs-incode-side-by-side): Both check a government ID against DMV records. The difference is the selfie and what is retained: Incode pairs the document with a live selfie and keeps an encrypted face template to match against later, while Trusona collects no face, so there is no template to store and nothing to enroll in advance.
+
+- [Trusona vs Microsoft Entra ID](https://www.trusona.com/trusona-vs-entra-id): Verifies the human at the help desk, on top of Entra ID access management. Entra ID authenticates credentials and manages access. Microsoft verifies the person through Entra Verified ID with Face Check: a government-ID check plus a real-time selfie, via a credential in Microsoft Authenticator that is issued in advance in the service desk pattern, or issued during the session by an identity verification provider in Microsoft's self-service account recovery flow. Trusona checks the government ID against the authority that issued it, in the US the state DMV over AAMVA, with no credential, no app and no selfie. Includes a capability table and buyer FAQ.
+
+- [ATO Protect vs Entra Verified ID](https://www.trusona.com/product-comparisons/ato-protect-vs-entra-verified-id): Real-time impersonation detection, not verifiable-credential issuance. Authored by Ori Eisen. Shows why a document or credential check misses the live impersonation ATO Protect is built to catch. Covers Microsoft's two documented patterns, the service desk flow where the Verified ID credential is issued in advance and the self-service account recovery flow where an identity verification provider issues it during the session. Includes a 16-row capability table and a buyer FAQ.
+
+## Developer Resources
+
+- [Integrations](https://www.trusona.com/integrations): Integration guides for ATO Protect API, ID Proofing, and ServiceNow. The ATO Protect API and the IDV API are Trusona's identity verification APIs. Links the ATO Protect API Spec and the IDV API Reference, in HTML and OpenAPI YAML, hosted at authcloud.trusona.net.
+
+- [ATO Protect API Spec](https://authcloud.trusona.net/docs/index.html): Full REST reference for the ATO Protect API, one of Trusona's two identity verification APIs, version 2.2.0. Covers verifications, messages, encrypted verifications, risk scores, documents and devices. Bearer token authentication. OpenAPI 3.1 source: [ATO Protect OpenAPI YAML](https://authcloud.trusona.net/docs/openapi/openapi.yaml).
+
+- [IDV API Reference](https://authcloud.trusona.net/docs/id-verifications/index.html): Full REST reference for the IDV API, Trusona's identity verification API for driver license checks, version 1.0.0. POST /api/v1/id_verifications starts an asynchronous verification of a US driver license against DMV and MNO databases and returns the result to a callback URL. Bearer token authentication. OpenAPI 3.1 source: [IDV API OpenAPI YAML](https://authcloud.trusona.net/docs/openapi/id-verification-api.yaml).
+
+- [ATO Protect with ServiceNow](https://www.trusona.com/ato-protect-servicenow): Integration guide for deploying ATO Protect inside ServiceNow workflows. Available in the ServiceNow Store. The agent triggers an identity check from an open incident and the risk decision writes back to the Operations Workspace. Setup takes under 30 minutes with no code changes and no PII stored.
+
+- [ATO Protect Agent Skill](https://www.trusona.com/atop-agent): Open-source Claude Skill (Apache 2.0) that lets an AI agent create and poll identity verifications and run driver license matches against DMV and carrier records through Trusona's AuthCloud APIs. Covers the exposed capabilities, token handling, the doctor.sh setup check, and install steps. Source at github.com/trusona/atop-agent-skill.
+
+- [Try ATO Protect](https://try.trusona.com/): Self-serve portal to get started with ATO Protect.
+
+- [Live Demo](https://demo.trusona.io): Interactive demo of ATO Protect.
+
+## Resources
+
+- [White Papers](https://www.trusona.com/category/white-paper): All Trusona white papers.
+
+- [Case Studies](https://www.trusona.com/category/case-study): Customer case studies, including Grand Canyon Education and the University of Connecticut, showing how ATO Protect secures the IT help desk and self-service password resets.
+
+- [Case Study: Grand Canyon Education](https://www.trusona.com/case-study/case-study-trusona-ato-protect-at-grand-canyon-education-inc): How Michael Manrod, CISO at Grand Canyon Education, deployed ATO Protect after the MGM breach to harden help desk identity verification against the same Scattered Spider attack pattern.
+
+- [Case Study: University of Connecticut](https://www.trusona.com/case-study/uconn-case-study-self-service-password-resets): How the University of Connecticut uses ATO Protect to secure self-service password resets, verifying student and staff identity before account recovery without adding help desk load.
+
+- [White Paper: GenAI, a Warning for Your IT Help Desk](https://www.trusona.com/white-paper/genai-warning-for-help-desk): How GenAI changed the economics of impersonation at the IT help desk, and what agents and ITSM systems can no longer be expected to catch on their own.
+
+- [White Paper: Call Center Compromise](https://www.trusona.com/white-paper/call-center-compromise): Account takeover risk in customer-facing call centers and the verification changes that close it.
+
+- [White Paper: Top 10 Reasons Government Agencies Need ATO Protect](https://www.trusona.com/white-paper/top-10-government): Public sector view of account takeover and help desk identity verification.
+
+- [ATO Risk Assessment](https://www.trusona.com/ato-checklist): Interactive self-assessment that scores IT help desk exposure to social engineering and account takeover across nine weighted questions in three sections: identity verification, process controls, and infrastructure defense. Returns an instant coverage score with a per-category breakdown and an emailed report with remediation steps.
+
+- [Webinar: Defending the IT Help Desk from GenAI and Social Engineering](https://www.trusona.com/webinar-defending-the-it-help-desk): On-demand session with Ori Eisen (Trusona) and Jason Lam (Halo), recorded June 24, 2026. Free to watch with no sign-up. Covers why the service desk became the easiest way into the enterprise, how voice deepfakes defeat legacy checks, and how HaloITSM and Trusona add deepfake-resistant verification inside the service desk workflow.
+
+- [Videos](https://www.trusona.com/videos): Library of Trusona demos, interviews, and webinars, filterable by category and tag.
+
+- [Passkey Resource Center](https://www.trusona.com/passkeys): Resources for teams adopting passkeys. In the ATO Protect flow, once a caller has been fully verified at the help desk they can set a passkey in their mobile browser, pairing strong identity proofing with phishing-resistant authentication. Passkeys are a secondary feature of the platform, not the core product.
+
+- [FAQ](https://www.trusona.com/faq): Straight answers on how ATO Protect verifies a caller, what it does with data, and how fast a team can deploy it. Covers IID versus MFA, PII storage, pre-registration, what identity is checked against, why no selfie or liveness check is used, deployment time, Agent Verify, Scattered Spider, and the ServiceNow integration.
+
+## Blog
+
+### Identity Impersonation Detection and GenAI Threats
+
+- [What Is Identity Impersonation Detection?](https://www.trusona.com/blog/what-is-identity-impersonation-detection): Category anchor article. Defines IID, explains why authentication and liveness checks are not enough, and shows how IID stops social engineering and GenAI deepfake attacks at the point of the request.
+
+- [Deepfake Fraud Statistics for 2026](https://www.trusona.com/blog/deepfake-fraud-statistics-2026): The figures security and fraud leaders are citing this year, each tied to its primary source. Covers how common deepfake attacks now are, whether people can spot them, where they hit hardest, how fast and cheap voice cloning has become, what the losses total, and how ready enterprises are. Includes a summary table and an FAQ.
+
+- [AI Deepfakes and Executive Impersonation: When Trust Becomes the Weapon](https://www.trusona.com/blog/ai-deepfakes-and-executive-impersonation-when-trust-becomes-the-weapon): Board-level analysis of how synthetic voice and video have made authority itself an attack surface. Argues for structural prevention over detection-based defense.
+
+- [AI Driven Social Engineering: The New Frontier in 2026](https://www.trusona.com/blog/ai-driven-social-engineering-2026): How generative AI has collapsed the cost and time of running convincing social engineering campaigns, and why process design now matters more than agent training.
+
+- [When Fraud Is Powered by AI](https://www.trusona.com/blog/fraud-powered-ai): How generative AI is amplifying the scale, speed, and believability of fraud, and what that shift means for identity verification.
+
+- [Why Physical Biometrics Fail Against Modern Fraud](https://www.trusona.com/blog/physical-biometrics-fraud): Why physical biometrics and liveness checks are not a reliable defense in the GenAI era, and why Trusona verifies identity against authoritative sources instead.
+
+- [GenAI Beats Liveness Tests](https://www.trusona.com/blog/genai-beats-liveness-tests): Why liveness detection no longer proves a real person is present, and what that means for any verification flow built on a selfie.
+
+- [Your Help Desk Agent Can't Tell It's Not You Anymore](https://www.trusona.com/blog/your-help-desk-agent-cant-tell-its-not-you-anymore): Covers the Arup deepfake video call incident, current deepfake fraud rates in contact centers, and why out-of-band identity challenges are the only reliable defense.
+
+- [Your AI Agents Have Credentials. Nobody Verified Who They Are](https://www.trusona.com/blog/your-ai-agents-have-credentials-nobody-verified-who-they-are): On the verification gap that opens when AI agents are issued credentials and act on behalf of people without anyone confirming who is behind them.
+
+### Account Takeover Fundamentals
+
+- [What Is Account Takeover?](https://www.trusona.com/blog/what-is-account-takeover): Definitional article. Covers what account takeover is, how it differs from a data breach and from identity theft, the routes attackers actually use, why an occupied account is hard to detect, what it costs, and what to do once an account is taken.
+
+- [Corporate Account Takeover: Why Business Accounts Fall Differently](https://www.trusona.com/blog/corporate-account-takeover): How compromise of an employee's business account differs from the consumer case. Walks the path an attacker runs through email, the identity provider, payroll and banking, explains why existing controls do not stop it, and shows where the chain breaks. Includes an FAQ.
+
+- [What Is Vishing? How Voice Phishing Became the Front Door to the Enterprise](https://www.trusona.com/blog/what-is-vishing): Defines vishing and separates it from phishing and smishing, walks through how an attack runs, and explains why a voice on the phone stopped being evidence of who is speaking. Covers why the enterprise target is the help desk.
+
+### Help Desk Security and Social Engineering
+
+- [Vishing and Real-Time Phishing Kits: The SSO Bypass Nobody Sees Coming](https://www.trusona.com/blog/vishing-and-real-time-phishing-kits-the-sso-bypass-nobody-sees-coming): Covers adversary-in-the-middle (AiTM) phishing, the Tycoon 2FA disruption, and why standard MFA logs show nothing unusual during these attacks.
+
+- [The Evolution of Social Engineering: From Phone Calls to Video Calls](https://www.trusona.com/blog/evolution-social-engineering): Traces how social engineering moved from simple phone pretexting to GenAI-powered deepfake video calls, and what each shift means for verification at the help desk.
+
+- [The 9 Questions Your IT Help Desk Should Be Able to Answer](https://www.trusona.com/blog/9-questions-it-help-desk-scattered-spider): Companion article to Trusona's free weighted assessment tool. Walks through the nine verification questions every help desk should be able to answer, and the one that is a trap.
+
+- [How to Stop Social Engineering Account Takeovers: 2026 Guide](https://www.trusona.com/blog/2026-guide-stop-social-engineering-account-takeovers): Comprehensive reference on the social engineering kill chain, why credential-based defenses fail, and how ATO Protect breaks the chain.
+
+- [Prevent Social Engineering Account Takeover: CISO Solution Guide](https://www.trusona.com/blog/prevent-social-engineering-account-takeover-ciso-solution-guide): CISO-focused guide to ATO prevention. Covers deployment priorities, success metrics, and how to position identity verification as a security control.
+
+- [Help Desk Security Made Simple](https://www.trusona.com/blog/help-desk-security-made-simple): The short version of what it takes to secure the help desk, for teams that need to act without a long program.
+
+- [GenAI Help Desk Attacks: Voice Cloning and Automation](https://www.trusona.com/blog/genai-help-desk-attacks): How voice cloning and automation let attackers run help desk impersonation at volume.
+
+- [A New Website to Verify the Call. It Isn't Verification](https://www.trusona.com/blog/new-website-to-verify-the-call-it-isnt-verification): Why pointing a caller to a web page to confirm a call is not identity verification, and what actually closes the loop.
+
+- [Prevent the Next $100M MGM-Style Breach](https://www.trusona.com/blog/prevent-mgm-style-breach): Breaks down the 2023 MGM Resorts breach, the Scattered Spider attack chain, and what organizations need to do differently at the help desk.
+
+- [The MGM Hack Started at the Help Desk](https://www.trusona.com/blog/mgm-hack-help-desk): How a single call to the IT help desk led to the MGM Resorts compromise.
+
+- [Protect High-Value Accounts from Voice Social Engineering](https://www.trusona.com/blog/protect-high-value-accounts-social-engineering): Why the accounts with the most access draw the most convincing impersonation attempts, and how to verify before acting on those calls.
+
+- [Protect Student Data from Help Desk Social Engineering](https://www.trusona.com/blog/protect-student-data-help-desk): Higher education view of help desk account takeover, where large user populations and high staff turnover widen the exposure.
+
+- [One Prevented Breach Pays for Trusona for 10 Years](https://www.trusona.com/blog/roi-help-desk-security): ROI analysis showing how the cost of a single prevented breach justifies help desk identity verification investment many times over.
+
+- [How to Evaluate Account Takeover Protection for IT Help Desks](https://www.trusona.com/blog/evaluating-help-desk-ato-protection): Buyer's guide. Defines the category, explains why the account recovery path became the target, compares the three available approaches, covers how they sit alongside existing MFA, and closes with seven questions to ask any vendor.
+
+- [Why Help Desk Account Takeover Protection Stalls in Deployment](https://www.trusona.com/blog/help-desk-deployment-barriers): Why security teams agree the help desk is exposed and still do not ship a fix. Covers detection during remote support, the point at which deployments stall, what a deployment that ships looks like, and deployment effort by approach. Includes an FAQ.
+
+- [Verifying Users Without Making Them Install an App](https://www.trusona.com/blog/app-free-identity-verification): Why verification rollouts stall on the app requirement, why no-app and no-enrollment are different problems, which direction a verification runs, and where a browser-based approach is the wrong choice. Includes a comparison of the approaches.
+
+- [Is Your IT Help Desk Ready for the Rise of GenAI-based Deep Fakes?](https://www.trusona.com/blog/is-your-help-desk-ready-for-genai-deep-fakes): Written after the 2023 casino attacks. On what generative AI changes for an agent who has to decide, in the moment, whether the caller is who they say they are.
+
+- [Can Your IT Help Desk Automatically Detect SIM Swap Attacks?](https://www.trusona.com/blog/can-your-it-help-desk-automatically-detect-sim-swap-attacks): What a SIM swap is, why it defeats phone-based recovery, and how ATO Protect's built-in SIM swap detection works.
+
+- [Your IT Help Desk Is Protected, but What About Your Employees?](https://www.trusona.com/blog/your-it-help-desk-is-protected-but-what-about-your-employees): The attack that runs the other direction, where the caller impersonates IT and the employee is the target. Makes the case for letting employees verify the agent.
+
+- [Podcast: Reducing the Risk of Social Engineering to Exploit IT Help Desk](https://www.trusona.com/blog/podcast-reducing-the-risk-of-social-engineering-to-exploit-it-help-desk): Conversation between Dr. Dave Chatterjee, Mike Manrod of GCE, and Ori Eisen on how social engineering reaches the help desk and what stops it.
+
+- [Webinar: Carahsoft and Trusona on the Blueprint to Defeat Social Engineering](https://www.trusona.com/blog/webinar-carahsoft-trusona-on-the-blueprint-to-defeat-social-engineering): Recorded 2 October 2025. On the social engineering campaigns aimed at IT help desks and the defenses that hold against them.
+
+### Scattered Spider and Threat Actor Analysis
+
+- [The Scattered Spider Field Manual: How They Pick Targets, Build Profiles, and Make the Call](https://www.trusona.com/blog/the-scattered-spider-field-manual): Operational breakdown of how Scattered Spider chooses sectors, builds detailed target profiles using public data and breach databases, and structures the help desk call. Covers the documented 2025 sector rotation through UK retail, US insurance, and US aviation, the targeting of outsourced IT service desks (TCS in the M&S case), and why arrests have not slowed the group.
+
+- [A Phone Call, 46 Days, and £300 Million: Reconstructing the Breach That Brought Down M&S](https://www.trusona.com/blog/ms-scatteredspider-attack): Day-by-day reconstruction of the 2025 Marks and Spencer breach. Traces the social engineering call to TCS, the two-month dwell time using valid credentials, the Easter weekend disruption, and the £300 million in lost operating profit. The most detailed public account of how a single help desk conversation produced a multi-month operational and financial crisis.
+
+- [Scattered Spider's Playbook: What Every CISO Needs to Know](https://www.trusona.com/blog/scattered-spider-playbook): Tactical breakdown of Scattered Spider's reconnaissance, impersonation, MFA reset, and privilege escalation techniques.
+
+- [10 Steps to Defeat Scattered Spider](https://www.trusona.com/blog/10-steps-to-defeat-scattered-spider): Operational checklist for defending against Scattered Spider at the help desk, covering SIM swap checks, device IP plotting, and verification protocol design.
+
+- [Why Traditional MFA Fails Against Scattered Spider](https://www.trusona.com/blog/mfa-fails-scattered-spider): Explains why legacy MFA, KBA, and SMS-based second factors are defeated by a single phone call, and what replaces them.
+
+- [How ATO Protect Helps You Comply with the CISA Advisory on Scattered Spider](https://www.trusona.com/blog/how-ato-protect-helps-your-organization-comply-with-the-new-cisa-advisory-to-defeat-scattered-spider): Maps CISA Advisory AA23-320A controls directly to ATO Protect and Agent Verify capabilities.
+
+- [Avoiding the Next MGM-Style Cyberattack: Lessons from Frank Abagnale](https://www.trusona.com/blog/avoiding-the-next-mgm-style-cyberattack-lessons-from-frank-abagnale): Frank Abagnale on how the September 2023 attack on MGM Resorts began at the help desk, and what a different answer on that call would have cost the attackers.
+
+### Board and Business-Level Perspective
+
+- [Why Identity Security Is the #1 Cyber Priority for Boards in 2026](https://www.trusona.com/blog/identity-security-boards-2026): Why identity security has moved from a technical concern to a business risk that boards measure, question, and act on.
+
+- [The Boardroom Reality: How CISOs Are Talking About Cyber Risk in 2026](https://www.trusona.com/blog/boardroom-risk-2026): How board expectations have shifted on identity, social engineering, and help desk workflows, and how CISOs are reframing risk in business terms.
+
+- [What the Board Should Ask About Help Desk Social Engineering Defense](https://www.trusona.com/blog/board-help-desk-social-engineering-defense): Framing help desk impersonation risk for a board audience, and the questions directors should be putting to security leadership.
+
+- [The Business Cost of Social Engineering Goes Far Beyond IT](https://www.trusona.com/blog/the-business-cost-of-social-engineering): Examines the full organizational impact of social engineering attacks, including regulatory exposure, insurance consequences, and reputational damage.
+
+- [Identity Verification Meets Zero Trust](https://www.trusona.com/blog/zero-trust-security): How real-time identity verification fits into a zero trust security model, closing the human-verification gap that network and device controls leave open.
+
+- [Moving Beyond Knowledge-Based Authentication](https://www.trusona.com/blog/beyond-kba-protect-against-account-takeover): Explains why KBA is no longer viable as GenAI can answer security questions instantly, and how ATO Protect replaces it with document-based identity verification.
+
+- [Identity Verification, Not Just Authentication: Rethinking Self-Service Password Resets](https://www.trusona.com/blog/rethinking-self-service-password-resets): Explains why SSPR systems built for convenience are exploitable by deepfakes and social engineering, and how ATO Protect's Identity Impersonation Detection changes the recovery flow.
+
+- [KYE vs KYC](https://www.trusona.com/blog/kye-vs-kyc): Why knowing your employee has become as important as knowing your customer, and what that means for HR and workforce verification.
+
+- [I Don't Want to Scan My Face to Send Memes to My Friends](https://www.trusona.com/blog/discord-privacy-verification): Perspective on consumer identity verification and privacy expectations.
+
+- [The $70 Call: A Help Desk Story About the Math We Ignore](https://www.trusona.com/blog/the-70-call-a-help-desk-story): Follows one IT director through the cost of password reset calls at 10,000 employees, then asks what a single call that is not from your employee does to that model. Written for a budget conversation.
+
+- [Account Takeover Protection for Financial Services: Call Centers, Wire Approvals, and the Calls in Between](https://www.trusona.com/blog/financial-services-account-takeover): Uses FBI Internet Crime Report data to show where impersonation hits a financial institution, why a bank call center is not an IT help desk, and the direction of attack almost nobody covers.
+
+## News
+
+- [Trusona Launches The Identity Perimeter Substack](https://www.trusona.com/news/trusona-launches-the-identity-perimeter-substack): July 2026. Launch of Trusona's long-form publication at trusona.substack.com, covering the layer where high privilege meets a helpful person: the help desk that resets access, the call center that moves money, the onboarding flow that issues first credentials. The first post, "Why the New Security Boundary Is a Phone Call," is from Ori Eisen.
+
+- [Trusona Integrates Identity Impersonation Detection Into ServiceNow](https://www.trusona.com/news/trusona-identity-impersonation-detection-servicenow): June 2026. ATO Protect for ServiceNow, available in the ServiceNow Store, lets help desk agents verify a caller's identity from inside the open ticket. The agent sends a verification link by SMS or email, the real employee completes the check in a browser, and the risk decision writes back to the Operations Workspace. Live in under 30 minutes with no code changes, no pre-registration, no app, and no PII stored.
+
+- [Trusona Appoints Chris Purvis as Chief Business Officer](https://www.trusona.com/news/trusona-appoints-chris-purvis-as-chief-business-officer): July 2026. Executive appointment announcement.
+
+- [Trusona Appoints Shira Rubinoff to Advisory Board](https://www.trusona.com/news/shira-rubinoff-advisory-board): February 2026. Rubinoff joins to support Trusona's identity impersonation detection strategy across help desk, HR, and customer use cases.
+
+- [Trusona ATO Protect Meets UK NCSC Recommendations](https://www.trusona.com/news/uk-national-cyber-security): Covers NCSC guidance issued after Scattered Spider attacks on UK retailers Marks and Spencer, Co-op, and Harrods. ATO Protect directly addresses the recommended controls.
+
+- [How IT Teams are Blocking GenAI Deepfake Attacks](https://www.trusona.com/news/it-teams-deepfakes-attacks): Practical overview of how IT and security teams are deploying layered identity verification to stop GenAI deepfake voice and document attacks on help desks. Covers SIM swap detection, MITM detection, anti-replay safeguards, and ATO Protect deployment.
+
+- [Agent Verify: Stopping Scam Calling and Impersonation Calls](https://www.trusona.com/news/agent-verify-stop-scam-calls): How Agent Verify stops reverse social engineering, where an attacker calls an employee while posing as the IT help desk. The real agent generates a one-time, time-limited code that the caller enters on an internal verification page, so employees can confirm they are talking to genuine IT before acting.
+
+- [From the Desk of Ori Eisen: The Global Threat of North Korean IT Workers and AI-Generated Fake Documents](https://www.trusona.com/news/from-the-desk-of-ori-eisen-the-global-threat-of-north-korean-it-workers-and-ai%e2%80%91generated-fake-documents): Research brief from Trusona founder Ori Eisen on North Korea's state-sponsored IT worker infiltration program. Covers forged document tradecraft, the role of GenAI in identity fabrication, DOJ enforcement actions, and why traditional KYC and hiring practices are failing.
+
+- [Trusona Announces Partnership with CDW](https://www.trusona.com/news/trusona-cdw-partnership): March 2025. CDW, a Fortune 500 IT solutions provider, will offer ATO Protect to its customers through existing agreements, enabling organizations to rapidly deploy identity verification without new vendor onboarding.
+
+- [Trusona and Akamai Partnership](https://www.trusona.com/news/trusona-akamai-partnership): Akamai Technologies makes ATO Protect available to its customers under its master service agreement, giving enterprises a fast path to deploy identity verification through an existing vendor relationship.
+
+- [Trusona Announces Partnership with SHI](https://www.trusona.com/news/trusona-announces-partnership-with-shi): Distribution partnership making ATO Protect available through SHI.
+
+- [Trusona Joins Marsh McLennan Agency's Cyber Resiliency Network](https://www.trusona.com/news/trusona-joins-marsh-mclennan-agencys-cyber-resiliency-network): Trusona joins the Marsh McLennan Agency cyber resiliency network, connecting ATO Protect to the insurance side of cyber risk.
+
+- [Trusona Launches ATO Protect](https://www.trusona.com/news/trusona-launches-ato-protect): Launch announcement covering ATO Protect's role in stopping account takeover, GenAI deepfakes, and the gap in account recovery security that traditional fraud tools do not address.
+
+## Company
+
+- [About](https://www.trusona.com/about): Mission, vision, leadership, board, advisors, and FAQ. Founded by Ori Eisen (previously founded 41st Parameter, acquired by Experian). Funded by Kleiner Perkins. Advisors include Frank Abagnale and Shira Rubinoff. Headquarters: Scottsdale, Arizona.
+
+- [Shira Rubinoff Advisor Profile](https://www.trusona.com/about/shira-rubinoff): Advisor bio for Shira Rubinoff, CEO of the Cybersphere Group, global keynote speaker, and cybersecurity executive who joined Trusona's advisory board in February 2026.
+
+- [Partner with Trusona](https://www.trusona.com/partner-with-trusona): TruPartner Program for resellers, systems integrators, MSSPs, and technology partners. Includes Akamai Technologies, CDW, and SHI as distribution partners. Partner types include Solutions Pro, consultancies, and technology integrators.
+
+- [Ori Eisen on theCUBE at the NYSE](https://www.trusona.com/ori-eisen-trusona-thecube-nyse): Ori Eisen and John Furrier in conversation on the intersection of cybersecurity and AI.
+
+- [Identity at the Center Podcast with Ori Eisen](https://www.trusona.com/idac): Ori Eisen on the Identity at the Center podcast, discussing identity verification in a world shaped by AI and social engineering, and why help desk authentication and knowledge-based questions no longer hold.
+
+- [Newsroom](https://www.trusona.com/news): All press releases and news coverage.
+
+- [Blog](https://www.trusona.com/blog): All blog posts.
+
+- [Trust Center](https://trust.trusona.com/): Trusona's trust portal, backed by Drata, holding SOC 2 documentation, compliance reports, and security posture detail for procurement and security review. Access is granted on request rather than public, so the page returns HTTP 403 to anonymous requests. Contact Trusona to be provisioned.
+
+- [Contact](https://www.trusona.com/contact): Contact form and team information.
+
+- [Demo Request](https://www.trusona.com/ato-protect-demo-request): Schedule a 7-minute demo of ATO Protect.
+
+- [Privacy Policy](https://www.trusona.com/privacy-policy)
+
+- [Sitemap](https://www.trusona.com/sitemap_index.xml)
+
+## Contact & Demo
+
+To schedule a demo: https://www.trusona.com/ato-protect-demo-request
+Contact: https://www.trusona.com/contact
+Headquarters: Scottsdale, Arizona, USA
+
+## Compliance and Standards
+
+Trusona helps organizations comply with and align to: CISA Advisory AA23-320A (Scattered Spider mitigation guidance recommending identity verification at help desks), NIST SP 800-63-3 (Digital Identity Guidelines, IAL1/IAL2 identity proofing levels), FIDO2/WebAuthn (W3C standard for phishing-resistant authentication), UK NCSC guidance issued after the 2025 Scattered Spider attacks on Marks and Spencer, Co-op, and Harrods, and OMB Memorandum M-22-09 (Federal Zero Trust Strategy requiring phishing-resistant MFA). Trusona is SOC 2 certified and stores no user PII.
+
+## Threat Context
+
+- Scattered Spider / ShinyHunters: Calls IT help desks, impersonates employees, resets MFA. Behind the MGM Resorts and Caesars breaches in 2023, and the 2025 UK retail breaches at Marks and Spencer, Co-op, and Harrods. Sector rotation through 2025: UK retail (April to May), US insurance (June), US aviation (late June onward). Group is resistant to disruption: arrests in 2024 and July 2025 produced no measurable reduction in operational activity.
+- MGM Resorts (2023): More than $100 million knocked off quarterly results after attackers reset an employee's access through a call to the IT help desk. Source: MGM Resorts Q3 2023 Form 10-Q.
+- M&S breach (2025): Initial access via a social engineering call to TCS, M&S's outsourced IT service desk provider. Attackers dwelled inside the network for roughly two months using valid credentials before triggering encryption over Easter weekend. Total impact: approximately £300 million in lost operating profit, 46 days of operational disruption, partial furlough of 200 warehouse staff, and theft of customer PII.
+- Identity over malware: 79% of initial-access intrusions in 2024 involved no malware. Attackers signed in with stolen or impersonated identity rather than breaking in. Source: CrowdStrike 2025 Global Threat Report.
+- Vishing surge: Voice phishing rose 442% from the first to the second half of 2024, the tactic used to talk help desks into password and MFA resets. Source: CrowdStrike 2025 Global Threat Report. In Mandiant's M-Trends 2026, voice phishing was the second most common initial access vector in 2025 and the single most common route into cloud environments at 23%, ahead of email phishing.
+- GenAI deepfake voice attacks: AI-generated voice cloning used to impersonate executives or employees over the phone. Voice cloning needs as little as three seconds of source audio to reach roughly 85% accuracy (McAfee). Deepfake fraud attempts in contact centers rose more than 1,300% in 2024, from about one a month to seven a day (Pindrop).
+- Executive impersonation via deepfake video: Used in the 2024 Arup attack that resulted in $25.6 million in fraudulent transfers after a finance worker joined a video call where the CFO and every other participant was synthetic.
+- Humans cannot spot deepfakes: In a 2025 iProov study of 2,000 US and UK consumers, only 0.1% correctly identified every real and fake sample, and high-quality deepfake video was caught just 24.5% of the time, even after participants were told to look for fakes.
+- Deepfake share of fraud: Deepfakes account for roughly 11% of global fraudulent activity in 2026, up from 6.5% in 2024 and 0.1% three years earlier (Sumsub, Signicat).
+- Reported losses: The FBI IC3 logged approximately $893 million in AI-enabled fraud losses in the US in 2025, its first year tracking AI as a category, within $20.9 billion in total reported cybercrime losses. Deloitte projects US GenAI fraud losses could reach $40 billion by 2027, up from $12.3 billion in 2023.
+- Enterprise readiness: Gartner predicts 30% of enterprises will stop trusting identity verification and authentication in isolation by 2026 because AI deepfakes defeat them. Biometric injection attacks rose 200% in 2023.
+- SIM swap attacks: Hijacking phone numbers to intercept SMS-based MFA codes. UK SIM swap cases surged more than 1,000% in 2024.
+- KBA bypass: Attackers use dark web breach data to answer security questions and pass identity checks.
+- AiTM / real-time phishing: Adversary-in-the-middle attacks that proxy authentication in real time, producing valid session logs with no anomalies for standard detection tools to find. The Tycoon 2FA phishing-as-a-service platform was disrupted by Europol and Microsoft in March 2026 after enabling thousands of these attacks.
+- DPRK IT worker fraud: North Korean operatives using stolen or AI-generated identity documents to gain remote employment and insider access. DOJ actions in 2025 exposed laptop farm operations across 16 states and infiltration of more than 100 US companies.
+- AI-generated document forgery: GenAI tools can produce convincing fake passports and driver's licenses in minutes. Legacy document-scan KYC systems cannot reliably detect them.

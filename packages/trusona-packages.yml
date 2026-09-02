@@ -1,0 +1,133 @@
+generated: '2026-09-01'
+method: searched
+source: https://github.com/trusona + npm/RubyGems/Maven Central/NuGet registry metadata endpoints
+note: 'Trusona''s published client libraries all target the LEGACY Trusona authentication
+  platform (WebAuthn / TruCode / Server SDK), not the current ATO Protect Verification
+  API or Driver License Verification API at authcloud.trusona.net, which the docs describe
+  as plain Bearer-JWT REST with no client library. Every entry below is dated so the
+  gap between the SDK line and the shipping API is legible: the newest first-party
+  release in any registry is @trusona/webauthn 1.6.5 (2024-08-21), while the Verification
+  API is at v2.2.0 and the Agent Skill was published 2026. The .NET server SDK exists
+  on GitHub but was never published to NuGet.'
+packages:
+- language: javascript
+  registry: npm
+  name: "@trusona/webauthn"
+  url: https://www.npmjs.com/package/@trusona/webauthn
+  install: npm install @trusona/webauthn
+  official: true
+  version: 1.6.5
+  published: '2024-08-21'
+  source_code: https://github.com/trusona/auth-cloud-webauthn-sdk
+  note: AuthCloud WebAuthn SDK. The GitHub repository is ARCHIVED (last push 2024-09-03).
+- language: javascript
+  registry: npm
+  name: "@trusona/touchpoint-sdk"
+  url: https://www.npmjs.com/package/@trusona/touchpoint-sdk
+  install: npm install @trusona/touchpoint-sdk
+  official: true
+  version: 1.0.2
+  published: '2024-01-26'
+  source_code: https://github.com/trusona/auth-cloud-touchpoint-sdk
+  note: AuthCloud Touchpoint SDK. The GitHub repository is ARCHIVED (last push 2025-06-11).
+- language: javascript
+  registry: npm
+  name: "@trusona/trucode"
+  url: https://www.npmjs.com/package/@trusona/trucode
+  install: npm install @trusona/trucode
+  official: true
+  version: 2.0.2
+  published: '2023-06-01'
+  source_code: https://github.com/trusona/trusona-trucode-sdk-js
+  note: Client-side library for rendering TruCodes used to identify Trusona-enabled devices.
+- language: javascript
+  registry: npm
+  name: "@trusona/server-sdk"
+  url: https://www.npmjs.com/package/@trusona/server-sdk
+  install: npm install @trusona/server-sdk
+  official: true
+  version: 2.1.0
+  published: '2023-06-05'
+  source_code: https://github.com/trusona/trusona-server-sdk-js
+  note: Server SDK for JavaScript. The GitHub repository is ARCHIVED (last push 2023-06-05).
+- language: ruby
+  registry: rubygems
+  name: trusona
+  url: https://rubygems.org/gems/trusona
+  install: gem install trusona
+  official: true
+  version: 2.5.3
+  published: '2020-09-01'
+  source_code: https://github.com/trusona/trusona-server-sdk-ruby
+  note: 'Server SDK for Ruby ("Easily interact with the Trusona REST API"), Apache-2.0,
+    49,954 downloads. Registry release is six years old; the GitHub repo was last pushed
+    2024-08-01.'
+- language: java
+  registry: maven
+  name: com.trusona:trusona-sdk
+  url: https://central.sonatype.com/artifact/com.trusona/trusona-sdk
+  install: "<dependency><groupId>com.trusona</groupId><artifactId>trusona-sdk</artifactId><version>4.3.0</version></dependency>"
+  official: true
+  version: 4.3.0
+  published: '2020-07-09'
+  source_code: https://github.com/trusona/trusona-server-sdk-java
+  note: 'Ships alongside com.trusona:trusona-sdk-http and com.trusona:trusona-sdk-resources,
+    both also 4.3.0 / 2020-07-09.'
+- language: csharp
+  registry: nuget
+  name: Trusona server SDK for .NET
+  url: https://github.com/trusona/trusona-server-sdk-dotnet
+  official: true
+  version: null
+  published: null
+  note: 'Checked NuGet (api-v2v3search-0.nuget.org query "trusona") on 2026-09-01 — zero
+    results. The .NET server SDK is source-only on GitHub (last push 2026-03-16) and has
+    never been published to a registry, so a consumer must vendor it.'
+- language: swift
+  registry: null
+  name: Trusona Mobile SDK for iOS
+  url: https://github.com/trusona/trusona-mobile-sdk-ios
+  official: true
+  version: null
+  published: null
+  note: 'Distributed from GitHub, not a package registry — no CocoaPods/SPM registry
+    metadata endpoint to query. Repository last pushed 2023-10-05.'
+- language: java
+  registry: null
+  name: Trusona Mobile SDK for Android
+  url: https://github.com/trusona/trusona-mobile-sdk-android
+  official: true
+  version: null
+  published: null
+  note: 'Distributed from GitHub, not Maven Central (a "trusona" search on
+    search.maven.org returns only the three com.trusona server artifacts). Repository
+    last pushed 2022-02-01.'
+- language: c
+  registry: null
+  name: Trusona C SDK
+  url: https://github.com/trusona/trusona-server-sdk-c
+  official: true
+  version: null
+  published: null
+  note: Source-only on GitHub; no registry. Repository last pushed 2021-04-05.
+- language: php
+  registry: null
+  name: Trusona Plugin for WordPress
+  url: https://github.com/trusona/trusona-wordpress-plugin
+  official: true
+  version: null
+  published: null
+  note: 'A WordPress plugin, not a Composer library — a "trusona" search on
+    packagist.org returned zero results on 2026-09-01. Repository last pushed 2026-07-31,
+    the most recently maintained SDK-adjacent repo in the org.'
+- language: shell
+  registry: null
+  name: atop-agent-skill
+  url: https://github.com/trusona/atop-agent-skill
+  install: git clone https://github.com/trusona/atop-agent-skill.git ~/.claude/skills/atop-api
+  official: true
+  version: null
+  published: null
+  note: 'The only first-party distribution that targets the CURRENT ATO Protect APIs.
+    Apache-2.0 Agent Skill of bash/curl/jq scripts, cloned from git rather than installed
+    from a registry, so there is no version to read. Repository last pushed 2026-06-16.'

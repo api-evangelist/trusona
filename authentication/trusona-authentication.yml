@@ -1,0 +1,70 @@
+generated: '2026-09-01'
+method: searched
+source: openapi/trusona-driver-license-verification-api-openapi.yml,
+  openapi/trusona-verification-api-openapi.yml
+docs: https://github.com/trusona/atop-agent-skill/blob/HEAD/reference/auth.md
+note: 'Derived from both OpenAPI documents, then upgraded from Trusona''s own
+  first-party auth reference (reference/auth.md in the Apache-2.0 ATO Protect Agent
+  Skill), which documents the provisioning model, the environment variables and the
+  token-handling guidance the specs do not carry.'
+summary:
+  types:
+  - http
+  http_schemes:
+  - bearer
+  oauth2_flows: []
+  api_key_in: []
+  applied: 'Globally — both documents declare a root-level security: [{bearerAuth: []}],
+    so every operation on both APIs requires the token.'
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  sources:
+  - openapi/trusona-driver-license-verification-api-openapi.yml
+  - openapi/trusona-verification-api-openapi.yml
+  header: Authorization
+  value_format: 'Bearer <JWT>'
+  provisioning: out-of-band
+  provisioning_note: 'Neither spec defines a token-issuing endpoint. The JWT is issued
+    from the Trusona dashboard (https://dashboard.trusona.com/) or by an account contact,
+    so there is no programmatic credential-rotation path in the published contract.'
+  environment_variables:
+  - name: ATOP_TOKEN
+    required: true
+    purpose: The Bearer JWT.
+  - name: ATOP_BASE_URL
+    required: false
+    default: https://authcloud.trusona.net
+    purpose: API origin; overridable for non-prod.
+  handling_guidance: 'Trusona''s own reference tells integrators to pass the Authorization
+    header to curl via --config rather than on the command line, so the token stays out
+    of the process argument list, and warns that the residual exposure is the environment
+    variable itself — prefer a short-lived token on a shared host.'
+  smoke_test: 'GET /api/v1/verifications?since=2024-01-01T00:00:00Z — any numeric array
+    length (including 0) proves the token works; 401 means missing/expired/wrong, 400
+    usually means a malformed `since`.'
+legacy_scheme:
+  api: Trusona ID Proofing API (v2)
+  type: apiKey
+  spec_documented: false
+  note: 'The legacy AAMVA ID Proofing surface uses an API key rather than a bearer JWT
+    and answers 403 ("Either the API key was not provided or it was invalid") where the
+    authcloud APIs answer 401. The header name is not published in the integration guide,
+    so it is not recorded here. There is no OpenAPI for this surface.'
+  docs: https://www.trusona.com/integrations/trusona-id-proofing-integration-guide
+oauth:
+  present: false
+  note: 'No OAuth 2.0 or OpenID Connect anywhere — no oauth2 securityScheme, no
+    authorization/token endpoints, and /.well-known/openid-configuration and
+    /.well-known/oauth-authorization-server both 404 on the API hosts. There is
+    consequently NO scope surface, which is why scopes/ is intentionally not emitted
+    rather than left empty.'
+response_encryption:
+  supported: true
+  note: 'Beyond transport auth, Trusona offers an encrypted projection of the API at
+    /api/v1/encrypted/verifications: the caller supplies a public key in JWK format
+    (RSA, EC, or OKP with crv=X25519) and verification and document payloads are returned
+    encrypted to it. This is unusual and materially reduces PII exposure in transit
+    logging and at the response boundary.'

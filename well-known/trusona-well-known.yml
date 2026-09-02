@@ -1,0 +1,91 @@
+generated: '2026-09-01'
+method: probed
+source: live GET of each named path on every apis.yml + OpenAPI servers[] host
+hit_count: 0
+note: 'Every named /.well-known/ path was probed on all four Trusona hosts and NONE
+  returned a document. Two distinct negative behaviours were observed and both were
+  controlled for. (1) authcloud.trusona.net and idproof-cert.trusona.net return honest
+  404s on /.well-known/* — the negative control 404s too, so these are true absences.
+  (2) www.trusona.com (WordPress behind Cloudflare) returns a UNIFORM 403 on every
+  /.well-known/ path INCLUDING the negative control, so it is an edge deny rule rather
+  than evidence about any individual document; nothing was fetched and nothing is
+  claimed. Note that the SAME host serves a real 200 text/plain llms.txt at the root,
+  so the 403 is scoped to /.well-known/ specifically. Because no path returned a real
+  document on any host, NO WellKnown and NO SecurityTxt pointer is emitted.'
+path_echo_control: passed
+hosts:
+- host: https://authcloud.trusona.net
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/trusona-negative-control-7f3ab91c.json
+    status: 404
+    control: negative
+- host: https://www.trusona.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/aauth-resource.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+  - path: /.well-known/trusona-negative-control-7f3ab91c.json
+    status: 403
+    control: negative
+    note: 'Control returns the same 403 as every real path, so no 403 on this host can
+      be read as evidence of a document.'
+- host: https://idproof-cert.trusona.net
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/trusona-negative-control-7f3ab91c.json
+    status: 404
+    control: negative
+- host: https://dashboard.trusona.com
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404

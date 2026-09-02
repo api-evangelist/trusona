@@ -1,0 +1,68 @@
+generated: '2026-09-01'
+method: derived
+status: candidate
+source: openapi/trusona-verification-api-openapi.yml, openapi/trusona-driver-license-verification-api-openapi.yml
+note: 'Trusona publishes NO MCP server. Searched the docs (www.trusona.com/integrations,
+  www.trusona.com/atop-agent), the GitHub org (25 repos, none MCP), and npm for a
+  @trusona/mcp package on 2026-09-01 — nothing. The provider DOES ship a first-party
+  agent surface, but it is a Claude/Agent SKILL of bash scripts
+  (https://github.com/trusona/atop-agent-skill, Apache-2.0), which is a different
+  product from an MCP server: an agent invokes it by running shell scripts locally,
+  not by speaking MCP to an endpoint. The tools[] below are DERIVED candidates from the
+  OpenAPI operations, published here only as a design starting point. Because no server
+  exists, NO MCPServer pointer is wired into apis.yml — the pointer would assert an
+  agent surface Trusona does not serve.'
+deployment:
+  mode: none
+  auth: unknown
+  verified: derived
+server:
+  name: trusona-atop
+  transport: null
+  url: null
+tools:
+- name: create_verification
+  description: Create an identity verification and send the subject a hosted ID-scan link.
+  source_operation: openapi/trusona-verification-api-openapi.yml#createVerification
+- name: get_verification
+  description: Get a verification by id, including overall risk and verifier checks.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getVerification
+- name: list_verifications
+  description: List verifications created since a timestamp or verification id.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getVerifications
+- name: create_message
+  description: Add an SMS, trusted-SMS, email or copy message to a verification.
+  source_operation: openapi/trusona-verification-api-openapi.yml#createMessage
+- name: get_messages
+  description: List all messages sent for a verification.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getMessages
+- name: get_message
+  description: Get one message on a verification by id.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getMessage
+- name: get_risk_scores
+  description: Get all risk scores computed for a verification.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getRiskScores
+- name: get_document
+  description: Get the verification's scanned document, masked and unmasked variants.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getDocument
+- name: get_scanned_images
+  description: Get the scanned image of the verification's document.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getScannedImages
+- name: get_devices
+  description: List the devices seen during a verification.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getDevices
+- name: create_encrypted_verification
+  description: Create a verification whose response is encrypted to a caller-supplied JWK.
+  source_operation: openapi/trusona-verification-api-openapi.yml#createEncryptedVerification
+- name: get_encrypted_verification
+  description: Get an encrypted verification by id.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getEncryptedVerification
+- name: get_encrypted_document
+  description: Get an encrypted document by verification id.
+  source_operation: openapi/trusona-verification-api-openapi.yml#getEncryptedDocument
+- name: create_id_verification
+  description: Start an asynchronous driver-license match against DMV and MNO databases.
+  source_operation: openapi/trusona-driver-license-verification-api-openapi.yml#createIdVerification
+- name: get_id_verification
+  description: Get per-field DMV/MNO driver-license verification results.
+  source_operation: openapi/trusona-driver-license-verification-api-openapi.yml#getIdVerification

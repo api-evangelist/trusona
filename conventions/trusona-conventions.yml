@@ -1,0 +1,138 @@
+generated: '2026-09-01'
+method: searched
+source: https://github.com/trusona/atop-agent-skill (reference/auth.md, reference/webhooks.md,
+  SKILL.md — first-party, Apache-2.0), openapi/trusona-verification-api-openapi.yml,
+  openapi/trusona-driver-license-verification-api-openapi.yml
+docs: https://www.trusona.com/integrations
+authentication:
+  style: bearer-jwt
+  header: Authorization
+  format: 'Bearer <JWT>'
+  provisioning: 'Out-of-band. Neither spec defines a token-issuing endpoint; the JWT is
+    issued from the Trusona dashboard or by an account contact.'
+  legacy_surface: 'The older ID Proofing v2 API uses an API key instead and answers 403
+    (not 401) when it is missing or invalid.'
+  see: authentication/trusona-authentication.yml
+idempotency:
+  supported: false
+  note: 'No idempotency key of any kind. Neither spec declares an Idempotency-Key header
+    or parameter, and no docs page describes replay-safe retries. The closest thing is
+    the ID Verification API''s required unique `transactionId` (UUID), but it is the
+    OPPOSITE of an idempotency key: a repeated transactionId returns 422 "transactionId
+    is not unique" rather than replaying the original result, so a client that retries
+    after a timeout cannot recover the first outcome and must generate a new UUID —
+    which risks a duplicate DMV query. No Idempotency pointer is emitted in apis.yml.'
+pagination:
+  style: time-cursor
+  note: '`GET /api/v1/verifications` is not offset- or page-token-paginated. It takes a
+    REQUIRED `since` parameter (an ISO-8601 timestamp or a verification id) and returns
+    everything after it as a bare JSON array. There is no next-cursor, no total, and no
+    envelope, so a client walks forward by taking the last item''s timestamp/id as the
+    next `since`. Omitting `since` is a 400, which Trusona''s own agent skill flags as a
+    common first-call failure.'
+  params:
+  - since
+  response_fields: []
+versioning:
+  scheme: uri-path
+  current: v1
+  note: 'The URI path is `/api/v1/...` on BOTH APIs while the documents themselves carry
+    different info.version values (Verification API 2.2.0, Driver License Verification
+    API 1.0.0). The path version and the product version are not the same number, and
+    no header- or date-based version negotiation is documented.'
+error_envelope:
+  shape: none
+  note: 'There is no error envelope. Every 4xx/5xx in both specs is a bare status code
+    with a prose description, no media type and no schema. See
+    errors/trusona-problem-types.yml.'
+rate_limit_signaling:
+  supported: false
+  note: '429 "Quota limit has been reached" exists on createMessage, but no Retry-After
+    and no RateLimit-* / X-RateLimit-* headers are documented. See
+    rate-limits/trusona-rate-limits.yml.'
+request_tracing:
+  supported: false
+  note: No request-id or correlation header is documented on either API.
+field_expansion:
+  supported: false
+  note: 'No expand/fields/include parameters. The verification GET returns the full
+    object graph (verifierChecks, messages, devices, riskScores, subject, history)
+    eagerly, with sub-collections also available at their own sub-resource paths.'
+metadata:
+  supported: partial
+  note: 'Verifications accept caller-supplied attachments (TicketNumberAttachment,
+    ServiceNowAttachment, WorkspaceCallbackAttachment) that carry the caller''s own
+    workflow identifiers — a typed attachment model rather than a free-form metadata map.'
+content_negotiation:
+  note: 'Both specs declare success bodies under the wildcard media type `*/*` rather
+    than application/json, so a strict client generator cannot infer the response
+    content type from the contract.'
+callbacks:
+  supported: true
+  note: 'Both create operations accept a `callbackUrl`. Trusona''s own guidance is that
+    a callback is a COMPLETION SIGNAL only — no signing header or shared secret is
+    defined — and the result must be re-fetched over the authenticated API before any
+    decision is made. See asyncapi/trusona-webhooks.yml.'
+pii_handling:
+  note: '`GET /api/v1/verifications/{id}/document` returns BOTH masked and unmasked
+    variants of the document PII in one response. Trusona''s agent skill instructs
+    callers to default to the masked variant unless full PII is genuinely required, and
+    its scripts hold responses in shell variables rather than temp files so PII is never
+    written to disk.'
+  encrypted_variant: 'A parallel `/api/v1/encrypted/verifications` surface returns the
+    verification and document encrypted to a caller-supplied JWK (RSA, EC, or OKP with
+    crv=X25519), so the plaintext never rests in Trusona''s response body.'
+reversibility:
+  grade: na
+  overall: 'na — there is no reversible write surface to grade. Trusona''s writes are
+    not state a caller can take back.'
+  note: 'The API has exactly three write operations: createVerification,
+    createEncryptedVerification, createMessage (Verification API) and
+    createIdVerification (ID Verification API). NONE of them has a cancel, void, revoke,
+    delete, undo or reverse counterpart — there is no DELETE method anywhere in either
+    spec, and no operationId containing cancel/void/revoke/refund/restore. A verification,
+    once created, is a record of an identity check that happened; the only thing that
+    ends it is EXPIRY, which is server-driven rather than caller-driven.'
+  write_surfaces:
+  - operation: createVerification
+    reversal: null
+    window: null
+    note: 'No cancel operation. The verification runs to a terminal lifecycle status of
+      its own (WAITING -> SCANNED, or EXPIRED). A caller cannot stop one in flight.'
+  - operation: createEncryptedVerification
+    reversal: null
+    window: null
+  - operation: createMessage
+    reversal: null
+    window: null
+    note: 'A message is an SMS or email already delivered to the subject — irreversible
+      by nature. The API instead signals when the door has closed: 410 "Messages can no
+      longer be added to this verification".'
+  - operation: createIdVerification
+    reversal: null
+    window: null
+    note: 'Submits a DMV/MNO query. No cancellation path; the required unique
+      transactionId also blocks re-submitting the same request.'
+  data_removal:
+    mechanism: 'Server-side expiry, not a caller-invoked deletion. When the parent
+      verification expires, the scanned document and its images are REMOVED and the
+      relevant endpoints begin answering 410 Gone.'
+    caller_initiated: false
+    window_documented: false
+    note: 'The specs state that removal HAPPENS on expiry (the 410 descriptions say so
+      verbatim) but never state the retention period, so the window is not recorded here.
+      NEVER assume one — a caller who needs the document must fetch it before expiry, and
+      the docs do not say when that is.'
+  dry_run_mode:
+    supported: false
+    note: 'No dry-run/simulate/preview flag on any operation. The nearest equivalent is a
+      separate SANDBOX ENVIRONMENT on a different host (idproof-cert.trusona.net) with 24
+      canned test licenses — see sandbox/trusona-sandbox.yml — which is environment
+      separation, not a dry-run on the production surface.'
+cross_links:
+  errors: errors/trusona-problem-types.yml
+  lifecycle: lifecycle/trusona-lifecycle.yml
+  authentication: authentication/trusona-authentication.yml
+  rate_limits: rate-limits/trusona-rate-limits.yml
+  sandbox: sandbox/trusona-sandbox.yml
+  webhooks: asyncapi/trusona-webhooks.yml
