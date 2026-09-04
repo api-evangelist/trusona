@@ -10,6 +10,21 @@ description: Trusona is a Scottsdale, Arizona identity impersonation detection c
   Verification API (v2.2.0) and the Driver License Verification API (v1.0.0) — a legacy AAMVA ID Proofing
   v2 REST surface, an Apache-2.0 Claude Agent Skill, an llms.txt, and server/mobile SDKs for Java, Ruby,
   JavaScript, .NET, C, iOS and Android.
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source:
+  - authentication
+  - rate-limits
+  - security
+  - sandbox
+  generated: '2026-09-03'
+  method: derived
 image: https://www.trusona.com/wp-content/uploads/2020/12/Trusona_logomark.png
 url: https://raw.githubusercontent.com/api-evangelist/trusona/refs/heads/main/apis.yml
 x-type: company
