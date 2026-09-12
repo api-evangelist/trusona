@@ -1,0 +1,21 @@
+{
+  "repo": "trusona",
+  "feeds": [
+    {
+      "source": "https://www.trusona.com/category/blog",
+      "feed_url": "https://www.trusona.com/category/blog/feed",
+      "title": "",
+      "saved": 8,
+      "method": "discovered"
+    },
+    {
+      "source": "https://help.trusona.com/support/home",
+      "feed_url": "https://help.trusona.com/support/home",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 8,
+  "fetched": "2026-09-06T19:17:18Z"
+}
