@@ -44,52 +44,18 @@ tags:
 - Cybersecurity
 - Agent Skills
 apis:
-- name: Trusona ATO Protect Verification API
-  description: 'REST API to create and read identity verifications: send a hosted scan link by SMS or
-    email, read overall risk, per-verifier checks, risk scores, scanned documents and the devices seen
-    during the verification. Also offers an encrypted variant where responses are returned under a caller-supplied
-    JWK. Bearer JWT auth.'
-  humanURL: https://authcloud.trusona.net/docs/index.html
-  baseURL: https://authcloud.trusona.net
-  tags:
-  - Identity Verification
-  - Account Takeover
-  - Risk Scoring
-  properties:
-  - type: OpenAPI
-    url: openapi/trusona-verification-api-openapi.yml
-  - type: APIReference
-    url: https://authcloud.trusona.net/docs/index.html
-  - type: Overlay
-    url: overlays/trusona-verification-api-overlay.yaml
-- name: Trusona Driver License Verification API (IDV API)
-  description: REST API that submits supplied identity data for asynchronous driver-license verification
-    against State DMV records over AAMVA and against mobile network operator (MNO) records, returning
-    per-field match results to a callback URL or on poll. Bearer JWT auth.
-  humanURL: https://authcloud.trusona.net/docs/id-verifications/index.html
-  baseURL: https://authcloud.trusona.net
-  tags:
-  - Identity Verification
-  - Driver License
-  - AAMVA
-  properties:
-  - type: OpenAPI
-    url: openapi/trusona-driver-license-verification-api-openapi.yml
-  - type: APIReference
-    url: https://authcloud.trusona.net/docs/id-verifications/index.html
-  - type: Overlay
-    url: overlays/trusona-driver-license-verification-api-overlay.yaml
 - name: Trusona ID Proofing API (v2)
-  description: 'Legacy AAMVA identity-document proofing REST surface documented on the Trusona site rather
-    than as an OpenAPI: barcode verifications, verifications, a verification lookup by transaction locator
-    id, a supported-states list and a status endpoint. API-key auth. The production host is provisioned
-    per tenant under an evaluation agreement; the only host Trusona publishes is the sandbox.'
+  description: >-
+    Legacy AAMVA identity-document proofing REST surface documented on the Trusona site rather than as
+    an OpenAPI: barcode verifications, verifications, a verification lookup by transaction locator id,
+    a supported-states list and a status endpoint. API-key auth. The production host is provisioned per
+    tenant under an evaluation agreement; the only host Trusona publishes is the sandbox.
   humanURL: https://www.trusona.com/integrations/trusona-id-proofing-integration-guide
   baseURL: https://idproof-cert.trusona.net
-  x-base-url-note: baseURL is the SANDBOX host Trusona publishes verbatim in its ID Proofing sandbox guide
-    (https://idproof-cert.trusona.net/api/v2/verifications). The integration guide states production access
-    is supplied by Trusona when an evaluation agreement is signed and never names a production host, so
-    none is recorded here rather than guessed.
+  x-base-url-note: >-
+    baseURL is the SANDBOX host Trusona publishes verbatim in its ID Proofing sandbox guide (https://idproof-cert.trusona.net/api/v2/verifications).
+    The integration guide states production access is supplied by Trusona when an evaluation agreement
+    is signed and never names a production host, so none is recorded here rather than guessed.
   tags:
   - Identity Verification
   - AAMVA
@@ -99,12 +65,115 @@ apis:
     url: https://www.trusona.com/integrations/trusona-id-proofing-integration-guide
   - type: Sandbox
     url: https://www.trusona.com/integrations/trusona-id-proofing-sandbox-environment-guide
+- aid: trusona:trusona-devices-api
+  name: Trusona Devices API
+  description: The Devices API from Trusona — 1 operation(s) for devices.
+  humanURL: https://authcloud.trusona.net/docs/index.html
+  baseURL: https://authcloud.trusona.net
+  tags:
+  - Devices
+  properties:
+  - type: OpenAPI
+    url: openapi/trusona-devices-api-openapi.yml
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/index.html
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/id-verifications/index.html
+- aid: trusona:trusona-documents-api
+  name: Trusona Documents API
+  description: The Documents API from Trusona — 2 operation(s) for documents.
+  humanURL: https://authcloud.trusona.net/docs/index.html
+  baseURL: https://authcloud.trusona.net
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/trusona-documents-api-openapi.yml
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/index.html
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/id-verifications/index.html
+- aid: trusona:trusona-encrypted-verifications-api
+  name: Trusona Encrypted Verifications API
+  description: >-
+    The Encrypted Verifications API from Trusona — 3 operation(s) for encrypted verifications.
+  humanURL: https://authcloud.trusona.net/docs/index.html
+  baseURL: https://authcloud.trusona.net
+  tags:
+  - Encrypted Verifications
+  properties:
+  - type: OpenAPI
+    url: openapi/trusona-encrypted-verifications-api-openapi.yml
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/index.html
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/id-verifications/index.html
+- aid: trusona:trusona-id-verifications-api
+  name: Trusona ID Verifications API
+  description: The ID Verifications API from Trusona — 2 operation(s) for id verifications.
+  humanURL: https://authcloud.trusona.net/docs/index.html
+  baseURL: https://authcloud.trusona.net
+  tags:
+  - ID Verifications
+  properties:
+  - type: OpenAPI
+    url: openapi/trusona-id-verifications-api-openapi.yml
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/index.html
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/id-verifications/index.html
+- aid: trusona:trusona-messages-api
+  name: Trusona Messages API
+  description: The Messages API from Trusona — 2 operation(s) for messages.
+  humanURL: https://authcloud.trusona.net/docs/index.html
+  baseURL: https://authcloud.trusona.net
+  tags:
+  - Messages
+  properties:
+  - type: OpenAPI
+    url: openapi/trusona-messages-api-openapi.yml
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/index.html
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/id-verifications/index.html
+- aid: trusona:trusona-risk-scores-api
+  name: Trusona Risk Scores API
+  description: The Risk Scores API from Trusona — 1 operation(s) for risk scores.
+  humanURL: https://authcloud.trusona.net/docs/index.html
+  baseURL: https://authcloud.trusona.net
+  tags:
+  - Risk Scores
+  properties:
+  - type: OpenAPI
+    url: openapi/trusona-risk-scores-api-openapi.yml
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/index.html
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/id-verifications/index.html
+- aid: trusona:trusona-verifications-api
+  name: Trusona Verifications API
+  description: The Verifications API from Trusona — 2 operation(s) for verifications.
+  humanURL: https://authcloud.trusona.net/docs/index.html
+  baseURL: https://authcloud.trusona.net
+  tags:
+  - Verifications
+  properties:
+  - type: OpenAPI
+    url: openapi/trusona-verifications-api-openapi.yml
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/index.html
+  - type: APIReference
+    url: https://authcloud.trusona.net/docs/id-verifications/index.html
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/trusona-verification-api-overlay.yaml
+- type: Overlay
+  url: overlays/trusona-driver-license-verification-api-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/trusona-agentic-access.yml
 - type: TrustCenter
