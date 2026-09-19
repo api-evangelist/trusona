@@ -128,6 +128,8 @@ apis:
   humanURL: https://authcloud.trusona.net/docs/index.html
   baseURL: https://authcloud.trusona.net
   tags:
+  - Message
+  tags_raw:
   - Messages
   properties:
   - type: OpenAPI
@@ -156,6 +158,8 @@ apis:
   humanURL: https://authcloud.trusona.net/docs/index.html
   baseURL: https://authcloud.trusona.net
   tags:
+  - Verification
+  tags_raw:
   - Verifications
   properties:
   - type: OpenAPI
