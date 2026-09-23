@@ -1,0 +1,41 @@
+{
+  "provider": "trusona",
+  "sources": [
+    "_original/trusona-driver-license-verification-api-openapi.yml",
+    "_original/trusona-verification-api-openapi.yml"
+  ],
+  "outputs": [
+    "trusona-id-verifications-api-openapi.yml",
+    "trusona-devices-api-openapi.yml",
+    "trusona-documents-api-openapi.yml",
+    "trusona-encrypted-verifications-api-openapi.yml",
+    "trusona-messages-api-openapi.yml",
+    "trusona-risk-scores-api-openapi.yml",
+    "trusona-verifications-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "trusona-driver-license-verification-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "trusona-driver-license-verification-api-openapi.yml: declared missing tag: ID Verifications",
+    "trusona-verification-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "trusona-verification-api-openapi.yml: declared missing tag: Devices",
+    "trusona-verification-api-openapi.yml: declared missing tag: Documents",
+    "trusona-verification-api-openapi.yml: declared missing tag: Encrypted Verifications",
+    "trusona-verification-api-openapi.yml: declared missing tag: Messages",
+    "trusona-verification-api-openapi.yml: declared missing tag: Risk Scores",
+    "trusona-verification-api-openapi.yml: declared missing tag: Verifications",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "trusona-devices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "trusona-documents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "trusona-encrypted-verifications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "trusona-id-verifications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "trusona-messages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "trusona-risk-scores-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "trusona-verifications-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

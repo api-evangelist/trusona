@@ -1,0 +1,214 @@
+openapi: 3.2.0
+info:
+  title: Verification Messages API
+  description: API to manage verifications, messages, checkers, devices, and risk scores.
+  contact:
+    name: API Support
+    url: https://trusona.com
+    email: support@trusona.com
+  version: 2.2.0
+  summary: 'Base URL: https://authcloud.trusona.net'
+servers:
+- url: https://authcloud.trusona.net
+security:
+- bearerAuth: []
+tags:
+- name: Messages
+paths:
+  /api/v1/verifications/{verificationId}/messages:
+    get:
+      tags:
+      - Messages
+      summary: Get all messages for a verification
+      operationId: getMessages
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: List of messages
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VerificationMessage'
+              example:
+              - id: f2aafebd-8d41-4366-9ead-59e04931c3a8
+                status: DELIVERED
+                createdAt: 2026-05-05 18:00:00+00:00
+                channel: SMS
+                recipient: '+12025551234'
+                simSwapped: false
+        '404':
+          description: Messages not found
+    post:
+      tags:
+      - Messages
+      summary: Add a message to a verification
+      operationId: createMessage
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/RequestedMessage'
+              - $ref: '#/components/schemas/RequestedCopyMessage'
+              - $ref: '#/components/schemas/RequestedEmailMessage'
+              - $ref: '#/components/schemas/RequestedSmsMessage'
+              - $ref: '#/components/schemas/RequestedTrustedSmsMessage'
+        required: true
+      responses:
+        '201':
+          description: Message added successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/VerificationMessage'
+              example:
+                id: f2aafebd-8d41-4366-9ead-59e04931c3a8
+                status: DELIVERED
+                createdAt: 2026-05-05 18:00:00+00:00
+                channel: SMS
+                recipient: '+12025551234'
+                simSwapped: false
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '410':
+          description: Messages can no longer be added to this verification
+        '422':
+          description: Sim swap was detected for a TRUSTED_SMS
+        '429':
+          description: Quota limit has been reached
+  /api/v1/verifications/{verificationId}/messages/{verificationMessageId}:
+    get:
+      tags:
+      - Messages
+      summary: Get a verification's message by ID
+      operationId: getMessage
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: verificationMessageId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Message details
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/VerificationMessage'
+        '404':
+          description: Verification or message were not found
+components:
+  schemas:
+    RequestedMessage:
+      type: object
+      discriminator:
+        propertyName: channel
+      properties:
+        channel:
+          type: string
+          enum:
+          - COPY
+          - SMS
+          - EMAIL
+          - TRUSTED_SMS
+      required:
+      - channel
+    RequestedTrustedSmsMessage:
+      allOf:
+      - $ref: '#/components/schemas/RequestedMessage'
+      - type: object
+        properties:
+          phoneNumber:
+            type: string
+            description: Phone number to send the trusted SMS to. Dashes, spaces, dots and parentheses are accepted, as is a missing leading +; the number is stored and returned in E.164 form. A number sent without a country code cannot be resolved and is rejected.
+            example: '+12025551234'
+      description: Send a trusted SMS with SIM swap detection to the provided phone number.
+      required:
+      - channel
+    RequestedSmsMessage:
+      allOf:
+      - $ref: '#/components/schemas/RequestedMessage'
+      - type: object
+        properties:
+          phoneNumber:
+            type: string
+            description: Phone number to send the SMS to. Dashes, spaces, dots and parentheses are accepted, as is a missing leading +; the number is stored and returned in E.164 form. A number sent without a country code cannot be resolved and is rejected.
+            example: '+12025551234'
+      description: Send an SMS message to the provided phone number.
+      required:
+      - channel
+    RequestedCopyMessage:
+      allOf:
+      - $ref: '#/components/schemas/RequestedMessage'
+      required:
+      - channel
+    RequestedEmailMessage:
+      allOf:
+      - $ref: '#/components/schemas/RequestedMessage'
+      - type: object
+        properties:
+          emailAddress:
+            type: string
+            format: email
+            description: Email address to send the message to.
+            example: user@example.com
+            minLength: 1
+      description: Send an email message to the provided email address.
+      required:
+      - channel
+      - emailAddress
+    VerificationMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-01-01 00:00:00+00:00
+          readOnly: true
+        channel:
+          type: string
+          enum:
+          - COPY
+          - SMS
+          - EMAIL
+          - TRUSTED_SMS
+        recipient:
+          type: string
+        simSwapped:
+          type: boolean
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

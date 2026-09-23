@@ -1,0 +1,296 @@
+openapi: 3.2.0
+info:
+  title: Verification Documents API
+  description: API to manage verifications, messages, checkers, devices, and risk scores.
+  contact:
+    name: API Support
+    url: https://trusona.com
+    email: support@trusona.com
+  version: 2.2.0
+  summary: 'Base URL: https://authcloud.trusona.net'
+servers:
+- url: https://authcloud.trusona.net
+security:
+- bearerAuth: []
+tags:
+- name: Documents
+paths:
+  /api/v1/verifications/{verificationId}/document:
+    get:
+      tags:
+      - Documents
+      summary: Get the verification's document
+      description: 'Returns the scanned document data in two forms: ''unmasked'' with full PII and ''masked'' with sensitive fields partially redacted.'
+      operationId: getDocument
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: The verification's document with masked and unmasked variants. The unmasked variant contains full PII; the masked variant has sensitive fields partially redacted.
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/ScanResponse'
+              example:
+                UNMASKED:
+                  documentNumber: D12345678
+                  dateOfBirth: 03/15/1990
+                  firstName: JANE
+                  age: '36'
+                  lastName: SMITH
+                  middleName: MARIE
+                  middleInitial: M
+                  issueDate: 06/01/2020
+                  expiryDate: 03/15/2028
+                  documentType: Driver License
+                  sex: Female
+                  eyeColor: Brown
+                  height: '64'
+                  weight: '130'
+                  address1: 123 MAIN ST
+                  address2: null
+                  city: LOS ANGELES
+                  state: CA
+                  zipCode: '90001'
+                  zip4: null
+                  nationality: UNITED STATES OF AMERICA
+                  iso3CountryCode: USA
+                  iso2CountryCode: US
+                  isoCountryName: United States of America
+                  issuingAuthority: null
+                  placeOfBirth: null
+                  verifiedMrz: null
+                  fullAddress: 123 MAIN ST, LOS ANGELES, CA, 90001
+                  suffix: null
+                  documentCategory: null
+                  documentJurisdiction: null
+                  phoneNumber: null
+                  version: V1
+                MASKED:
+                  documentNumber: D12*******
+                  dateOfBirth: 03/*******
+                  firstName: JANE
+                  age: '**********'
+                  lastName: SMITH
+                  middleName: MARIE
+                  middleInitial: M
+                  issueDate: 06/*******
+                  expiryDate: 03/*******
+                  documentType: Driver License
+                  sex: '**********'
+                  eyeColor: '**********'
+                  height: '**********'
+                  weight: '**********'
+                  address1: 123*******
+                  address2: null
+                  city: LOS*******
+                  state: C*********
+                  zipCode: 900*******
+                  zip4: null
+                  nationality: UNI*******
+                  iso3CountryCode: U*********
+                  iso2CountryCode: U*********
+                  isoCountryName: United States of America
+                  issuingAuthority: null
+                  placeOfBirth: null
+                  verifiedMrz: null
+                  fullAddress: 123*******
+                  suffix: null
+                  documentCategory: null
+                  documentJurisdiction: null
+                  phoneNumber: null
+                  version: V1
+        '404':
+          description: Verification was not found or document is not yet available
+        '410':
+          description: Document has been removed (occurs when parent verification expires)
+  /api/v1/verifications/{verificationId}/document/scanned_images:
+    get:
+      tags:
+      - Documents
+      summary: Get the scanned image of the document
+      operationId: getScannedImages
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: The scanned document image
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IdentityImage'
+        '404':
+          description: Verification was not found or document does not have an available scanned image
+        '410':
+          description: Scanned image has been removed (occurs when parent verification expires)
+components:
+  schemas:
+    ScanResponse:
+      type: object
+      description: Parsed data from a scanned identity document.
+      properties:
+        documentNumber:
+          type: string
+          description: Driver license or ID card number.
+          example: D12345678
+        dateOfBirth:
+          type: string
+          description: Date of birth in MM/DD/YYYY format.
+          example: 03/15/1990
+        firstName:
+          type: string
+          description: First name as it appears on the document.
+          example: JANE
+        age:
+          type: string
+          description: Calculated age at time of scan.
+          example: '36'
+        lastName:
+          type: string
+          description: Last name as it appears on the document.
+          example: SMITH
+        middleName:
+          type: string
+          description: Middle name as it appears on the document.
+          example: MARIE
+        middleInitial:
+          type: string
+          description: Middle initial derived from the document.
+          example: M
+        issueDate:
+          type: string
+          description: Document issue date in MM/DD/YYYY format.
+          example: 06/01/2020
+        expiryDate:
+          type: string
+          description: Document expiration date in MM/DD/YYYY format.
+          example: 03/15/2028
+        documentType:
+          type: string
+          description: Human-readable type of the scanned document.
+          example: Driver License
+        sex:
+          type: string
+          description: Sex as it appears on the document.
+          example: Female
+        eyeColor:
+          type: string
+          description: Eye color as it appears on the document.
+          example: Brown
+        height:
+          type: string
+          description: Height in inches.
+          example: '64'
+        weight:
+          type: string
+          description: Weight in pounds.
+          example: '130'
+        address1:
+          type: string
+          description: Street address line 1.
+          example: 123 MAIN ST
+        address2:
+          type: string
+          description: Street address line 2.
+          example: APT 4B
+        city:
+          type: string
+          description: City name.
+          example: LOS ANGELES
+        state:
+          type: string
+          description: Two-letter state code.
+          example: CA
+        zipCode:
+          type: string
+          description: 5-digit ZIP code.
+          example: '90001'
+        zip4:
+          type: string
+          description: ZIP+4 extension.
+          example: '1234'
+        nationality:
+          type: string
+          description: Nationality from the document.
+          example: UNITED STATES OF AMERICA
+        iso3CountryCode:
+          type: string
+          description: ISO 3166-1 alpha-3 country code.
+          example: USA
+        iso2CountryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+          example: US
+        isoCountryName:
+          type: string
+          description: Full country name.
+          example: United States of America
+        issuingAuthority:
+          type: string
+          description: Authority that issued the document.
+          example: DVLA
+        placeOfBirth:
+          type: string
+          description: Place of birth from the document.
+          example: ANGOLA
+        verifiedMrz:
+          type: boolean
+          description: Whether the machine-readable zone (MRZ) was verified.
+          example: false
+        fullAddress:
+          type: string
+          description: Concatenated full address derived from address1, address2, city, state, and zipCode.
+          example: 123 MAIN ST, LOS ANGELES, CA, 90001
+        suffix:
+          type: string
+          description: Name suffix from the document (e.g. Jr, Sr).
+          example: JR
+        documentCategory:
+          type: string
+          description: Document category code (e.g. DL, PERMIT, ID).
+          example: DL
+        documentJurisdiction:
+          type: string
+          description: Two-letter state code of the issuing jurisdiction.
+          example: CA
+        phoneNumber:
+          type: string
+          description: Phone number from the document, if available.
+        version:
+          type: string
+          description: Document scan version.
+          enum:
+          - Unknown
+          - V0
+          - V1
+          - V2
+    IdentityImage:
+      type: object
+      properties:
+        data:
+          type: string
+          description: Base64-encoded image data of the scanned document.
+        orientation:
+          type: integer
+          format: int32
+          description: Rotation angle in degrees to display the image correctly.
+          example: 0
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

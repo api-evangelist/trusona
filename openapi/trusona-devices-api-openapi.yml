@@ -1,0 +1,204 @@
+openapi: 3.2.0
+info:
+  title: Verification Devices API
+  description: API to manage verifications, messages, checkers, devices, and risk scores.
+  contact:
+    name: API Support
+    url: https://trusona.com
+    email: support@trusona.com
+  version: 2.2.0
+  summary: 'Base URL: https://authcloud.trusona.net'
+servers:
+- url: https://authcloud.trusona.net
+security:
+- bearerAuth: []
+tags:
+- name: Devices
+paths:
+  /api/v1/verifications/{verificationId}/devices:
+    get:
+      tags:
+      - Devices
+      summary: Get all devices for a verification
+      operationId: getDevices
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: List of devices
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VerificationDevice'
+              example:
+              - id: fb125038-2656-4b51-85ad-6a495876f107
+                platform: iPhone
+                language: en-US
+                browserTimeZone: America/Los_Angeles
+                origin: null
+                browserDateTime: Tue May 05 2026 11:00:00 GMT-0700 (Pacific Daylight Time)
+                userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1
+                operatingSystem: iOS 18.5
+                browser: Mobile Safari 18.5
+                displayWidth: 390
+                displayHeight: 844
+                browserHeight: 844
+                browserWidth: 390
+                ipAddress: 192.0.2.1
+                ipAddressTimeZone: America/Los_Angeles
+                country: United States
+                region: California
+                city: San Francisco
+                isp: Example ISP, Inc.
+                createdAt: 2026-05-05 18:00:30+00:00
+                latitude: 37.7749
+                longitude: -122.4194
+                gpsLatitude: null
+                gpsLongitude: null
+                via: []
+                offsetMinutes: 420
+                epochMilliseconds: 1778000000000
+                asn: null
+                dateTime: 5/5/2026 09:53
+                browserTimeZoneWithOffset: America/Los Angeles (-7)
+                scanCode: '123'
+                linkCode: '1920'
+                scannedDocument: true
+                blacklistedNetwork: false
+                whitelistedNetwork: false
+                truPassUsed: false
+                fingerprint: abc123def456ghi789jkl012mno345pqr678stu9
+                turnstileRobot: null
+                turnstileError: null
+        '404':
+          description: Verification not found
+components:
+  schemas:
+    VerificationDevice:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: bd30618f-06d3-45c5-ae52-c36751fc20b2
+          readOnly: true
+        platform:
+          type: string
+          description: Required field
+          example: MacIntel
+          minLength: 1
+          readOnly: true
+        language:
+          type: string
+          minLength: 1
+        browserTimeZone:
+          type: string
+          description: IANA timezone ID (e.g., America/New_York, Europe/London)
+          example: America/Los_Angeles
+          minLength: 1
+          readOnly: true
+        origin:
+          type: string
+          minLength: 1
+        browserDateTime:
+          type: string
+          minLength: 1
+        userAgent:
+          type: string
+        operatingSystem:
+          type: string
+        browser:
+          type: string
+        displayWidth:
+          type: integer
+          format: int32
+        displayHeight:
+          type: integer
+          format: int32
+        browserHeight:
+          type: integer
+          format: int32
+        browserWidth:
+          type: integer
+          format: int32
+        ipAddress:
+          type: string
+          example: 192.168.1.1
+          readOnly: true
+        ipAddressTimeZone:
+          type: string
+        country:
+          type: string
+        region:
+          type: string
+        city:
+          type: string
+        isp:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-01-01 00:00:00+00:00
+          readOnly: true
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+        gpsLatitude:
+          type: number
+          format: float
+        gpsLongitude:
+          type: number
+          format: float
+        via:
+          type: array
+          items:
+            type: string
+        offsetMinutes:
+          type: integer
+          format: int32
+        epochMilliseconds:
+          type: integer
+          format: int64
+        asn:
+          type: string
+        dateTime:
+          type: string
+        browserTimeZoneWithOffset:
+          type: string
+        scanCode:
+          type: string
+        linkCode:
+          type: string
+        scannedDocument:
+          type: boolean
+        blacklistedNetwork:
+          type: boolean
+        whitelistedNetwork:
+          type: boolean
+        truPassUsed:
+          type: boolean
+        fingerprint:
+          type: string
+      required:
+      - browserDateTime
+      - browserTimeZone
+      - epochMilliseconds
+      - language
+      - offsetMinutes
+      - origin
+      - platform
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

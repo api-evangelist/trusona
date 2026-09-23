@@ -1,0 +1,147 @@
+openapi: 3.2.0
+info:
+  title: Verification Risk Scores API
+  description: API to manage verifications, messages, checkers, devices, and risk scores.
+  contact:
+    name: API Support
+    url: https://trusona.com
+    email: support@trusona.com
+  version: 2.2.0
+  summary: 'Base URL: https://authcloud.trusona.net'
+servers:
+- url: https://authcloud.trusona.net
+security:
+- bearerAuth: []
+tags:
+- name: Risk Scores
+paths:
+  /api/v1/verifications/{verificationId}/risk_scores:
+    get:
+      tags:
+      - Risk Scores
+      summary: Get all scores for a verification
+      operationId: getRiskScores
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: List of risk scores
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RiskScore'
+              example:
+              - ruleType: DEVICE
+                id: 0d98bd5f-7e8d-4430-a048-14775c6e57f9
+                score: 'NO'
+                rule: DEV4D
+                reason: VPN/Proxy - using iCloud Private Relay
+                type: DEVICE
+                riskyFields:
+                - ipAddress
+                riskyDevices:
+                - fb125038-2656-4b51-85ad-6a495876f107
+                robotRule: true
+                createdAt: 2026-05-05 18:00:31+00:00
+              - ruleType: VERIFIER
+                id: ad37692c-0e7b-4eeb-a191-f5ce9cd2bb45
+                score: LOW
+                rule: VER5A
+                reason: Between 1% and 20% of DMV data is incorrect
+                type: VERIFIER
+                riskyFields:
+                - issueDate
+                - expiryDate
+                verifier: DMV
+                riskyDevices: []
+                robotRule: false
+                createdAt: 2026-05-05 18:01:09+00:00
+        '404':
+          description: Verification not found
+components:
+  schemas:
+    RiskScore:
+      type: object
+      properties:
+        ruleType:
+          type: string
+          enum:
+          - SCAN
+          - DEVICE
+          - VERIFIER
+        id:
+          type: string
+          format: uuid
+          example: d2392d83-8410-41a7-adcf-a792acde7fb9
+          readOnly: true
+        score:
+          type: string
+          enum:
+          - 'NO'
+          - LOW
+          - HIGH
+          example: 'NO'
+          readOnly: true
+        rule:
+          type: string
+          readOnly: true
+        reason:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - SCAN
+          - DEVICE
+          - VERIFIER
+        riskyFields:
+          type: array
+          items:
+            type: string
+        verifier:
+          type:
+          - string
+          - 'null'
+          enum:
+          - DMV
+          - NONE
+          - MNO_V
+          - SCAN
+          - LEXIS
+          - PASSKEY
+          - ESV
+        riskyDevices:
+          type: array
+          items:
+            type: string
+            format: uuid
+        robotRule:
+          type: boolean
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-01-01 00:00:00+00:00
+          readOnly: true
+        defaultScore:
+          type: string
+          description: The original risk score before any rule overrides were applied
+          enum:
+          - NONE
+          - 'NO'
+          - LOW
+          - MEDIUM
+          - HIGH
+          readOnly: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
