@@ -72,6 +72,86 @@ paths:
           description: Internal server error
 components:
   schemas:
+    IdVerifiers:
+      type: object
+      properties:
+        dmv:
+          $ref: '#/components/schemas/DmvIdVerifier'
+          writeOnly: true
+        mno:
+          $ref: '#/components/schemas/MnoIdVerifier'
+          writeOnly: true
+    DmvIdVerifier:
+      type: object
+      properties:
+        documentCountry:
+          type: string
+          description: The country that issued the document. Currently only 'US' is supported.
+          example: US
+          minLength: 1
+          pattern: ^US$
+        documentCategory:
+          type: string
+          description: A coded categorization of a state document issued by a jurisdiction.
+          example: DL
+          minLength: 1
+          pattern: ^(DL|PERMIT|ID)$
+        documentJurisdiction:
+          type: string
+          description: An identifier of the jurisdiction which issues a person's driving privileges. Two letter state code.
+          example: CA
+          minLength: 1
+          pattern: ^[A-Z]{2}$
+        documentNumber:
+          type: string
+          description: An identifier of the License or Card (aka Driver License Number). Matching is not case sensitive.
+          example: D12345678
+          minLength: 1
+        expiryDate:
+          type:
+          - string
+          - 'null'
+          description: A date a credential expires in the format of YYYY-MM-DD.
+          example: 2025-01-15
+        issueDate:
+          type:
+          - string
+          - 'null'
+          description: A date a credential was issued in the format of YYYY-MM-DD.
+          example: 2020-01-15
+        eyeColor:
+          type:
+          - string
+          - 'null'
+          description: A code identifying the eye color of a person. From the ANSI D20 standard.
+          example: BRO
+          pattern: ^(BLK|BLU|BRO|DIC|GRY|GRN|HAZ|MAR|PNK)$
+        height:
+          type:
+          - string
+          - 'null'
+          description: A measurement of a person's height in feet-inches. e.g. 5 foot 10 inches = '510'
+          example: '510'
+          pattern: ^\d{3}$
+        weight:
+          type:
+          - string
+          - 'null'
+          description: A measurement of a person's weight in pounds. e.g. 195 pounds = '195'
+          example: '180'
+          pattern: ^\d{3}$
+        sex:
+          type:
+          - string
+          - 'null'
+          description: A code identifying the sex of a person. M = Male, F = Female
+          example: M
+          pattern: ^([MF])$
+      required:
+      - documentCategory
+      - documentCountry
+      - documentJurisdiction
+      - documentNumber
     IdVerificationRequest:
       type: object
       properties:
@@ -161,15 +241,6 @@ components:
       - dateOfBirth
       - transactionId
       - verifiers
-    IdVerifiers:
-      type: object
-      properties:
-        dmv:
-          $ref: '#/components/schemas/DmvIdVerifier'
-          writeOnly: true
-        mno:
-          $ref: '#/components/schemas/MnoIdVerifier'
-          writeOnly: true
     Created:
       type: object
       properties:
@@ -179,84 +250,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    MnoIdVerifier:
-      type: object
-      properties:
-        phoneNumber:
-          type: string
-          description: A phone number for mobile network operator verification. Must be in one of the countries the tenant has enabled for MNO, which default to the USA (+1), Canada (+1) and the UK (+44). Dashes, spaces, dots and parentheses are accepted, as is a missing country code; the number is stored and returned in E.164 form.
-          example: '+12025551234'
-    DmvIdVerifier:
-      type: object
-      properties:
-        documentCountry:
-          type: string
-          description: The country that issued the document. Currently only 'US' is supported.
-          example: US
-          minLength: 1
-          pattern: ^US$
-        documentCategory:
-          type: string
-          description: A coded categorization of a state document issued by a jurisdiction.
-          example: DL
-          minLength: 1
-          pattern: ^(DL|PERMIT|ID)$
-        documentJurisdiction:
-          type: string
-          description: An identifier of the jurisdiction which issues a person's driving privileges. Two letter state code.
-          example: CA
-          minLength: 1
-          pattern: ^[A-Z]{2}$
-        documentNumber:
-          type: string
-          description: An identifier of the License or Card (aka Driver License Number). Matching is not case sensitive.
-          example: D12345678
-          minLength: 1
-        expiryDate:
-          type:
-          - string
-          - 'null'
-          description: A date a credential expires in the format of YYYY-MM-DD.
-          example: 2025-01-15
-        issueDate:
-          type:
-          - string
-          - 'null'
-          description: A date a credential was issued in the format of YYYY-MM-DD.
-          example: 2020-01-15
-        eyeColor:
-          type:
-          - string
-          - 'null'
-          description: A code identifying the eye color of a person. From the ANSI D20 standard.
-          example: BRO
-          pattern: ^(BLK|BLU|BRO|DIC|GRY|GRN|HAZ|MAR|PNK)$
-        height:
-          type:
-          - string
-          - 'null'
-          description: A measurement of a person's height in feet-inches. e.g. 5 foot 10 inches = '510'
-          example: '510'
-          pattern: ^\d{3}$
-        weight:
-          type:
-          - string
-          - 'null'
-          description: A measurement of a person's weight in pounds. e.g. 195 pounds = '195'
-          example: '180'
-          pattern: ^\d{3}$
-        sex:
-          type:
-          - string
-          - 'null'
-          description: A code identifying the sex of a person. M = Male, F = Female
-          example: M
-          pattern: ^([MF])$
-      required:
-      - documentCategory
-      - documentCountry
-      - documentJurisdiction
-      - documentNumber
     IdVerificationResponse:
       type: object
       properties:
@@ -343,6 +336,13 @@ components:
           description: Timestamp when all requested verifications completed. Null while verification is still in progress.
           example: 2022-01-01 00:00:05+00:00
           readOnly: true
+    MnoIdVerifier:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+          description: A phone number for mobile network operator verification. Must be in one of the countries the tenant has enabled for MNO, which default to the USA (+1), Canada (+1) and the UK (+44). Dashes, spaces, dots and parentheses are accepted, as is a missing country code; the number is stored and returned in E.164 form.
+          example: '+12025551234'
   securitySchemes:
     bearerAuth:
       type: http

@@ -137,18 +137,6 @@ components:
           - TRUSTED_SMS
       required:
       - channel
-    RequestedTrustedSmsMessage:
-      allOf:
-      - $ref: '#/components/schemas/RequestedMessage'
-      - type: object
-        properties:
-          phoneNumber:
-            type: string
-            description: Phone number to send the trusted SMS to. Dashes, spaces, dots and parentheses are accepted, as is a missing leading +; the number is stored and returned in E.164 form. A number sent without a country code cannot be resolved and is rejected.
-            example: '+12025551234'
-      description: Send a trusted SMS with SIM swap detection to the provided phone number.
-      required:
-      - channel
     RequestedSmsMessage:
       allOf:
       - $ref: '#/components/schemas/RequestedMessage'
@@ -159,11 +147,6 @@ components:
             description: Phone number to send the SMS to. Dashes, spaces, dots and parentheses are accepted, as is a missing leading +; the number is stored and returned in E.164 form. A number sent without a country code cannot be resolved and is rejected.
             example: '+12025551234'
       description: Send an SMS message to the provided phone number.
-      required:
-      - channel
-    RequestedCopyMessage:
-      allOf:
-      - $ref: '#/components/schemas/RequestedMessage'
       required:
       - channel
     RequestedEmailMessage:
@@ -181,6 +164,18 @@ components:
       required:
       - channel
       - emailAddress
+    RequestedTrustedSmsMessage:
+      allOf:
+      - $ref: '#/components/schemas/RequestedMessage'
+      - type: object
+        properties:
+          phoneNumber:
+            type: string
+            description: Phone number to send the trusted SMS to. Dashes, spaces, dots and parentheses are accepted, as is a missing leading +; the number is stored and returned in E.164 form. A number sent without a country code cannot be resolved and is rejected.
+            example: '+12025551234'
+      description: Send a trusted SMS with SIM swap detection to the provided phone number.
+      required:
+      - channel
     VerificationMessage:
       type: object
       properties:
@@ -207,6 +202,11 @@ components:
           type: string
         simSwapped:
           type: boolean
+    RequestedCopyMessage:
+      allOf:
+      - $ref: '#/components/schemas/RequestedMessage'
+      required:
+      - channel
   securitySchemes:
     bearerAuth:
       type: http
