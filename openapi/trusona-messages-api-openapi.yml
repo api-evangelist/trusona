@@ -123,20 +123,6 @@ paths:
           description: Verification or message were not found
 components:
   schemas:
-    RequestedMessage:
-      type: object
-      discriminator:
-        propertyName: channel
-      properties:
-        channel:
-          type: string
-          enum:
-          - COPY
-          - SMS
-          - EMAIL
-          - TRUSTED_SMS
-      required:
-      - channel
     RequestedSmsMessage:
       allOf:
       - $ref: '#/components/schemas/RequestedMessage'
@@ -164,6 +150,20 @@ components:
       required:
       - channel
       - emailAddress
+    RequestedMessage:
+      type: object
+      discriminator:
+        propertyName: channel
+      properties:
+        channel:
+          type: string
+          enum:
+          - COPY
+          - SMS
+          - EMAIL
+          - TRUSTED_SMS
+      required:
+      - channel
     RequestedTrustedSmsMessage:
       allOf:
       - $ref: '#/components/schemas/RequestedMessage'
