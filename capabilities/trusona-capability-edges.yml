@@ -1,0 +1,57 @@
+slug: trusona
+provider: Trusona
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: ID Verifications
+  spec_file: trusona-id-verifications-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: '"Initiate driver license verification against DMV and MNO databases"; schemas DmvIdVerifier,
+    MnoIdVerifier'
+  reason: Explicit identity-document verification against authoritative sources — identity proofing/assurance,
+    mapped to Identity & Access Management as the closest capability in this frame.
+- tag: Verifications
+  spec_file: trusona-verifications-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: POST /api/v1/verifications "Create a new verification"; schemas VerificationSubject, RequestedLexisNexisVerifier,
+    VerificationSummary
+  reason: Core surface for creating and reading identity verifications of a subject against external verifiers
+    — identity proofing for help-desk/account-recovery/MFA-reset flows, best housed under Identity & Access
+    Management.
+- tag: Documents
+  spec_file: trusona-documents-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '"Get the scanned image of the document"; schemas ScanResponse, IdentityImage'
+  reason: Retrieval of the government-ID document and its scanned images used to prove a person is who
+    they claim — identity proofing, which sits under Identity & Access Management in this frame. Not a
+    document-management or content capability.
+- tag: Encrypted Verifications
+  spec_file: trusona-encrypted-verifications-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /api/v1/encrypted/verifications "Create a new verification with encrypted response";
+    schemas VerificationSubject, RequestedDmvVerifier
+  reason: Creates and retrieves identity verifications of a human subject against external verifiers (DMV,
+    MNO, LexisNexis); the 'encrypted' variant is just a transport flavour of the same identity-assurance
+    capability.
