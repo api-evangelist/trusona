@@ -72,31 +72,6 @@ paths:
           description: Internal server error
 components:
   schemas:
-    Created:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        createdAt:
-          type: string
-          format: date-time
-    IdVerifiers:
-      type: object
-      properties:
-        dmv:
-          $ref: '#/components/schemas/DmvIdVerifier'
-          writeOnly: true
-        mno:
-          $ref: '#/components/schemas/MnoIdVerifier'
-          writeOnly: true
-    MnoIdVerifier:
-      type: object
-      properties:
-        phoneNumber:
-          type: string
-          description: A phone number for mobile network operator verification. Must be in one of the countries the tenant has enabled for MNO, which default to the USA (+1), Canada (+1) and the UK (+44). Dashes, spaces, dots and parentheses are accepted, as is a missing country code; the number is stored and returned in E.164 form.
-          example: '+12025551234'
     IdVerificationRequest:
       type: object
       properties:
@@ -257,6 +232,24 @@ components:
       - documentCountry
       - documentJurisdiction
       - documentNumber
+    IdVerifiers:
+      type: object
+      properties:
+        dmv:
+          $ref: '#/components/schemas/DmvIdVerifier'
+          writeOnly: true
+        mno:
+          $ref: '#/components/schemas/MnoIdVerifier'
+          writeOnly: true
+    Created:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
     IdVerificationResponse:
       type: object
       properties:
@@ -343,6 +336,13 @@ components:
           description: Timestamp when all requested verifications completed. Null while verification is still in progress.
           example: 2022-01-01 00:00:05+00:00
           readOnly: true
+    MnoIdVerifier:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+          description: A phone number for mobile network operator verification. Must be in one of the countries the tenant has enabled for MNO, which default to the USA (+1), Canada (+1) and the UK (+44). Dashes, spaces, dots and parentheses are accepted, as is a missing country code; the number is stored and returned in E.164 form.
+          example: '+12025551234'
   securitySchemes:
     bearerAuth:
       type: http

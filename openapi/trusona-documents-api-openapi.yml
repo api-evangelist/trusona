@@ -139,6 +139,17 @@ paths:
           description: Scanned image has been removed (occurs when parent verification expires)
 components:
   schemas:
+    IdentityImage:
+      type: object
+      properties:
+        data:
+          type: string
+          description: Base64-encoded image data of the scanned document.
+        orientation:
+          type: integer
+          format: int32
+          description: Rotation angle in degrees to display the image correctly.
+          example: 0
     ScanResponse:
       type: object
       description: Parsed data from a scanned identity document.
@@ -278,17 +289,6 @@ components:
           - V0
           - V1
           - V2
-    IdentityImage:
-      type: object
-      properties:
-        data:
-          type: string
-          description: Base64-encoded image data of the scanned document.
-        orientation:
-          type: integer
-          format: int32
-          description: Rotation angle in degrees to display the image correctly.
-          example: 0
   securitySchemes:
     bearerAuth:
       type: http

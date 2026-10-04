@@ -123,18 +123,6 @@ paths:
           description: Verification or message were not found
 components:
   schemas:
-    RequestedSmsMessage:
-      allOf:
-      - $ref: '#/components/schemas/RequestedMessage'
-      - type: object
-        properties:
-          phoneNumber:
-            type: string
-            description: Phone number to send the SMS to. Dashes, spaces, dots and parentheses are accepted, as is a missing leading +; the number is stored and returned in E.164 form. A number sent without a country code cannot be resolved and is rejected.
-            example: '+12025551234'
-      description: Send an SMS message to the provided phone number.
-      required:
-      - channel
     RequestedEmailMessage:
       allOf:
       - $ref: '#/components/schemas/RequestedMessage'
@@ -150,6 +138,23 @@ components:
       required:
       - channel
       - emailAddress
+    RequestedCopyMessage:
+      allOf:
+      - $ref: '#/components/schemas/RequestedMessage'
+      required:
+      - channel
+    RequestedSmsMessage:
+      allOf:
+      - $ref: '#/components/schemas/RequestedMessage'
+      - type: object
+        properties:
+          phoneNumber:
+            type: string
+            description: Phone number to send the SMS to. Dashes, spaces, dots and parentheses are accepted, as is a missing leading +; the number is stored and returned in E.164 form. A number sent without a country code cannot be resolved and is rejected.
+            example: '+12025551234'
+      description: Send an SMS message to the provided phone number.
+      required:
+      - channel
     RequestedMessage:
       type: object
       discriminator:
@@ -202,11 +207,6 @@ components:
           type: string
         simSwapped:
           type: boolean
-    RequestedCopyMessage:
-      allOf:
-      - $ref: '#/components/schemas/RequestedMessage'
-      required:
-      - channel
   securitySchemes:
     bearerAuth:
       type: http
