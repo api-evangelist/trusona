@@ -1,0 +1,12 @@
+{
+ "url": "https://authcloud.trusona.net/docs/openapi/openapi.yaml",
+ "requested_url": "https://authcloud.trusona.net/docs/openapi/openapi.yaml",
+ "status": 200,
+ "content_type": "application/octet-stream",
+ "bytes": 77345,
+ "sha256": "01fba085b5472a533e91031bfe850dad3119a497dba483396b02eb7a53368389",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
