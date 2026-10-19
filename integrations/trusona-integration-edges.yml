@@ -1,6 +1,13 @@
 generated: '2026-10-14'
 method: searched
 checked:
+- https://api.nuget.org/v3
+- https://crates.io/api/v1
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - okta/integrations/okta-integration-edges.yml
 source:
 - okta/integrations/okta-integration-edges.yml
@@ -27,3 +34,120 @@ edges:
   features:
   - CREATE
   - UPDATE
+- partner_name: Maven Central
+  partner: maven-central
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Java/JVM)
+  evidence: https://central.sonatype.com/artifact/com.trusona/trusona-sdk
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: Maven Central (public registry JSON)
+    spec_file: null
+    language: Java/JVM
+    packages:
+    - name: com.trusona:trusona-sdk
+      version: 4.3.0
+      released: '2020-07-09'
+      released_field: lastUpdated
+      lapsed: true
+      page: https://central.sonatype.com/artifact/com.trusona/trusona-sdk
+      repo_leg: github-org:trusona
+      publisher_leg: groupId:trusona.com
+      matched_by: domain
+    current: false
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@trusona/server-sdk
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@trusona/server-sdk'
+      version: 2.1.0
+      released: '2023-06-05'
+      released_field: modified
+      lapsed: true
+      page: https://www.npmjs.com/package/@trusona/server-sdk
+      repo_leg: github-org:trusona
+      publisher_leg: email:trusona.com
+      matched_by: domain
+    - name: '@trusona/touchpoint-sdk'
+      version: 1.0.2
+      released: '2024-01-26'
+      released_field: modified
+      lapsed: true
+      page: https://www.npmjs.com/package/@trusona/touchpoint-sdk
+      repo_leg: github-org:trusona
+      publisher_leg: email:trusona.com
+      matched_by: domain
+    - name: '@trusona/trucode'
+      version: 2.0.2
+      released: '2023-06-01'
+      released_field: modified
+      lapsed: true
+      page: https://www.npmjs.com/package/@trusona/trucode
+      repo_leg: github-org:trusona
+      publisher_leg: email:trusona.com
+      matched_by: domain
+    - name: '@trusona/webauthn'
+      version: 1.6.5
+      released: '2024-08-21'
+      released_field: modified
+      lapsed: true
+      page: https://www.npmjs.com/package/@trusona/webauthn
+      repo_leg: github-org:trusona
+      publisher_leg: email:trusona.com
+      matched_by: domain
+    current: false
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+- partner_name: RubyGems
+  partner: rubygems
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Ruby)
+  evidence: https://rubygems.org/gems/trusona
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: RubyGems (public registry JSON)
+    spec_file: null
+    language: Ruby
+    packages:
+    - name: trusona
+      version: 2.5.3
+      released: '2020-09-01'
+      released_field: version_created_at
+      lapsed: true
+      page: https://rubygems.org/gems/trusona
+      repo_leg: domain:trusona.com
+      publisher_leg: org:trusona
+      matched_by: domain
+    current: false
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
